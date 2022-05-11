@@ -117,9 +117,8 @@ const Landing_Page = () => {
                 },
               },
             },
-            retina_detect: true,
             background: {
-              color: "#0d47a1",
+              color: "#5894f1",
               image: "public/media/mask_background.jpg",
               position: "50% 50%",
               repeat: "no-repeat",
@@ -135,9 +134,13 @@ const Landing_Page = () => {
             src="./media/icon.png"
             alt="graph icon"
           />
+          <h1>Network explorer</h1>
           <p>
             {" "}
-            This is {" "}
+            An App to allow users to visualize data representable in network
+            graph form datasets such as social media relational data
+            (Friendships, follows, etc...) and data such as blockchain activity
+            for investigational and reserch purposes.{" "}
           </p>
         </div>
       </section>
