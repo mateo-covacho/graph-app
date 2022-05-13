@@ -3,10 +3,10 @@
   --1: #757272;
   --2: #197278;
   --3: #23a59f;
-  --4: #898dff;
+  --4: #414258;
   --5: #ff8080;
   --6: #edddd4;
-  --7: #c44536;
+  --7: #c44436c4;
   --8: #772e25;
 }
 
@@ -29,14 +29,45 @@
 }
 
 .topNavBar {
-  position: absolute;
-  background-color: rgb(219, 219, 219);
+  background-color: hsla(0, 0%, 0%, 0.357);
   height: 6vh;
   width: 100%;
   position: fixed;
   top: 0px;
   z-index: 1;
-  border-radius: 0% 0% 20px 20px;
+}
+
+.topNavBar div {
+  width: 10%;
+  height: 100%;
+  display: inline-block;
+  text-align: center;
+  overflow-y: hidden;
+  margin-right: 2%;
+  cursor: pointer;
+  border-radius: 7px;
+}
+
+.topNavBar div p {
+}
+
+.topNavBar .home-nav-bar {
+  float: left;
+  margin-left: 2%;
+}
+
+.topNavBar .about-me-nav-bar {
+  float: right;
+}
+
+.topNavBar .features-nav-bar {
+  float: right;
+  width: 15%;
+}
+
+.topNavBar .dashboard-nav-bar {
+  background-color: var(--7);
+  float: right;
 }
 
 .home {
@@ -118,6 +149,19 @@ section h1 {
 .section-2 {
   height: 100vh;
   background-color: var(--4);
+  background-image: url("../../../public/media/h2-section-background.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.section-2 h1 {
+  margin-left: 30px;
+}
+
+.how-2-use {
+  width: 60%;
+  padding: 2%;
+  margin-left: 50px;
 }
 
 .section-3 {

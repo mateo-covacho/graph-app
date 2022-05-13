@@ -15,7 +15,7 @@ const Landing_Page = () => {
   const particlesLoaded = (container) => {};
 
   const particles_container = document.getElementsByClassName("section-1");
-  const [showNodes, setShowNodes] = useState("circle");
+  const [showNodes, setShowNodes] = useState("square");
   return (
     <>
       <section className="section-1">
@@ -146,10 +146,19 @@ const Landing_Page = () => {
       </section>
 
       <section className="section-2">
-        <h1>Section 2</h1>
+        <h1>How to use </h1>
+
+        <div className="how-2-use glass">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum,
+          corporis voluptas reiciendis perspiciatis atque ut consequuntur cumque
+          quod non aliquam possimus exercitationem, nulla dolore, sit dolores
+          quidem explicabo reprehenderit minus! Pariatur, at aut distinctio quo
+          blanditiis minima, in beatae tempora magnam, quidem itaque laboriosam!
+          Tempora, incidunt cumque iusto illo in earum numquam laborum
+        </div>
       </section>
       <section className="section-3">
-        <h1>Section 3</h1>
+        <h1>About me</h1>
       </section>
     </>
   );
