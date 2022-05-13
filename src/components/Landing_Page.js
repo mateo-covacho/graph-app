@@ -149,12 +149,24 @@ const Landing_Page = () => {
         <h1>How to use </h1>
 
         <div className="how-2-use glass">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum,
-          corporis voluptas reiciendis perspiciatis atque ut consequuntur cumque
-          quod non aliquam possimus exercitationem, nulla dolore, sit dolores
-          quidem explicabo reprehenderit minus! Pariatur, at aut distinctio quo
-          blanditiis minima, in beatae tempora magnam, quidem itaque laboriosam!
-          Tempora, incidunt cumque iusto illo in earum numquam laborum
+          When you enter the dash board the first step is to import data. You
+          can either do this manualy bu manualy ploting out the network or use
+          one oth the built in features to import blockchain / instagram data.
+          Once you have the data you can :
+          <ul>
+            <br />
+            <li>
+              Use graph traversal algorithms to identify connections between
+              individuals or nodes.
+            </li>
+            <br />
+            <li>Import data from platforms in a user-friendly way</li>
+            <br />
+            <li>
+              Saving and creating projects to maintain the state of your project
+              Monetization with ads
+            </li>
+          </ul>
         </div>
       </section>
       <section className="section-3">

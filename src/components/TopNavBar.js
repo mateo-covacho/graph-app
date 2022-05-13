@@ -19,7 +19,9 @@ export const TopNavBar = () => {
       </div>
       <div className="dashboard-nav-bar">
         {" "}
+        <div className="dashboardbutton-container">
           <p>Dashboard</p>
+        </div>
       </div>
       <div className="about-me-nav-bar">
         {" "}
@@ -28,9 +30,9 @@ export const TopNavBar = () => {
           to="section-3"
           spy={true}
           smooth={true}
-          >
-        <p>About</p>
-          </LinkScrollReference>{" "}
+        >
+          <p>About</p>
+        </LinkScrollReference>{" "}
       </div>
       <div className="features-nav-bar">
         <LinkScrollReference

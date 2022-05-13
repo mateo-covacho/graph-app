@@ -15,14 +15,18 @@
   overflow-x: hidden;
 }
 
+h1 {
+  font-size: calc(30px + 2vw) !important;
+}
+
 .glass {
   background: linear-gradient(
     135deg,
     rgba(255, 255, 255, 0.1),
     rgba(255, 255, 255, 0)
   );
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
@@ -46,9 +50,6 @@
   margin-right: 2%;
   cursor: pointer;
   border-radius: 7px;
-}
-
-.topNavBar div p {
 }
 
 .topNavBar .home-nav-bar {
@@ -91,10 +92,6 @@ section {
   overflow: hidden;
 }
 
-section h1 {
-  font-size: 400%;
-}
-
 .card-wrapper {
 }
 
@@ -119,9 +116,10 @@ section h1 {
 
 .intro {
   width: 60%;
+  min-width: 300px;
   margin: 0 auto;
   padding: 0 0 5% 0;
-  margin-top: 20vh;
+  margin-top: 15vh;
   overflow: hidden;
   text-align: center;
 }
@@ -149,19 +147,19 @@ section h1 {
 .section-2 {
   height: 100vh;
   background-color: var(--4);
-  background-image: url("../../../public/media/h2-section-background.svg");
+  background-image: url("../../../public/media/how2sectionbackground.svg");
   background-size: cover;
   background-repeat: no-repeat;
 }
 
-.section-2 h1 {
-  margin-left: 30px;
-}
-
 .how-2-use {
-  width: 60%;
+  width: 50%;
+  min-width: 270px;
   padding: 2%;
-  margin-left: 50px;
+  margin-left: 7vw;
+  font-size: calc(12px + 0.6vw);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 .section-3 {
