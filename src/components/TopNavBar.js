@@ -3,47 +3,40 @@ import { Link as LinkScrollReference } from "react-scroll";
 export const TopNavBar = () => {
   return (
     <nav className="topNavBar ">
-      <div className="home-nav-bar">
-        {" "}
-        <p>
-          {" "}
-          <LinkScrollReference
-            activeClass="active"
-            to="section-1"
-            spy={true}
-            smooth={true}
-          >
-            Home
-          </LinkScrollReference>{" "}
-        </p>
-      </div>
+      <LinkScrollReference // Home button
+        activeClass="active"
+        to="section-1"
+        spy={true}
+        smooth={true}
+      >
+        <div className="home-nav-bar">
+          <p>Home</p>
+        </div>
+      </LinkScrollReference>
       <div className="dashboard-nav-bar">
         {" "}
-        <div className="dashboardbutton-container">
-          <p>Dashboard</p>
-        </div>
-      </div>
-      <div className="about-me-nav-bar">
-        {" "}
-        <LinkScrollReference
-          activeClass="active"
-          to="section-3"
-          spy={true}
-          smooth={true}
-        >
+        <p>Dashboard</p>
+      </div>{" "}
+      <LinkScrollReference //about section 3
+        activeClass="active"
+        to="section-3"
+        spy={true}
+        smooth={true}
+      >
+        <div className="about-me-nav-bar">
           <p>About</p>
-        </LinkScrollReference>{" "}
-      </div>
-      <div className="features-nav-bar">
-        <LinkScrollReference
-          activeClass="active"
-          to="section-2"
-          spy={true}
-          smooth={true}
-        >
+        </div>
+      </LinkScrollReference>{" "}
+      <LinkScrollReference // How to use section 3
+        activeClass="active"
+        to="section-2"
+        spy={true}
+        smooth={true}
+      >
+        <div className="features-nav-bar">
           <p>How to use</p>
-        </LinkScrollReference>
-      </div>
+        </div>
+      </LinkScrollReference>
     </nav>
   );
 };

@@ -169,8 +169,10 @@ const Landing_Page = () => {
           </ul>
         </div>
       </section>
+
       <section className="section-3">
-        <h1>About me</h1>
+        <h1>About me and this project</h1>
+        <p>This project is a </p>
       </section>
     </>
   );

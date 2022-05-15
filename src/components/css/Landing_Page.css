@@ -157,7 +157,7 @@ section {
   min-width: 270px;
   padding: 2%;
   margin-left: 7vw;
-  font-size: calc(12px + 0.6vw);
+  font-size: calc(15px + 0.4vw);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
