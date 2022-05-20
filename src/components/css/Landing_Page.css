@@ -1,3 +1,5 @@
+* {
+}
 /* color pallate*/
 :root {
   --1: #757272;
@@ -20,11 +22,7 @@ h1 {
 }
 
 .glass {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.1),
-    rgba(255, 255, 255, 0)
-  );
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   border-radius: 20px;
@@ -44,31 +42,34 @@ h1 {
 .topNavBar div {
   width: 10%;
   height: 100%;
-  display: inline-block;
-  text-align: center;
   overflow-y: hidden;
   margin-right: 2%;
   cursor: pointer;
   border-radius: 7px;
+  float: right;
+  text-align: center;
 }
-
+.topNavBar div p {
+  height: 100%;
+  line-height: 6vh;
+  margin: 0;
+  font-size: larger;
+}
 .topNavBar .home-nav-bar {
   float: left;
   margin-left: 2%;
+  vertical-align: middle;
 }
 
 .topNavBar .about-me-nav-bar {
-  float: right;
 }
 
-.topNavBar .features-nav-bar {
-  float: right;
+.topNavBar .how2use-nav-bar {
   width: 15%;
 }
 
 .topNavBar .dashboard-nav-bar {
   background-color: var(--7);
-  float: right;
 }
 
 .home {
@@ -167,10 +168,8 @@ section {
   background-color: var(--2);
 }
 
-.spacer {
-  aspect-ratio: 960/540;
-  width: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+.section-3 h1 {
+  background-color: #63a7ad;
+  margin-left: 3vw;
+  padding-left: 1vw;
 }

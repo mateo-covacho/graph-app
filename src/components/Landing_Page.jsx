@@ -18,9 +18,9 @@ const Landing_Page = () => {
   const [showNodes, setShowNodes] = useState("square");
   return (
     <>
-      <section className="section-1">
+      <section className='section-1'>
         <Particles
-          className="tsparticles"
+          className='tsparticles'
           init={particlesInit}
           loaded={particlesLoaded}
           container={{
@@ -126,53 +126,42 @@ const Landing_Page = () => {
             },
           }}
         />
-        <div className="intro glass">
+        <div className='intro glass'>
           <img
             onClick={() => {
               setShowNodes(showNodes ? "" : "circle");
             }}
-            src="./media/icon.png"
-            alt="graph icon"
+            src='./media/icon.png'
+            alt='graph icon'
           />
           <h1>Network explorer</h1>
-          <p>
-            {" "}
-            An App to allow users to visualize data representable in network
-            graph form datasets such as social media relational data
-            (Friendships, follows, etc...) and data such as blockchain activity
-            for investigational and reserch purposes.{" "}
-          </p>
+          <p> An App to allow users to visualize data representable in network graph form datasets such as social media relational data (Friendships, follows, etc...) and data such as blockchain activity for investigational and reserch purposes. </p>
         </div>
       </section>
 
-      <section className="section-2">
+      <section className='section-2'>
         <h1>How to use </h1>
 
-        <div className="how-2-use glass">
-          When you enter the dash board the first step is to import data. You
-          can either do this manualy bu manualy ploting out the network or use
-          one oth the built in features to import blockchain / instagram data.
-          Once you have the data you can :
+        <div className='how-2-use glass'>
+          When you enter the dash board the first step is to import data. You can either do this manualy bu manualy ploting out the network or use one oth the built in features to import blockchain / instagram data. Once you have the data you can :
           <ul>
             <br />
-            <li>
-              Use graph traversal algorithms to identify connections between
-              individuals or nodes.
-            </li>
+            <li>Use graph traversal algorithms to identify connections between individuals or nodes.</li>
             <br />
             <li>Import data from platforms in a user-friendly way</li>
             <br />
-            <li>
-              Saving and creating projects to maintain the state of your project
-              Monetization with ads
-            </li>
+            <li>Saving and creating projects to maintain the state of your project Monetization with ads</li>
           </ul>
         </div>
       </section>
 
-      <section className="section-3">
+      <section className='section-3'>
         <h1>About me and this project</h1>
-        <p>This project is a </p>
+        <div className='glass'>
+          <p>Hello I am Mateo Covacho Berrocal, I am a self taught developer based in Spain. I have been publicy developing this project since may 2022. </p>
+          <p>My intentions with this prject are to show my abilities as a Software Engineer in many areas such as: Front-end development, traversal algorithms, developer operations and self organization.</p>
+          <p>You can see more details about me, the development process of this project and the technologies I used in my social media (Twitter, Medium, Github) witch I used to document the development process </p>
+        </div>
       </section>
     </>
   );
