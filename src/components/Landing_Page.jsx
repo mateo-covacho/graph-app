@@ -6,9 +6,6 @@ import { loadFull } from "tsparticles";
 
 const Landing_Page = () => {
   const particlesInit = async (main) => {
-    // you can initialize the tsParticles instance (main) here, adding custom shapes or presets
-    // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
-    // starting from v2 you can add only the features you need reducing the bundle size
     await loadFull(main);
   };
 
@@ -157,11 +154,14 @@ const Landing_Page = () => {
 
       <section className='section-3'>
         <h1>About me and this project</h1>
-        <div className='glass'>
-          <p>Hello I am Mateo Covacho Berrocal, I am a self taught developer based in Spain. I have been publicy developing this project since may 2022. </p>
-          <p>My intentions with this prject are to show my abilities as a Software Engineer in many areas such as: Front-end development, traversal algorithms, developer operations and self organization.</p>
-          <p>You can see more details about me, the development process of this project and the technologies I used in my social media (Twitter, Medium, Github) witch I used to document the development process </p>
+        <div className='about-section'>
+          <p>Hello I am Mateo Covacho Berrocal, I am a self-taught developer based in Spain. I have been publicly developing this project since May 2022. </p>
+          <p>My intentions with this project are to show my abilities as a Software Engineer in many areas such as Front-end development, traversal algorithms, developer operations and self-organization.</p>
+          <p>You can see more details about me, the development process of this project and the technologies I used in my social media (Twitter, Medium, Github) which I used to document the development process </p>
         </div>
+        <div className='twitter'></div>
+        <div className='github'></div>
+        <div className='medium'></div>
       </section>
     </>
   );

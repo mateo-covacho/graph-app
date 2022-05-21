@@ -34,7 +34,7 @@ export const TopNavBar = () => {
         smooth={true}
       >
         <div className='how2use-nav-bar'>
-          <p>How to use</p>
+          <p>Usage</p>
         </div>
       </LinkScrollReference>
     </nav>

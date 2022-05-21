@@ -43,6 +43,8 @@ h1 {
   width: 10%;
   height: 100%;
   overflow-y: hidden;
+  overflow-x: hidden;
+
   margin-right: 2%;
   cursor: pointer;
   border-radius: 7px;
@@ -165,11 +167,17 @@ section {
 
 .section-3 {
   height: 100vh;
-  background-color: var(--2);
+  background-color: rgb(220, 220, 220);
 }
 
 .section-3 h1 {
-  background-color: #63a7ad;
   margin-left: 3vw;
   padding-left: 1vw;
+}
+
+.section-3 .about-section {
+  font-size: calc(15px + 0.4vw);
+  margin: 3vw;
+}
+.medium {
 }
