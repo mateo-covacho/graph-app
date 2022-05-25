@@ -1,8 +1,12 @@
 import React from "react";
 import { useState } from "react";
-
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
+//--------------------------------------------------------------------------------
+
+import { FaGithub, FaTwitter, FaMedium } from "react-icons/fa";
+
+//--------------------------------------------------------------------------------
 
 const Landing_Page = () => {
   const particlesInit = async (main) => {
@@ -12,7 +16,7 @@ const Landing_Page = () => {
   const particlesLoaded = (container) => {};
 
   const particles_container = document.getElementsByClassName("section-1");
-  const [showNodes, setShowNodes] = useState("square");
+  const [showNodes, setShowNodes] = useState("circle");
   return (
     <>
       <section className="section-1">
@@ -48,8 +52,8 @@ const Landing_Page = () => {
                 random: false,
               },
               size: {
-                value: 10,
-                random: true,
+                value: 5,
+                random: false,
               },
               line_linked: {
                 enable: true,
@@ -115,7 +119,7 @@ const Landing_Page = () => {
               },
             },
             background: {
-              color: "#5894f1",
+              color: "#101111",
               image: "public/media/mask_background.jpg",
               position: "50% 50%",
               repeat: "no-repeat",
@@ -137,7 +141,7 @@ const Landing_Page = () => {
             An App to allow users to visualize data representable in network
             graph form datasets such as social media relational data
             (Friendships, follows, etc...) and data such as blockchain activity
-            for investigational and reserch purposes.{" "}
+            for investigational and research purposes.{" "}
           </p>
         </div>
       </section>
@@ -188,25 +192,14 @@ const Landing_Page = () => {
         </div>
       </section>
       <div className="icons-bar">
-        <a href="https://twitter.com/home" target="_blank">
+        <a href="https://twitter.com/covacho_dev " target="_blank">
           <div className="twitter">
-            <svg
-              width="50"
-              height="201"
-              viewBox="0 0 247 201"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M220.95 50.29C221.1 52.46 221.1 54.63 221.1 56.82C221.1 123.55 170.3 200.51 77.41 200.51V200.47C49.97 200.51 23.1 192.65 0 177.83C3.99 178.31 8 178.55 12.02 178.56C34.76 178.58 56.85 170.95 74.74 156.9C53.13 156.49 34.18 142.4 27.56 121.83C35.13 123.29 42.93 122.99 50.36 120.96C26.8 116.2 9.85 95.5 9.85 71.46C9.85 71.24 9.85 71.03 9.85 70.82C16.87 74.73 24.73 76.9 32.77 77.14C10.58 62.31 3.74 32.79 17.14 9.71C42.78 41.26 80.61 60.44 121.22 62.47C117.15 44.93 122.71 26.55 135.83 14.22C156.17 -4.9 188.16 -3.92 207.28 16.41C218.59 14.18 229.43 10.03 239.35 4.15C235.58 15.84 227.69 25.77 217.15 32.08C227.16 30.9 236.94 28.22 246.15 24.13C239.37 34.29 230.83 43.14 220.95 50.29Z"
-                fill="black"
-              />
-            </svg>
+            <FaTwitter size="10vw" />
           </div>
         </a>
         <a href="https://github.com/mateo-covacho/graph-app" target="_blank">
           <div className="github">
-            <img src="../../media/GitHub-Mark-120px-plus.png" alt="" />
+            <FaGithub size="10vw" />
           </div>
         </a>
         <a
@@ -214,20 +207,7 @@ const Landing_Page = () => {
           target="_blank"
         >
           <div className="medium">
-            <svg viewBox="0 0 1043.63 592.71" class="aa bb">
-              <g data-name="Layer 2">
-                <g data-name="Layer 1">
-                  <path
-                    d="M588.67 296.36c0 163.67-131.78 296.35-294.33 296.35S0 460 0
-                  296.36 131.78 0 294.34 0s294.33 132.69 294.33 296.36M911.56 296.36c0
-                  154.06-65.89 279-147.17 279s-147.17-124.94-147.17-279 65.88-279
-                  147.16-279 147.17 124.9 147.17 279M1043.63 296.36c0 138-23.17 249.94-51.76
-                  249.94s-51.75-111.91-51.75-249.94 23.17-249.94 51.75-249.94 51.76 111.9
-                  51.76 249.94"
-                  ></path>
-                </g>
-              </g>
-            </svg>
+            <FaMedium size="10vw" />
           </div>
         </a>
       </div>

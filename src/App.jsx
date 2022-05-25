@@ -8,7 +8,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 // Components
 
 import Landing_Page from "./components/Landing_Page";
-import { TopNavBar } from "./components/TopNavBar";
+import TopNavBar from "./components/TopNavBar";
+import Dashboard from "./dashboard/Dashboard";
 
 //----------------------------------------------------------------------------------------------------
 
@@ -25,6 +26,7 @@ function App() {
             </>
           }
         />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
   );
