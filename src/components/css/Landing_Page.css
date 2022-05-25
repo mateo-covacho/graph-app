@@ -2,11 +2,12 @@
 }
 /* color pallate*/
 :root {
-  --1: #13f195d2;
-  --2: #010203;
-  --3: #27292d;
-  --4: #ca0843;
-  --5: #101111; /*background 1*/
+  --1: #101111; /*background 1*/
+  --2: #27292d; /*background 2*/
+  --3: #1b2630; /*background 3*/
+  --4: #13f195;
+  --5: #ca0843;
+  --6: #57a7c9;
 }
 
 * {
@@ -42,16 +43,16 @@ h1 {
 }
 
 .topNavBar div {
-  width: 10%;
   height: 100%;
   overflow-y: hidden;
   overflow-x: hidden;
-
   margin-right: 2%;
   cursor: pointer;
   border-radius: 7px;
   float: right;
   text-align: center;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .topNavBar div p {
   height: 100%;
@@ -155,7 +156,7 @@ section {
 
 .section-2 {
   height: 100vh;
-  background-color: var(--3);
+  background-color: var(--2);
   background-size: cover;
   background-repeat: no-repeat;
   padding-left: 5vw;
@@ -173,7 +174,7 @@ section {
 
 .section-3 {
   height: 90vh;
-  background-color: rgb(220, 220, 220);
+  background-color: var(--3);
 }
 
 .section-3 h1 {
@@ -184,12 +185,13 @@ section {
 .section-3 .about-section {
   font-size: calc(15px + 0.4vw);
   margin: 3vw;
+  max-width: 1000px;
 }
 .icons-bar {
   position: absolute;
   width: 100vw;
   height: 5vh;
-  background-color: rgb(220, 220, 220);
+  background-color: var(--3);
   padding-bottom: 5vh;
 }
 
@@ -201,34 +203,3 @@ section {
 .icons-bar div {
   margin-left: 30px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

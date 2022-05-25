@@ -194,12 +194,12 @@ const Landing_Page = () => {
       <div className="icons-bar">
         <a href="https://twitter.com/covacho_dev " target="_blank">
           <div className="twitter">
-            <FaTwitter size color="black" />
+            <FaTwitter size="10vw" />
           </div>
         </a>
         <a href="https://github.com/mateo-covacho/graph-app" target="_blank">
           <div className="github">
-            <FaGithub size color="black" />
+            <FaGithub size="10vw" />
           </div>
         </a>
         <a
@@ -207,7 +207,7 @@ const Landing_Page = () => {
           target="_blank"
         >
           <div className="medium">
-            <FaMedium size color="black" />
+            <FaMedium size="10vw" />
           </div>
         </a>
       </div>
