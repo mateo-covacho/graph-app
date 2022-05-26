@@ -2,8 +2,8 @@
 }
 /* color pallate*/
 :root {
-  --1: #101111; /*background 1*/
-  --2: #27292d; /*background 2*/
+  --1: #27292d; /*background 1*/
+  --2: #101111; /*background 2*/
   --3: #1b2630; /*background 3*/
   --4: #13f195;
   --5: #ca0843;
@@ -157,9 +157,9 @@ section {
 .section-2 {
   height: 100vh;
   background-color: var(--2);
-  background-size: cover;
-  background-repeat: no-repeat;
   padding-left: 5vw;
+  background: rgb(67, 71, 71);
+  background: linear-gradient(140deg, #434747 0%, var(--2) 100%);
 }
 
 .how-2-use {

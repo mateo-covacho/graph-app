@@ -119,7 +119,7 @@ const Landing_Page = () => {
               },
             },
             background: {
-              color: "#101111",
+              color: "#27292d",
               image: "public/media/mask_background.jpg",
               position: "50% 50%",
               repeat: "no-repeat",
