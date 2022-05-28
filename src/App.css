@@ -5,7 +5,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #330033;
+  background: #27292d;
+  background: linear-gradient(140deg, #27292d 0%, var(--2) 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .App {

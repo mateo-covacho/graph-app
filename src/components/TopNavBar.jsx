@@ -1,5 +1,9 @@
 import React from "react";
 import { Link as LinkScrollReference } from "react-scroll";
+import { Link } from "react-router-dom";
+
+//_________________________________________________________
+
 export const TopNavBar = () => {
   return (
     <nav className="topNavBar ">
@@ -13,10 +17,12 @@ export const TopNavBar = () => {
           <p>Home</p>
         </div>
       </LinkScrollReference>
-      <div className="dashboard-nav-bar">
-        {" "}
-        <p>Dashboard</p>
-      </div>{" "}
+      <Link to="/admin_login">
+        <div className="dashboard-nav-bar">
+          {" "}
+          <p>Dashboard</p>
+        </div>{" "}
+      </Link>
       <LinkScrollReference //about section 3
         activeClass="active"
         to="section-3"

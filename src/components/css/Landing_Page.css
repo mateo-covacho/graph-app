@@ -18,6 +18,7 @@
 
 h1 {
   font-size: calc(30px + 2vw) !important;
+  overflow: hidden;
 }
 
 .glass {

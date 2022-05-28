@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Landing_Page from "./components/Landing_Page";
 import TopNavBar from "./components/TopNavBar";
 import Dashboard from "./dashboard/Dashboard";
+import Admin_login from "./components/Admin_login";
 
 //----------------------------------------------------------------------------------------------------
 
@@ -26,7 +27,14 @@ function App() {
             </>
           }
         />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route
+          path="/admin_login"
+          element={
+            <>
+              <Admin_login />
+            </>
+          }
+        />
       </Routes>
     </Router>
   );
