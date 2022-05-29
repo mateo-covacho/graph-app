@@ -135,7 +135,7 @@ const Landing_Page = () => {
             src="./media/icon.png"
             alt="graph icon"
           />
-          <h1>Network explorer</h1>
+          <h1>Network explorer </h1>
           <p>
             {" "}
             An App to allow users to visualize data representable in network

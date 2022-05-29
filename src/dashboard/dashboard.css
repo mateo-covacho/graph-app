@@ -1,3 +1,24 @@
+* {
+  outline: solid 0px red;
+}
+
 .dashboard {
   height: 100vh;
+  color: red;
+}
+
+.icon {
+  height: 4vh;
+}
+
+.icon path {
+  fill: black;
+}
+
+.row {
+  width: 100%;
+}
+
+nav div {
+  color: black;
 }
