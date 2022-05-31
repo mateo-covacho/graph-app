@@ -140,8 +140,8 @@ const Landing_Page = () => {
             {" "}
             An App to allow users to visualize data representable in network
             graph form datasets such as social media relational data
-            (Friendships, follows, etc...) and data such as blockchain activity
-            for investigational and research purposes.{" "}
+            (Friendships, follows, etc...) and data such as blockchain
+            transactions for investigational and research purposes.{" "}
           </p>
         </div>
       </section>
@@ -150,9 +150,9 @@ const Landing_Page = () => {
         <h1>How to use </h1>
 
         <div className="how-2-use glass">
-          When you enter the dash board the first step is to import data. You
-          can either do this manualy bu manualy ploting out the network or use
-          one oth the built in features to import blockchain / instagram data.
+          When you enter the dashboard the first step is to import data. You can
+          either do this manually by manually plotting out the network or use
+          one of the built in features to import blockchain / Instagram data.
           Once you have the data you can :
           <ul>
             <br />
@@ -175,7 +175,7 @@ const Landing_Page = () => {
         <h1>About me and this project</h1>
         <div className="about-section">
           <p>
-            Hello I am Mateo Covacho Berrocal, I am a self-taught developer
+            Hello, I am Mateo Covacho Berrocal, I am a self-taught developer
             based in Spain. I have been publicly developing this project since
             May 2022.{" "}
           </p>

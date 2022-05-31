@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 //_________________________________________________________
 
-export const TopNavBar = () => {
+export const TopNavBar = (props) => {
   return (
     <nav className="topNavBar ">
       <LinkScrollReference // Home button
@@ -17,12 +17,21 @@ export const TopNavBar = () => {
           <p>Home</p>
         </div>
       </LinkScrollReference>
-      <Link to="/admin_login">
-        <div className="dashboard-nav-bar">
-          {" "}
-          <p>Dashboard</p>
-        </div>{" "}
-      </Link>
+      {props.isAdmin ? (
+        <Link to="/dashboard">
+          <div className="dashboard-nav-bar">
+            {" "}
+            <p>Dashboard</p>
+          </div>{" "}
+        </Link>
+      ) : (
+        <Link to="/admin_login">
+          <div className="dashboard-nav-bar">
+            {" "}
+            <p>Dashboard</p>
+          </div>{" "}
+        </Link>
+      )}
       <LinkScrollReference //about section 3
         activeClass="active"
         to="section-3"
@@ -32,7 +41,7 @@ export const TopNavBar = () => {
         <div className="about-me-nav-bar">
           <p>About</p>
         </div>
-      </LinkScrollReference>{" "}
+      </LinkScrollReference>
       <LinkScrollReference // How to use section 3
         activeClass="active"
         to="section-2"

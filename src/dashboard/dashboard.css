@@ -1,14 +1,17 @@
 * {
   outline: solid 0px red;
 }
-
+p {
+  overflow: hidden;
+  margin: 0;
+}
 .dashboard {
   height: 100vh;
   color: red;
 }
 
 .icon {
-  height: 4vh;
+  height: 3vh;
 }
 
 .icon path {
@@ -16,9 +19,29 @@
 }
 
 .row {
-  width: 100%;
 }
 
 nav div {
   color: black;
+}
+.iconss-bar {
+  background-color: #34495e;
+  height: 5vh;
+}
+.toolbar {
+  height: 10vh;
+  color: black;
+}
+
+.iconss-bar a {
+  display: inline-block;
+  width: 10% !important;
+}
+
+.iconss-bar a .row {
+  height: 100%;
+}
+
+.graph-canvas {
+  height: 85.1vh;
 }

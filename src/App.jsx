@@ -24,7 +24,7 @@ function App() {
           path="/"
           element={
             <>
-              <TopNavBar />
+              <TopNavBar isAdmin={adminVerified} />
               <Landing_Page />
             </>
           }
