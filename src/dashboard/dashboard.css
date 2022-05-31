@@ -44,4 +44,5 @@ nav div {
 
 .graph-canvas {
   height: 85.1vh;
+  background-color: rgb(255, 255, 255);
 }
