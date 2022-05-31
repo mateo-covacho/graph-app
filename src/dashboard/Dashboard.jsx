@@ -32,7 +32,7 @@ const Dashboard = (props) => {
 
   if (props.isAdmin) {
     return (
-      <div className="container-fluid -0">
+      <div className="container-fluid p-0">
         <nav className="navbar navbar-light bg-light p-0 ">
           <div className="iconss-bar col-12 row  gx-0">
             <Link to="/">
