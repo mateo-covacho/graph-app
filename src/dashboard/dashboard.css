@@ -28,7 +28,7 @@ nav div {
   background-color: #34495e;
   height: 5vh;
 }
-.toolbar {
+#toolbar {
   height: 10vh;
   color: black;
 }
