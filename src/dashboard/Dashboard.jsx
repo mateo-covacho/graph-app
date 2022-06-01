@@ -27,22 +27,22 @@ const Dashboard = (props) => {
                 <p className=" my-auto col align-bottom  ">Home</p>
               </div>
             </Link>
-            <div className="row col-1 gx-0 ">
+            <div className="row col-2 col-lg-1 gx-0 ">
               <BiNetworkChart className="col-2 icon my-2  my-auto" />
               <p className=" my-auto col align-bottom  ">Graph</p>
             </div>
 
-            <div className="row col-1 gx-0 ">
+            <div className="row col-2 col-lg-1 gx-0 ">
               <GrInstagram className="col-2 icon my-2 my-auto" />
               <p className=" my-auto col align-bottom  ">Social</p>
             </div>
-            <div className="row col-1 gx-0 ">
+            <div className="row col-2 col-lg-1 gx-0 ">
               <GiPathDistance className="col-2 icon my-2 my-auto" />
               <p className=" my-auto col align-bottom  ">Algorithm</p>
             </div>
 
             <div className="row col-3 gx-0 text-nowrap my-auto">
-              <FaBitcoin className=" col-1 icon my-2 " />
+              <FaBitcoin className=" col-2 col-lg-1 icon my-2 " />
               <p className=" my-auto col align-bottom  text-nowrap  ">
                 Blockchain
               </p>
