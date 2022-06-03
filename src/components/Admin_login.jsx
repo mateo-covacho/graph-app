@@ -21,8 +21,10 @@ const Admin_login = (props) => {
   // through twitter or email at mateocovacho@gmail.com :)
   const passwordhash =
     "34ddf679b4b0ed44ce874ec3e11cf84359acb7a09bacaa3e50232bbdce8da5b3";
+  const twitterPasswordHash =
+    "7352f353c460e74c7ae226952d04f8aa307b12329c5512ec8cb6f1a0f8f9b2cb";
   useEffect(() => {
-    if (sha256(word) === passwordhash) {
+    if (sha256(word) === passwordhash || sha256(word) === twitterPasswordHash) {
       setIsAdmin(true);
       props.isAdminFuncion(true);
     } else {
