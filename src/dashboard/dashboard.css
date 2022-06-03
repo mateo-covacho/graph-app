@@ -31,8 +31,13 @@ nav div {
 #toolbar {
   height: 10vh;
   color: black;
+  background-color: red;
+  width: 100%;
 }
 
+#graphoptions {
+  height: 100%;
+}
 .iconss-bar a {
   display: inline-block;
   width: 10% !important;
