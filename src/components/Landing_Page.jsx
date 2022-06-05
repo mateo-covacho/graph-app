@@ -164,8 +164,8 @@ const Landing_Page = () => {
             <li>Import data from platforms in a user-friendly way</li>
             <br />
             <li>
-              Saving and creating projects to maintain the state of your project
-              Monetization with ads
+              Saving and creating projects to maintain the state of your
+              project.
             </li>
           </ul>
         </div>
@@ -192,22 +192,21 @@ const Landing_Page = () => {
         </div>
       </section>
       <div className="icons-bar">
-        <a href="https://twitter.com/covacho_dev " target="_blank">
+        <a href="https://twitter.com/covacho_dev" target="_blank">
           <div className="twitter">
-            <FaTwitter size="10vw" />
+            <FaTwitter color="black" size={"20px"} />
           </div>
         </a>
+
         <a href="https://github.com/mateo-covacho/graph-app" target="_blank">
           <div className="github">
-            <FaGithub size="10vw" />
+            <FaGithub color="black" size={"20px"} />
           </div>
         </a>
-        <a
-          href="https://medium.com/@mateocobacho/the-start-of-my-largest-software-engineering-project-use-cases-thesis-technologies-and-cc7b0a3bb682"
-          target="_blank"
-        >
+
+        <a href="http://link.medium.com/KB6fzkFRTpb" target="_blank">
           <div className="medium">
-            <FaMedium size="10vw" />
+            <FaMedium color="black" size={"20px"} />
           </div>
         </a>
       </div>

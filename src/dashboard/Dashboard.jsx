@@ -28,46 +28,45 @@ const Dashboard = (props) => {
       .padStart(2, "0");
     return `#${red}${green}${blue}`;
   }
-
-  const options = {
-    nodes: {
-      shape: "dot",
-      size: 15,
-    },
-    edges: {
-      smooth: {
-        forceDirection: "vertical",
-        roundness: 1,
-      },
-      arrows: {
-        to: false,
-      },
-    },
-    physics: {
-      repulsion: {
-        springLength: 285,
-      },
-      minVelocity: 0.75,
-      solver: "repulsion",
-    },
-    groups: {
-      diamonds: {
-        color: { background: "red", border: "white" },
-        shape: "diamond",
-      },
-      dotsWithLabel: {
-        label: "I'm a dot!",
-        shape: "dot",
-        color: "cyan",
-      },
-    },
-    //configure: {
-    //  enabled: true,
-    //   filter: "edges",
-    //  container: container,
-    //  showButton: true,
-    // },
-  };
+  // const options = {
+  //   nodes: {
+  //     shape: "dot",
+  //     size: 15,
+  //   },
+  //   edges: {
+  //     smooth: {
+  //       forceDirection: "vertical",
+  //       roundness: 1,
+  //     },
+  //     arrows: {
+  //       to: false,
+  //     },
+  //   },
+  //   physics: {
+  //     repulsion: {
+  //       springLength: 285,
+  //     },
+  //     minVelocity: 0.75,
+  //     solver: "repulsion",
+  //   },
+  //   groups: {
+  //     diamonds: {
+  //       color: { background: "red", border: "white" },
+  //       shape: "diamond",
+  //     },
+  //     dotsWithLabel: {
+  //       label: "I'm a dot!",
+  //       shape: "dot",
+  //       color: "cyan",
+  //     },
+  //   },
+  //   // configure: {
+  //   //   enabled: true,
+  //   //    filter: "edges",
+  //   //   container: document.getElementById("graphoptions"),
+  //   //   showButton: true,
+  //   //  },
+  // };
   const createNode = (x, y) => {
     const color = randomColor();
     setGraphState(({ graph: { nodes, edges }, counter, ...rest }) => {
@@ -83,9 +82,8 @@ const Dashboard = (props) => {
       };
     });
   };
-  console.log(Math.random());
+
   const [graphState, setGraphState] = useState({
-    counter: 0,
     graph: {
       nodes: [
         { id: 0, label: "Myriel", group: 1 },
@@ -423,6 +421,10 @@ const Dashboard = (props) => {
         { from: 76, to: 58 },
       ],
     },
+  });
+
+  const [eventsState, setEventsState] = useState({
+    counter: 0,
     events: {
       select: ({ nodes, edges }) => {
         console.log("Selected nodes:");
@@ -435,33 +437,62 @@ const Dashboard = (props) => {
       },
     },
   });
-  //if (props.isAdmin) {
-  if (true) {
+
+  if (props.isAdmin) {
+    //if (true) {
     return (
       <div className="container-fluid p-0">
         <nav className="navbar navbar-light bg-light p-0 ">
           <div className="iconss-bar col-12 row  gx-0">
             <Link to="/">
-              <div className="row col-12 gx-0 " id="adsasdsa">
+              <div
+                style={{ cursor: "pointer" }}
+                className="row col-12 gx-0 "
+                id="adsasdsa"
+              >
                 <AiOutlineHome className=" my-auto col-2 icon my-2  " />
                 <p className=" my-auto col align-bottom  ">Home</p>
               </div>
             </Link>
-            <div className="row col-2 col-lg-1 gx-0 ">
+            <div
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                setToolBar("graph");
+              }}
+              className="row col-2 col-lg-1 gx-0 "
+            >
               <BiNetworkChart className="col-2 icon my-2  my-auto" />
               <p className=" my-auto col align-bottom  ">Graph</p>
             </div>
 
-            <div className="row col-2 col-lg-1 gx-0 ">
+            <div
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                setToolBar("social_media");
+              }}
+              className="row col-2 col-lg-1 gx-0 "
+            >
               <GrInstagram className="col-2 icon my-2 my-auto" />
               <p className=" my-auto col align-bottom  ">Social</p>
             </div>
-            <div className="row col-2 col-lg-1 gx-0 ">
+            <div
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                setToolBar("algorithm");
+              }}
+              className="row col-2 col-lg-1 gx-0 "
+            >
               <GiPathDistance className="col-2 icon my-2 my-auto" />
               <p className=" my-auto col align-bottom  ">Algorithm</p>
             </div>
 
-            <div className="row col-3 gx-0 text-nowrap my-auto">
+            <div
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                setToolBar("blockchain");
+              }}
+              className="row col-3 gx-0 text-nowrap my-auto"
+            >
               <FaBitcoin className=" col-2 col-lg-1 icon my-2 " />
               <p className=" my-auto col align-bottom  text-nowrap  ">
                 Blockchain
@@ -474,19 +505,78 @@ const Dashboard = (props) => {
                 case "graph":
                   return (
                     <div className="container-fluid">
-                      <p>graph options</p>
+                      <h2
+                        className="blacktext display-1 fs-4"
+                        onClick={() => {
+                          var redraw = 1;
+                        }}
+                      >
+                        Graph options
+                      </h2>
                     </div>
                   );
                 case "social_media":
                   return (
                     <div>
-                      <p>Hello</p>
+                      <h2 className="blacktext display-1 fs-4">Social_media</h2>
+                    </div>
+                  );
+                case "algorithm":
+                  return (
+                    <div className="container-fluid">
+                      <div className="row buttons_row">
+                        <div class=" dropdown ms-4 my-auto ps-0 ">
+                          <button
+                            class="btn btn-primary dropdown-toggle"
+                            type="button"
+                            id="dropdownMenuButton"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                          >
+                            Choose algorithm
+                          </button>
+                          <ul
+                            class="dropdown-menu"
+                            aria-labelledby="dropdownMenuButton"
+                          >
+                            <li>
+                              <div class="dropdown-item">
+                                Breath first search
+                              </div>
+                            </li>
+                            <li>
+                              <div class="dropdown-item">
+                                Depth first search
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                        <div className="col-2 d-flex justify-content-center h-50 my-auto">
+                          <select
+                            class="form-select form-select-sm"
+                            aria-label="Small select"
+                          >
+                            {graphState.graph.nodes.map((node) => {
+                              return (
+                                <option className="blacktext" selected="">
+                                  {node.id}: {node.label}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
+                        <div className="col-2 d-flex justify-content-center">
+                          <button type="button" class="btn btn-primary m-auto ">
+                            Start
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   );
                 case "blockchain":
                   return (
                     <div>
-                      <p>Hello</p>
+                      <h2 className="blacktext display-1 fs-4">Blockchain</h2>
                     </div>
                   );
                 default:
@@ -499,10 +589,49 @@ const Dashboard = (props) => {
           {" "}
           <Graph
             graph={graphState.graph}
-            options={options}
-            events={graphState.events}
+            //options={options}
+            events={eventsState.events}
             getNetwork={(network) => {
               //  if you want access to vis.js network api you can set the graphState in a parent component using this property
+              network.setOptions({
+                nodes: {
+                  shape: "dot",
+                  size: 15,
+                },
+                edges: {
+                  smooth: {
+                    forceDirection: "vertical",
+                    roundness: 1,
+                  },
+                  arrows: {
+                    to: false,
+                  },
+                },
+                physics: {
+                  repulsion: {
+                    springLength: 285,
+                  },
+                  minVelocity: 0.75,
+                  solver: "repulsion",
+                },
+                groups: {
+                  diamonds: {
+                    color: { background: "red", border: "white" },
+                    shape: "diamond",
+                  },
+                  dotsWithLabel: {
+                    label: "I'm a dot!",
+                    shape: "dot",
+                    color: "cyan",
+                  },
+                },
+                configure: {
+                  enabled: true,
+                  filter: "nodes",
+                  container: document.getElementById("graphoptions"),
+                  showButton: true,
+                },
+              });
             }}
           />
         </div>

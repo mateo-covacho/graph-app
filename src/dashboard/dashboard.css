@@ -1,9 +1,14 @@
 * {
-  outline: solid 0px red;
 }
 p {
   overflow: hidden;
   margin: 0;
+}
+h2 {
+  overflow: hidden;
+}
+nav {
+  overflow: visible;
 }
 .dashboard {
   height: 100vh;
@@ -31,7 +36,6 @@ nav div {
 #toolbar {
   height: 10vh;
   color: black;
-  background-color: red;
   width: 100%;
 }
 
@@ -47,7 +51,44 @@ nav div {
   height: 100%;
 }
 
+.blacktext {
+  color: black;
+}
+
 .graph-canvas {
   height: 85.1vh;
   background-color: rgb(255, 255, 255);
+}
+
+.buttons_row {
+  height: 100%;
+  overflow-y: visible !important;
+  overflow-x: visible !important;
+}
+.dropdown {
+  overflow-y: visible !important;
+  overflow-x: visible !important;
+}
+
+.dropdown ul {
+  top: auto !important;
+  position: absolute;
+  z-index: 10;
+}
+
+.dropdown ul li {
+  z-index: 10;
+}
+
+.graph-canvas div {
+  z-index: -0;
+}
+
+.dropdown {
+  height: auto !important;
+  width: auto !important;
+}
+
+.dropdown-menu li div {
+  cursor: pointer;
 }

@@ -1,4 +1,5 @@
 * {
+  outline: solid 0px red;
 }
 /* color pallate*/
 :root {
@@ -12,10 +13,11 @@
 
 * {
   font-family: "Space Mono italic", monospace;
-  overflow-x: hidden;
   color: white;
 }
-
+html {
+  overflow-x: hidden;
+}
 h1 {
   font-size: calc(30px + 2vw) !important;
   overflow: hidden;
@@ -105,6 +107,9 @@ section {
   padding: 1px;
   overflow: hidden;
 }
+section h1 {
+  margin-top: 10vh;
+}
 
 .card-wrapper {
 }
@@ -174,7 +179,8 @@ section {
 }
 
 .section-3 {
-  height: 90vh;
+  min-height: 90vh !important;
+
   background-color: var(--3);
 }
 
@@ -193,14 +199,19 @@ section {
   width: 100vw;
   height: 5vh;
   background-color: var(--3);
-  padding-bottom: 5vh;
+  padding-bottom: 10vh;
+  overflow: hidden;
 }
 
 .icons-bar * {
   display: inline-block;
   height: 100%;
-  overflow: hidden;
 }
 .icons-bar div {
   margin-left: 30px;
+  height: 100px !important;
+  width: 100px !important;
+}
+.icons-bar div svg {
+  width: 50%;
 }
