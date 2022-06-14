@@ -35,7 +35,6 @@ const Admin_login = (props) => {
 
   return (
     <div className="container">
-      <h2>{isAdmin}</h2>
       <h1 className="mx-auto col-10 display-1 text-center">
         Under constuction
       </h1>
@@ -44,10 +43,10 @@ const Admin_login = (props) => {
       </div>
       <h1 className="mx-auto col-6 display-1 text-center">Admin login</h1>
 
-      <div class="input-group">
+      <div className="input-group">
         <input
           type="password"
-          class="form-control"
+          className="form-control"
           placeholder="Development key"
           value={word}
           onChange={(e) => {
@@ -58,7 +57,7 @@ const Admin_login = (props) => {
           <Link to="/dashboard">
             <button
               type="button"
-              class="btn btn-outline-secondary green-background"
+              className="btn btn-outline-secondary green-background"
               id="input-group-button-right"
             >
               Access
@@ -70,7 +69,7 @@ const Admin_login = (props) => {
         ) : (
           <button
             type="button"
-            class="btn btn-outline-secondary "
+            className="btn btn-outline-secondary "
             id="input-group-button-right"
           >
             Access

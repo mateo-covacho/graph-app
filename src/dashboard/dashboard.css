@@ -1,4 +1,5 @@
 * {
+  outline: solid 0px red;
 }
 p {
   overflow: hidden;
@@ -91,4 +92,8 @@ nav div {
 
 .dropdown-menu li div {
   cursor: pointer;
+}
+
+.arrow-container svg path {
+  color: black;
 }

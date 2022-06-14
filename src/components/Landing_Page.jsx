@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
+import "./css/Landing_Page.css";
 //--------------------------------------------------------------------------------
 
 import { FaGithub, FaTwitter, FaMedium } from "react-icons/fa";
