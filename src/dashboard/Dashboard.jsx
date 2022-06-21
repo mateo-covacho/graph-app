@@ -13,7 +13,7 @@ import { GiPathDistance } from "react-icons/gi";
 import { MdOutlineDoubleArrow } from "react-icons/md";
 import { Link } from "react-router-dom";
 //___________________________________________
-//you fucking idiot forgot to add array when itiraring throught sf ¡ODFGS¡Hg+<d
+
 const Dashboard = (props) => {
   const [toolBar, setToolBar] = useState("algorithm");
   function randomColor() {
@@ -28,19 +28,35 @@ const Dashboard = (props) => {
       .padStart(2, "0");
     return `#${red}${green}${blue}`;
   }
-  var nodeGroup;
-  function highlitNode(targetNodeId, groupProp) {
+  function highlightNode(targetNodeId, groupProp, deHighlight) {
     setGraphState(({ graph: { nodes, edges }, counter, ...rest }) => {
-      counter++;
       const id = counter + 1;
+      counter++;
       const from = Math.floor(Math.random() * 10);
+      const targetId = targetNodeId - 1;
+      let groupPrevious;
+      graphState.graph.nodes.map((node) => {
+        if (node.id == targetId - 1) {
+          groupPrevious = node.group;
+        }
+      });
+      if (groupPrevious == 0 || groupPrevious == -1) {
+        groupPrevious = 1;
+      }
       const newNodes = graphState.graph.nodes.map((node) => {
         if (node.id == targetNodeId) {
-          var nodeGroup = node.group;
           return { ...node, group: groupProp };
         }
+        // else if (
+        //   node.group == groupProp &&
+        //   node.id != targetNodeId &&
+        //   deHighlight
+        // ) {
+        //   return { ...node, group: groupPrevious, shape: "dot" };
+        // }
         return node;
       });
+      console.log(newNodes);
 
       return {
         graph: {
@@ -49,27 +65,28 @@ const Dashboard = (props) => {
             // ...nodes,
             // { id: targetNodeId, label: nodeName, group: "highlited" },
           ],
-          edges: [
-            ...edges,
-            {
-              from,
-              to: id,
-            },
-          ],
+          edges: [...edges],
         },
         counter: counter,
         ...rest,
       };
     });
   }
-  function unHighlit(targetNodeId) {
+  function unHighlight(targetNodeId) {
     setGraphState(({ graph: { nodes, edges }, counter, ...rest }) => {
       const id = counter + 1;
       const from = Math.floor(Math.random() * 10);
+      let groupPrevious;
+      const targetId = targetNodeId - 1;
+      graphState.graph.nodes.map((node) => {
+        if (node.id == targetId) {
+          groupPrevious = node.group;
+        }
+      });
 
       const newNodes = graphState.graph.nodes.map((node) => {
         if (node.id == targetNodeId) {
-          return { ...node, group: 1 };
+          return { ...node, group: groupPrevious, shape: "dot" };
         }
         return node;
       });
@@ -94,8 +111,71 @@ const Dashboard = (props) => {
       };
     });
   }
+  function BFS(nodesList, edgeList, startNode, targetNode) {
+    const adjacenceyList = new Map();
+    function addNode(node) {
+      adjacenceyList.set(node, []);
+    }
 
-  function handleStartButton() {}
+    function addEdge(origin, destination) {
+      adjacenceyList.get(origin).push(destination);
+      adjacenceyList.get(destination).push(origin);
+    }
+
+    nodesList.forEach((node) => {
+      addNode(node.id);
+    });
+
+    edgeList.forEach((edge) => {
+      addEdge(edge.from, edge.to);
+    });
+
+    console.log(adjacenceyList);
+    const visitedNodes = new Set();
+
+    const queue = [startNode];
+
+    while (queue.length > 0) {
+      const currentNode = queue.shift();
+      console.log("currentNode: " + currentNode);
+
+      const connectedNodes = adjacenceyList.get(currentNode);
+
+      console.log("connectedNodes: " + connectedNodes);
+
+      for (const connectedNode of connectedNodes) {
+        if (!visitedNodes.has(connectedNode)) {
+          visitedNodes.add(connectedNode);
+          queue.push(connectedNode);
+        }
+      }
+      if (currentNode == targetNode) {
+        console.log("Found it!");
+        console.log(visitedNodes);
+        visitedNodes.forEach((node) => {
+          highlightNode(node, "selected", false);
+        });
+        return true;
+      }
+    }
+  }
+
+  var targetNode;
+  var startingNode;
+  const [startingNodeState, setStartingNodeState] = useState();
+  const [targetNodeState, setTargetNodeState] = useState();
+
+  function handleStartButton() {
+    if (algorithm == "Breath first search") {
+      BFS(
+        graphState.graph.nodes,
+        graphState.graph.edges,
+        parseInt(startingNodeState),
+        parseInt(targetNodeState)
+      );
+    } else if (algorithm == "Depth first search") {
+    }
+  }
   const createNode = (x, y) => {
     const color = randomColor();
     setGraphState(({ graph: { nodes, edges }, counter, ...rest }) => {
@@ -136,21 +216,21 @@ const Dashboard = (props) => {
       },
     },
   });
-  // const [startingNode, setStartingNode] = useState(0);
-  // const [targetNode, setTargetNode] = useState(0);
-  var startingNode = startingNode;
-  var targetNode = targetNode;
-  const [algorithm, setAlgorithm] = useState("Choose algorithm");
+
+  //const [algorithm, setAlgorithm] = useState("Choose algorithm");
+  const [algorithm, setAlgorithm] = useState("Breath first search");
 
   useEffect(() => {});
 
-  if (props.isAdmin) {
-    //if (true) {
+  //if (props.isAdmin) {
+  if (true) {
     return (
       <div className="container-fluid p-0">
         <nav className="navbar navbar-light bg-light p-0 ">
           <div className="iconss-bar col-12 row  gx-0">
+            {/* Home button */}
             <Link to="/">
+              {" "}
               <div
                 style={{ cursor: "pointer" }}
                 className="row col-12 gx-0 "
@@ -160,6 +240,8 @@ const Dashboard = (props) => {
                 <p className=" my-auto col align-bottom  ">Home</p>
               </div>
             </Link>
+
+            {/* Graph settings */}
             <div
               style={{ cursor: "pointer" }}
               onClick={() => {
@@ -171,16 +253,21 @@ const Dashboard = (props) => {
               <p className=" my-auto col align-bottom  ">Graph</p>
             </div>
 
+            {/* Social */}
             <div
               style={{ cursor: "pointer" }}
               onClick={() => {
                 setToolBar("social_media");
+                highlightNode(2, "selected");
+                console.log("!!");
               }}
               className="row col-2 col-lg-1 gx-0 "
             >
               <GrInstagram className="col-2 icon my-2 my-auto" />
               <p className=" my-auto col align-bottom  ">Social</p>
             </div>
+
+            {/* Algorithm */}
             <div
               style={{ cursor: "pointer" }}
               onClick={() => {
@@ -193,6 +280,7 @@ const Dashboard = (props) => {
               <p className=" my-auto col align-bottom  ">Algorithm</p>
             </div>
 
+            {/* Blockchain button */}
             <div
               style={{ cursor: "pointer" }}
               onClick={() => {
@@ -214,9 +302,7 @@ const Dashboard = (props) => {
                     <div className="container-fluid">
                       <h2
                         className="blacktext display-1 fs-4"
-                        onClick={() => {
-                          var redraw = 1;
-                        }}
+                        onClick={() => {}}
                       >
                         Graph options
                       </h2>
@@ -272,12 +358,10 @@ const Dashboard = (props) => {
                             aria-label="Small select"
                             value={startingNode}
                             onChange={(e) => {
-                              console.log(
-                                "unSelect starting node" + startingNode
-                              );
-                              unHighlit(startingNode);
                               startingNode = e.target.value;
-                              highlitNode(startingNode, "start");
+                              setStartingNodeState(startingNode);
+
+                              highlightNode(startingNode, "start");
                             }}
                           >
                             <option className="blacktext" value="">
@@ -290,14 +374,11 @@ const Dashboard = (props) => {
                                   className="blacktext"
                                   value={node.id}
                                 >
-                                  {node.id}: {node.label}
+                                  {node.label}
                                 </option>
                               );
                             })}
                           </select>
-                        </div>
-                        <div className="col-1 arrow-container m-auto">
-                          <MdOutlineDoubleArrow size={"40%"} />
                         </div>
                         <div className="col-2 d-flex justify-content-center h-50 my-auto">
                           <select
@@ -305,10 +386,10 @@ const Dashboard = (props) => {
                             className="form-select form-select-sm"
                             value={targetNode}
                             onChange={(e) => {
-                              console.log("unHighlit " + targetNode);
-                              unHighlit(targetNode);
                               targetNode = e.target.value;
-                              highlitNode(targetNode, "target");
+                              setTargetNodeState(targetNode);
+                              highlightNode(targetNode, "target");
+                              // let pastStartingNode = targetNode
                             }}
                           >
                             <option className="blacktext" value="">
@@ -321,13 +402,13 @@ const Dashboard = (props) => {
                                   className="blacktext"
                                   value={node.id}
                                 >
-                                  {node.id}: {node.label}
+                                  {node.label}
                                 </option>
                               );
                             })}
                           </select>
                         </div>
-                        <div className="col-3 d-flex justify-content-center">
+                        <div className="col-1 d-flex justify-content-center">
                           <button
                             type="button"
                             className="btn btn-primary m-auto "
@@ -378,7 +459,10 @@ const Dashboard = (props) => {
                 },
                 physics: {
                   repulsion: {
-                    springLength: 285,
+                    centralGravity: 0,
+                    springLength: 500,
+                    nodeDistance: 350,
+                    damping: 0.3,
                   },
                   minVelocity: 0.75,
                   solver: "repulsion",
@@ -389,17 +473,17 @@ const Dashboard = (props) => {
                     shape: "diamond",
                   },
                   selected: {
-                    color: { background: "red" },
-                    shape: "diamond",
+                    color: { background: "green" },
+                    shape: "triangleDown",
                   },
                   target: {
                     color: { background: "red" },
-                    shape: "triangle",
+                    shape: "star",
                   },
                 },
                 configure: {
                   enabled: true,
-                  filter: "nodes",
+                  filter: "physics",
                   container: document.getElementById("graphoptions"),
                   showButton: true,
                 },

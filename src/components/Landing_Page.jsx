@@ -139,7 +139,7 @@ const Landing_Page = () => {
           <h1>Network explorer </h1>
           <p>
             {" "}
-            An App to allow users to visualize data representable in network
+            An App to allow users to visualize data represented in network
             graph form datasets such as social media relational data
             (Friendships, follows, etc...) and data such as blockchain
             transactions for investigational and research purposes.{" "}
@@ -152,8 +152,8 @@ const Landing_Page = () => {
 
         <div className="how-2-use glass">
           When you enter the dashboard the first step is to import data. You can
-          either do this manually by manually plotting out the network or use
-          one of the built in features to import blockchain / Instagram data.
+          either do this by manually plotting out the network or use
+          one of the built-in features to import blockchain / Instagram data.
           Once you have the data you can :
           <ul>
             <br />
