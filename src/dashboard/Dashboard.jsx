@@ -222,8 +222,8 @@ const Dashboard = (props) => {
 
   useEffect(() => {});
 
-  //if (props.isAdmin) {
-  if (true) {
+  if (props.isAdmin) {
+    //if (true) {
     return (
       <div className="container-fluid p-0">
         <nav className="navbar navbar-light bg-light p-0 ">
