@@ -28,35 +28,51 @@ const Dashboard = (props) => {
       .padStart(2, "0");
     return `#${red}${green}${blue}`;
   }
-  function highlightNode(targetNodeId, groupProp, deHighlight) {
+  function highlightNode(getNodesId, groupProp, deHighlight) {
+    console.log(getNodesId);
     setGraphState(({ graph: { nodes, edges }, counter, ...rest }) => {
       const id = counter + 1;
       counter++;
       const from = Math.floor(Math.random() * 10);
-      const targetId = targetNodeId - 1;
-      let groupPrevious;
-      graphState.graph.nodes.map((node) => {
-        if (node.id == targetId - 1) {
-          groupPrevious = node.group;
+
+      function calculateDefaultGroup(nodeId) {
+        const targetId = nodeId - 1;
+        let groupPrevious;
+        graphState.graph.nodes.map((node) => {
+          if (node.id == targetId - 1) {
+            groupPrevious = node.group;
+          }
+        });
+        if (groupPrevious == 0 || groupPrevious == -1) {
+          groupPrevious = 1;
         }
+      }
+
+      const targetIds = getNodesId.map((id) => {
+        return parseInt(id);
       });
-      if (groupPrevious == 0 || groupPrevious == -1) {
-        groupPrevious = 1;
+      console.log(targetIds);
+      if (8 in targetIds) {
+        alert("wqda");
       }
       const newNodes = graphState.graph.nodes.map((node) => {
-        if (node.id == targetNodeId) {
+        if (targetIds.includes(node.id)) {
+          console.log(node.id);
           return { ...node, group: groupProp };
         }
         // else if (
         //   node.group == groupProp &&
-        //   node.id != targetNodeId &&
+        //   node.id != node.id &&
         //   deHighlight
         // ) {
-        //   return { ...node, group: groupPrevious, shape: "dot" };
+        //   return {
+        //     ...node,
+        //     group: calculateDefaultGroup(node.id),
+        //     shape: "dot",
+        //   };
         // }
         return node;
       });
-      console.log(newNodes);
 
       return {
         graph: {
@@ -143,19 +159,19 @@ const Dashboard = (props) => {
 
       console.log("connectedNodes: " + connectedNodes);
 
+      if (currentNode == targetNode) {
+        console.log("Found it!");
+        console.log(visitedNodes);
+        highlightNode([...visitedNodes], "selected", false);
+        // visitedNodes.forEach((node) => {});
+        return true;
+      }
+
       for (const connectedNode of connectedNodes) {
         if (!visitedNodes.has(connectedNode)) {
           visitedNodes.add(connectedNode);
           queue.push(connectedNode);
         }
-      }
-      if (currentNode == targetNode) {
-        console.log("Found it!");
-        console.log(visitedNodes);
-        visitedNodes.forEach((node) => {
-          highlightNode(node, "selected", false);
-        });
-        return true;
       }
     }
   }
@@ -222,8 +238,8 @@ const Dashboard = (props) => {
 
   useEffect(() => {});
 
-  if (props.isAdmin) {
-    //if (true) {
+  //if (props.isAdmin) {
+  if (true) {
     return (
       <div className="container-fluid p-0">
         <nav className="navbar navbar-light bg-light p-0 ">
@@ -258,7 +274,6 @@ const Dashboard = (props) => {
               style={{ cursor: "pointer" }}
               onClick={() => {
                 setToolBar("social_media");
-                highlightNode(2, "selected");
                 console.log("!!");
               }}
               className="row col-2 col-lg-1 gx-0 "
@@ -361,7 +376,7 @@ const Dashboard = (props) => {
                               startingNode = e.target.value;
                               setStartingNodeState(startingNode);
 
-                              highlightNode(startingNode, "start");
+                              highlightNode([startingNode], "start");
                             }}
                           >
                             <option className="blacktext" value="">
@@ -388,7 +403,7 @@ const Dashboard = (props) => {
                             onChange={(e) => {
                               targetNode = e.target.value;
                               setTargetNodeState(targetNode);
-                              highlightNode(targetNode, "target");
+                              highlightNode([targetNode], "target");
                               // let pastStartingNode = targetNode
                             }}
                           >
