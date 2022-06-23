@@ -28,49 +28,40 @@ const Dashboard = (props) => {
       .padStart(2, "0");
     return `#${red}${green}${blue}`;
   }
-  function highlightNode(getNodesId, groupProp, deHighlight) {
-    console.log(getNodesId);
+  function highlightNode(getNodesId, groupProp, delay) {
     setGraphState(({ graph: { nodes, edges }, counter, ...rest }) => {
       const id = counter + 1;
       counter++;
       const from = Math.floor(Math.random() * 10);
 
       function calculateDefaultGroup(nodeId) {
-        const targetId = nodeId - 1;
         let groupPrevious;
         graphState.graph.nodes.map((node) => {
-          if (node.id == targetId - 1) {
+          if (node.id == parseInt(nodeId) - 1) {
             groupPrevious = node.group;
           }
         });
         if (groupPrevious == 0 || groupPrevious == -1) {
           groupPrevious = 1;
         }
+
+        return groupPrevious;
       }
 
       const targetIds = getNodesId.map((id) => {
         return parseInt(id);
       });
-      console.log(targetIds);
-      if (8 in targetIds) {
-        alert("wqda");
-      }
+
       const newNodes = graphState.graph.nodes.map((node) => {
         if (targetIds.includes(node.id)) {
-          console.log(node.id);
           return { ...node, group: groupProp };
+        } else if (node.group == groupProp && !targetIds.includes(node.id)) {
+          return {
+            ...node,
+            group: calculateDefaultGroup(node.id),
+            shape: "dot",
+          };
         }
-        // else if (
-        //   node.group == groupProp &&
-        //   node.id != node.id &&
-        //   deHighlight
-        // ) {
-        //   return {
-        //     ...node,
-        //     group: calculateDefaultGroup(node.id),
-        //     shape: "dot",
-        //   };
-        // }
         return node;
       });
 
@@ -82,45 +73,6 @@ const Dashboard = (props) => {
             // { id: targetNodeId, label: nodeName, group: "highlited" },
           ],
           edges: [...edges],
-        },
-        counter: counter,
-        ...rest,
-      };
-    });
-  }
-  function unHighlight(targetNodeId) {
-    setGraphState(({ graph: { nodes, edges }, counter, ...rest }) => {
-      const id = counter + 1;
-      const from = Math.floor(Math.random() * 10);
-      let groupPrevious;
-      const targetId = targetNodeId - 1;
-      graphState.graph.nodes.map((node) => {
-        if (node.id == targetId) {
-          groupPrevious = node.group;
-        }
-      });
-
-      const newNodes = graphState.graph.nodes.map((node) => {
-        if (node.id == targetNodeId) {
-          return { ...node, group: groupPrevious, shape: "dot" };
-        }
-        return node;
-      });
-      //   const previousNodeGroup = graphState.graph.nodes[targetNodeId - 1].group;
-      return {
-        graph: {
-          nodes: [
-            ...newNodes,
-            // ...nodes,
-            // { id: targetNodeId, label: nodeName, group: "highlited" },
-          ],
-          edges: [
-            ...edges,
-            {
-              from,
-              to: id,
-            },
-          ],
         },
         counter: counter,
         ...rest,
@@ -161,8 +113,10 @@ const Dashboard = (props) => {
 
       if (currentNode == targetNode) {
         console.log("Found it!");
+        visitedNodes.delete(startNode);
+        visitedNodes.delete(targetNode);
         console.log(visitedNodes);
-        highlightNode([...visitedNodes], "selected", false);
+        highlightNode([...visitedNodes], "selected", 1000);
         // visitedNodes.forEach((node) => {});
         return true;
       }
@@ -183,12 +137,7 @@ const Dashboard = (props) => {
 
   function handleStartButton() {
     if (algorithm == "Breath first search") {
-      BFS(
-        graphState.graph.nodes,
-        graphState.graph.edges,
-        parseInt(startingNodeState),
-        parseInt(targetNodeState)
-      );
+      BFS(graphState.graph.nodes, graphState.graph.edges, parseInt(startingNodeState), parseInt(targetNodeState));
     } else if (algorithm == "Depth first search") {
     }
   }
@@ -238,22 +187,17 @@ const Dashboard = (props) => {
 
   useEffect(() => {});
 
-  //if (props.isAdmin) {
   if (true) {
     return (
-      <div className="container-fluid p-0">
-        <nav className="navbar navbar-light bg-light p-0 ">
-          <div className="iconss-bar col-12 row  gx-0">
+      <div className='container-fluid p-0'>
+        <nav className='navbar navbar-light bg-light p-0 '>
+          <div className='iconss-bar col-12 row  gx-0'>
             {/* Home button */}
-            <Link to="/">
+            <Link to='/'>
               {" "}
-              <div
-                style={{ cursor: "pointer" }}
-                className="row col-12 gx-0 "
-                id="adsasdsa"
-              >
-                <AiOutlineHome className=" my-auto col-2 icon my-2  " />
-                <p className=" my-auto col align-bottom  ">Home</p>
+              <div style={{ cursor: "pointer" }} className='row col-12 gx-0 ' id='adsasdsa'>
+                <AiOutlineHome className=' my-auto col-2 icon my-2  ' />
+                <p className=' my-auto col align-bottom  '>Home</p>
               </div>
             </Link>
 
@@ -263,10 +207,10 @@ const Dashboard = (props) => {
               onClick={() => {
                 setToolBar("graph");
               }}
-              className="row col-2 col-lg-1 gx-0 "
+              className='row col-2 col-lg-1 gx-0 '
             >
-              <BiNetworkChart className="col-2 icon my-2  my-auto" />
-              <p className=" my-auto col align-bottom  ">Graph</p>
+              <BiNetworkChart className='col-2 icon my-2  my-auto' />
+              <p className=' my-auto col align-bottom  '>Graph</p>
             </div>
 
             {/* Social */}
@@ -276,10 +220,10 @@ const Dashboard = (props) => {
                 setToolBar("social_media");
                 console.log("!!");
               }}
-              className="row col-2 col-lg-1 gx-0 "
+              className='row col-2 col-lg-1 gx-0 '
             >
-              <GrInstagram className="col-2 icon my-2 my-auto" />
-              <p className=" my-auto col align-bottom  ">Social</p>
+              <GrInstagram className='col-2 icon my-2 my-auto' />
+              <p className=' my-auto col align-bottom  '>Social</p>
             </div>
 
             {/* Algorithm */}
@@ -289,10 +233,10 @@ const Dashboard = (props) => {
                 setToolBar("algorithm");
                 console.clear();
               }}
-              className="row col-2 col-lg-1 gx-0 "
+              className='row col-2 col-lg-1 gx-0 '
             >
-              <GiPathDistance className="col-2 icon my-2 my-auto" />
-              <p className=" my-auto col align-bottom  ">Algorithm</p>
+              <GiPathDistance className='col-2 icon my-2 my-auto' />
+              <p className=' my-auto col align-bottom  '>Algorithm</p>
             </div>
 
             {/* Blockchain button */}
@@ -301,24 +245,19 @@ const Dashboard = (props) => {
               onClick={() => {
                 setToolBar("blockchain");
               }}
-              className="row col-3 gx-0 text-nowrap my-auto"
+              className='row col-3 gx-0 text-nowrap my-auto'
             >
-              <FaBitcoin className=" col-2 col-lg-1 icon my-2 " />
-              <p className=" my-auto col align-bottom  text-nowrap  ">
-                Blockchain
-              </p>
+              <FaBitcoin className=' col-2 col-lg-1 icon my-2 ' />
+              <p className=' my-auto col align-bottom  text-nowrap  '>Blockchain</p>
             </div>
           </div>
-          <div className="row g-0 " id="toolbar">
+          <div className='row g-0 ' id='toolbar'>
             {(() => {
               switch (toolBar) {
                 case "graph":
                   return (
-                    <div className="container-fluid">
-                      <h2
-                        className="blacktext display-1 fs-4"
-                        onClick={() => {}}
-                      >
+                    <div className='container-fluid'>
+                      <h2 className='blacktext display-1 fs-4' onClick={() => {}}>
                         Graph options
                       </h2>
                     </div>
@@ -326,51 +265,38 @@ const Dashboard = (props) => {
                 case "social_media":
                   return (
                     <div>
-                      <h2 className="blacktext display-1 fs-4">Social_media</h2>
+                      <h2 className='blacktext display-1 fs-4'>Social_media</h2>
                     </div>
                   );
                 case "algorithm":
                   return (
-                    <div className="container-fluid">
-                      <div className="row buttons_row">
-                        <div className=" dropdown ms-4 my-auto ps-0 col-3 ">
-                          <button
-                            className="btn btn-primary dropdown-toggle"
-                            type="button"
-                            id="dropdownMenuButton"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                          >
+                    <div className='container-fluid'>
+                      <div className='row buttons_row'>
+                        <div className=' dropdown ms-4 my-auto ps-0 col-3 '>
+                          <button className='btn btn-primary dropdown-toggle' type='button' id='dropdownMenuButton' data-bs-toggle='dropdown' aria-expanded='false'>
                             {algorithm}
                           </button>
-                          <ul
-                            className="dropdown-menu"
-                            aria-labelledby="dropdownMenuButton"
-                          >
+                          <ul className='dropdown-menu' aria-labelledby='dropdownMenuButton'>
                             <li
                               onClick={() => {
                                 setAlgorithm("Breath first search");
                               }}
                             >
-                              <div className="dropdown-item">
-                                Breath first search
-                              </div>
+                              <div className='dropdown-item'>Breath first search</div>
                             </li>
                             <li
                               onClick={() => {
                                 setAlgorithm("Depth first search");
                               }}
                             >
-                              <div className="dropdown-item">
-                                Depth first search
-                              </div>
+                              <div className='dropdown-item'>Depth first search</div>
                             </li>
                           </ul>
                         </div>
-                        <div className="col-2 d-flex justify-content-center h-50 my-auto">
+                        <div className='col-2 d-flex justify-content-center h-50 my-auto'>
                           <select
-                            className="form-select form-select-sm"
-                            aria-label="Small select"
+                            className='form-select form-select-sm'
+                            aria-label='Small select'
                             value={startingNode}
                             onChange={(e) => {
                               startingNode = e.target.value;
@@ -379,26 +305,22 @@ const Dashboard = (props) => {
                               highlightNode([startingNode], "start");
                             }}
                           >
-                            <option className="blacktext" value="">
+                            <option className='blacktext' value=''>
                               Start node
                             </option>
                             {graphState.graph.nodes.map((node) => {
                               return (
-                                <option
-                                  key={node.id}
-                                  className="blacktext"
-                                  value={node.id}
-                                >
+                                <option key={node.id} className='blacktext' value={node.id}>
                                   {node.label}
                                 </option>
                               );
                             })}
                           </select>
                         </div>
-                        <div className="col-2 d-flex justify-content-center h-50 my-auto">
+                        <div className='col-2 d-flex justify-content-center h-50 my-auto'>
                           <select
-                            aria-label="Small select"
-                            className="form-select form-select-sm"
+                            aria-label='Small select'
+                            className='form-select form-select-sm'
                             value={targetNode}
                             onChange={(e) => {
                               targetNode = e.target.value;
@@ -407,26 +329,22 @@ const Dashboard = (props) => {
                               // let pastStartingNode = targetNode
                             }}
                           >
-                            <option className="blacktext" value="">
+                            <option className='blacktext' value=''>
                               Target node
                             </option>
                             {graphState.graph.nodes.map((node) => {
                               return (
-                                <option
-                                  key={node.id}
-                                  className="blacktext"
-                                  value={node.id}
-                                >
+                                <option key={node.id} className='blacktext' value={node.id}>
                                   {node.label}
                                 </option>
                               );
                             })}
                           </select>
                         </div>
-                        <div className="col-1 d-flex justify-content-center">
+                        <div className='col-1 d-flex justify-content-center'>
                           <button
-                            type="button"
-                            className="btn btn-primary m-auto "
+                            type='button'
+                            className='btn btn-primary m-auto '
                             onClick={() => {
                               handleStartButton();
                             }}
@@ -440,7 +358,7 @@ const Dashboard = (props) => {
                 case "blockchain":
                   return (
                     <div>
-                      <h2 className="blacktext display-1 fs-4">Blockchain</h2>
+                      <h2 className='blacktext display-1 fs-4'>Blockchain</h2>
                     </div>
                   );
                 default:
@@ -449,7 +367,7 @@ const Dashboard = (props) => {
             }).call(this)}
           </div>
         </nav>
-        <div className="graph-canvas">
+        <div className='graph-canvas'>
           {" "}
           <Graph
             graph={graphState.graph}
@@ -506,7 +424,7 @@ const Dashboard = (props) => {
             }}
           />
         </div>
-        <div id="graphoptions"></div>
+        <div id='graphoptions'></div>
       </div>
     );
   } else {
