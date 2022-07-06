@@ -24,11 +24,7 @@ h1 {
 }
 
 .glass {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.1),
-    rgba(255, 255, 255, 0)
-  );
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   border-radius: 20px;
@@ -39,6 +35,7 @@ h1 {
 .topNavBar {
   background-color: hsla(0, 0%, 0%, 0.357);
   height: 6vh;
+  min-height: 50px;
   width: 100%;
   position: fixed;
   top: 0px;
