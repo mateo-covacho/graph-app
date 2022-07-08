@@ -103,3 +103,11 @@ nav div {
   display: inline-block;
   transform: rotate(180deg);
 }
+
+.vis-configuration {
+  color: black;
+}
+
+.vis-config-label {
+  color: white;
+}

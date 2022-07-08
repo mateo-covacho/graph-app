@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./dashboard.css";
 import Graph from "react-graph-vis";
-import { graphNodes, graphEdges } from "./GraphData.jsx";
+import { graphNodes, graphEdges } from "./data/GraphData.jsx";
 // import "./network.css";
 // import "./styles.css";
 //___________________________________________
@@ -207,14 +207,14 @@ const Dashboard = (props) => {
     const visitedNodes = new Set();
 
     const queue = [startNode];
-
+    let prev = Array(graphState.graph.nodes.length);
+    console.log("prev: " + prev);
+    visitedNodes.add(startNode);
     while (queue.length > 0) {
       const currentNode = queue.shift();
       console.log("currentNode: " + currentNode);
 
       const connectedNodes = adjacenceyList.get(currentNode);
-
-      console.log("connectedNodes: " + connectedNodes);
 
       if (currentNode == targetNode) {
         console.log("Found it!");
@@ -222,7 +222,21 @@ const Dashboard = (props) => {
         visitedNodes.delete(targetNode);
         console.log("visited: ", visitedNodes);
         highlightNode([...visitedNodes], "selected", 1000);
-        // visitedNodes.forEach((node) => {});
+
+        let path = [];
+        console.log(prev);
+
+        let i;
+        for (i = targetNode; i != startNode; i = prev[i]) {
+          path.push(prev[i]);
+        }
+
+        path.reverse();
+        path = [...path, targetNode];
+        console.log("path: " + path);
+
+        higliteMultipleEdges(path);
+
         return true;
       }
 
@@ -230,6 +244,7 @@ const Dashboard = (props) => {
         if (!visitedNodes.has(connectedNode)) {
           visitedNodes.add(connectedNode);
           queue.push(connectedNode);
+          prev[connectedNode] = currentNode;
         }
       }
     }
@@ -401,16 +416,14 @@ const Dashboard = (props) => {
             switch (toolBar) {
               case "graph":
                 return (
-                  <div className='container-fluid'>
-                    <h2 className='blacktext display-1 fs-4' onClick={() => {}}>
-                      Graph options
-                    </h2>
+                  <div className='container-fluid '>
+                    <div className='row buttons_row'></div>
                   </div>
                 );
               case "social_media":
                 return (
-                  <div>
-                    <h2 className='blacktext display-1 fs-4'>Social_media</h2>
+                  <div className='container-fluid '>
+                    <div className='row buttons_row'></div>
                   </div>
                 );
               case "algorithm":
@@ -499,14 +512,14 @@ const Dashboard = (props) => {
                       </div>
                       <div className='col-1 m-auto mx-0 my-auto h-50 p-auto justify-content-center '>
                         <IoReloadCircleSharp
-                          className='col-3 h-100 my-auto'
+                          className='col-6 col-lg-3  h-100 my-auto'
                           onClick={() => {
                             resetGraph();
                           }}
                         />
                       </div>
                       <div className='col-1 m-auto mx-0 my-auto h-50 p-auto '>
-                        <AiFillQuestionCircle onClick={handleShow} className='col-3 h-100 my-auto' />
+                        <AiFillQuestionCircle onClick={handleShow} className='col-6 col-lg-3  h-100 my-auto' />
 
                         <Modal show={show} onHide={handleClose} animation={false} centered>
                           <Modal.Header closeButton>
@@ -544,8 +557,8 @@ const Dashboard = (props) => {
                 );
               case "blockchain":
                 return (
-                  <div>
-                    <h2 className='blacktext display-1 fs-4'>Blockchain</h2>
+                  <div className='container-fluid '>
+                    <div className='row buttons_row'></div>
                   </div>
                 );
               default:
