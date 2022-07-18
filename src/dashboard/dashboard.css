@@ -111,3 +111,7 @@ nav div {
 .vis-config-label {
   color: white;
 }
+
+.ethInput {
+  outline: solid 1px black;
+}

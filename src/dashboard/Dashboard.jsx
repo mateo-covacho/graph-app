@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./dashboard.css";
 import Graph from "react-graph-vis";
-import { graphNodes, graphEdges } from "./data/GraphData.jsx";
+import { graphNodes, graphEdges, graphNodesBasic } from "./data/GraphData.jsx";
 // import "./network.css";
 // import "./styles.css";
 //___________________________________________
@@ -17,7 +17,7 @@ import { Button, Modal } from "react-bootstrap";
 //___________________________________________
 
 const Dashboard = (props) => {
-  const [toolBar, setToolBar] = useState("algorithm");
+  const [toolBar, setToolBar] = useState("blockchain");
   var targetNode;
   var startingNode;
   const [startingNodeState, setStartingNodeState] = useState();
@@ -27,10 +27,11 @@ const Dashboard = (props) => {
     counter: 76,
 
     graph: {
-      nodes: graphNodes,
+      nodes: graphNodesBasic,
       edges: graphEdges,
     },
   });
+
   const [eventsState, setEventsState] = useState({
     events: {
       select: ({ nodes, edges }) => {},
@@ -39,6 +40,7 @@ const Dashboard = (props) => {
       },
     },
   });
+  const [address, setAddress] = useState();
 
   // MODAL
   const [show, setShow] = useState(false);
@@ -348,6 +350,29 @@ const Dashboard = (props) => {
     });
   }
 
+  function importWalletNetwork(walletAddress) {
+    fetch("https://6ryss6wbm3.execute-api.us-east-1.amazonaws.com/dev/?wallet=" + walletAddress, { method: "GET" })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setGraphState({
+          graph: { nodes: data.nodes, edges: data.edges },
+          counter: graphState.counter,
+        });
+      });
+  }
+
+  function setGraphData(graph_name) {
+    if (graph_name == "Les miserables") {
+      setGraphState({
+        graph: {
+          nodes: graphNodes,
+          edges: graphEdges,
+        },
+      });
+    }
+  }
+
   return (
     <div className='container-fluid p-0'>
       <nav className='navbar navbar-light bg-light p-0 '>
@@ -366,7 +391,6 @@ const Dashboard = (props) => {
             style={{ cursor: "pointer" }}
             onClick={() => {
               setToolBar("graph");
-              highlightEdge(1, 0);
             }}
             className='row col-2 col-lg-1 gx-0 '
           >
@@ -417,7 +441,22 @@ const Dashboard = (props) => {
               case "graph":
                 return (
                   <div className='container-fluid '>
-                    <div className='row buttons_row'></div>
+                    <div className='row buttons_row'>
+                      <div className=' dropdown ms-4 my-auto ps-0 col-3 '>
+                        <button className='btn btn-primary dropdown-toggle' type='button' id='dropdownMenuButton' data-bs-toggle='dropdown' aria-expanded='false'>
+                          Select sample graph
+                        </button>
+                        <ul className='dropdown-menu' aria-labelledby='dropdownMenuButton'>
+                          <li
+                            onClick={() => {
+                              setGraphData("Les miserables");
+                            }}
+                          >
+                            <div className='dropdown-item'>Les Misérables</div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
                 );
               case "social_media":
@@ -558,7 +597,31 @@ const Dashboard = (props) => {
               case "blockchain":
                 return (
                   <div className='container-fluid '>
-                    <div className='row buttons_row'></div>
+                    <div className='row buttons_row '>
+                      <div className='col-2 m-auto mx-0 my-auto h-50 p-auto ms-3  '>
+                        <button
+                          type='button'
+                          className='btn btn-primary m-auto '
+                          onClick={() => {
+                            importWalletNetwork(address);
+                          }}
+                        >
+                          Analize blockchain
+                        </button>
+                      </div>
+
+                      <div className='col-3 m-auto mx-0 my-auto h-50 p-auto ms-3  '>
+                        <input
+                          type='text'
+                          className='form-control '
+                          placeholder='Etherum address'
+                          value={address}
+                          onChange={(e) => {
+                            setAddress(e.target.value);
+                          }}
+                        />
+                      </div>
+                    </div>
                   </div>
                 );
               default:
@@ -628,5 +691,4 @@ const Dashboard = (props) => {
     </div>
   );
 };
-
 export default Dashboard;
