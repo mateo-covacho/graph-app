@@ -326,6 +326,7 @@ const Dashboard = (props) => {
     } else if (algorithm == "Depth first search") {
       DFS(graphState.graph.nodes, graphState.graph.edges, parseInt(startingNodeState), parseInt(targetNodeState));
     }
+    console.log(graphState.graph);
   }
 
   function createNode(x, y) {
@@ -391,6 +392,7 @@ const Dashboard = (props) => {
             style={{ cursor: "pointer" }}
             onClick={() => {
               setToolBar("graph");
+              console.log(graphState.graph);
             }}
             className='row col-2 col-lg-1 gx-0 '
           >
