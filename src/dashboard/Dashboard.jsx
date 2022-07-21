@@ -663,7 +663,7 @@ const Dashboard = (props) => {
                   damping: 0.3,
                 },
                 minVelocity: 0.75,
-                solver: "repulsion",
+                solver: "forceAtlas2Based",
               },
               groups: {
                 start: {
