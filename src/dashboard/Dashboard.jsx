@@ -352,10 +352,11 @@ const Dashboard = (props) => {
   }
 
   function importWalletNetwork(walletAddress) {
-    fetch("https://6ryss6wbm3.execute-api.us-east-1.amazonaws.com/dev/?wallet=" + walletAddress, { method: "GET" })
+    fetch("https://6ryss6wbm3.execute-api.us-east-1.amazonaws.com/dev/?wallet=" + address, { method: "GET" })
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
+        console.log(address);
         setGraphState({
           graph: { nodes: data.nodes, edges: data.edges },
           counter: graphState.counter,
