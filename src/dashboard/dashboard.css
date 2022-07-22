@@ -115,3 +115,8 @@ nav div {
 .ethInput {
   outline: solid 1px black;
 }
+
+.vis-tooltip {
+  position: absolute;
+  background-color: black;
+}

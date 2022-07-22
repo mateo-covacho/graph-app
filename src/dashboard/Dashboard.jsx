@@ -601,7 +601,7 @@ const Dashboard = (props) => {
                 return (
                   <div className='container-fluid '>
                     <div className='row buttons_row '>
-                      <div className='col-2 m-auto mx-0 my-auto h-50 p-auto ms-3  '>
+                      <div className='col-3 m-auto mx-0 my-auto h-50 p-auto ms-3  '>
                         <button
                           type='button'
                           className='btn btn-primary m-auto '
@@ -613,7 +613,7 @@ const Dashboard = (props) => {
                         </button>
                       </div>
 
-                      <div className='col-3 m-auto mx-0 my-auto h-50 p-auto ms-3  '>
+                      <div className='col-6 m-auto mx-0 my-auto h-50 p-auto ms-3  '>
                         <input
                           type='text'
                           className='form-control '
@@ -657,11 +657,11 @@ const Dashboard = (props) => {
                 width: 1,
               },
               physics: {
-                repulsion: {
-                  centralGravity: 0,
-                  springLength: 500,
-                  nodeDistance: 350,
-                  damping: 0.3,
+                forceAtlas2Based: {
+                  gravitationalConstant: -106,
+                  springLength: 100,
+                  damping: 1,
+                  avoidOverlap: 1,
                 },
                 minVelocity: 0.75,
                 solver: "forceAtlas2Based",
@@ -686,6 +686,14 @@ const Dashboard = (props) => {
                 container: document.getElementById("graphoptions"),
                 showButton: true,
               },
+            });
+
+            network.on("hoverNode", function () {
+              // functionality for popup to show on mouseover
+            });
+
+            network.on("blurNode", function () {
+              // functionality for popup to hide on mouseout
             });
           }}
         />
