@@ -351,9 +351,20 @@ const Dashboard = (props) => {
     });
   }
 
-  function importWalletNetwork(walletAddress) {
+  function importWalletNetwork(walletAddress, retries) {
     fetch("https://6ryss6wbm3.execute-api.us-east-1.amazonaws.com/dev/?wallet=" + address, { method: "GET" })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) {
+          console.log("response is ok");
+          return response.json();
+        }
+        if (retries > 0) {
+          console.log("Trying again");
+          return importWalletNetwork(walletAddress, retries - 1);
+        }
+        alert("Please try with different eth address");
+      })
+
       .then((data) => {
         console.log(data);
         console.log(address);
@@ -624,7 +635,7 @@ const Dashboard = (props) => {
                           type='button'
                           className='btn btn-primary m-auto '
                           onClick={() => {
-                            importWalletNetwork(address);
+                            importWalletNetwork(address, 3);
                           }}
                         >
                           Analize blockchain
