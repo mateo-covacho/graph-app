@@ -440,7 +440,6 @@ const Dashboard = (props) => {
             style={{ cursor: "pointer" }}
             onClick={() => {
               setToolBar("algorithm");
-              console.clear();
             }}
             className='row col-2 col-lg-1 gx-0 '
           >
