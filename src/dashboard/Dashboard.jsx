@@ -16,6 +16,8 @@ import { Link } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
 //___________________________________________
 
+const { REACT_APP_key } = process.env;
+
 const Dashboard = (props) => {
   const [toolBar, setToolBar] = useState("blockchain");
   var targetNode;
@@ -31,7 +33,6 @@ const Dashboard = (props) => {
       edges: graphEdges,
     },
   });
-
   const [eventsState, setEventsState] = useState({
     events: {
       select: ({ nodes, edges }) => {},
@@ -352,10 +353,20 @@ const Dashboard = (props) => {
   }
 
   function importWalletNetwork(walletAddress, retries) {
-    fetch("https://6ryss6wbm3.execute-api.us-east-1.amazonaws.com/dev/?wallet=" + address, { method: "GET" })
+    fetch("https://6ryss6wbm3.execute-api.us-east-1.amazonaws.com/dev/?wallet=" + address, {
+      method: "GET",
+      headers: new Headers({
+        "x-api-key": REACT_APP_key,
+      }),
+    })
       .then((response) => {
+        // if (response.nodes == undefined) {
+        //   console.log("Eth address seems to not exist");
+        //   return;
+        // }
         if (response.ok) {
           console.log("response is ok");
+          console.log(response.nodes);
           return response.json();
         }
         if (retries > 0) {
