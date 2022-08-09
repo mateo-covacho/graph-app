@@ -40,7 +40,7 @@ const Dashboard = (props) => {
       },
     },
   });
-  const [address, setAddress] = useState();
+  const [address, setAddress] = useState("0x5d2b684D9D741148a20EE7A06622122ec32cfeE3");
 
   // MODAL
   const [show, setShow] = useState(false);
@@ -446,7 +446,13 @@ const Dashboard = (props) => {
                   <div className='container-fluid '>
                     <div className='row buttons_row'>
                       <div className=' dropdown ms-4 my-auto ps-0 col-3 '>
-                        <button className='btn btn-primary dropdown-toggle' type='button' id='dropdownMenuButton' data-bs-toggle='dropdown' aria-expanded='false'>
+                        <button
+                          className='btn btn-primary dropdown-toggle'
+                          type='button'
+                          id='dropdownMenuButton'
+                          data-bs-toggle='dropdown'
+                          aria-expanded='false'
+                        >
                           Select sample graph
                         </button>
                         <ul className='dropdown-menu' aria-labelledby='dropdownMenuButton'>
@@ -473,7 +479,13 @@ const Dashboard = (props) => {
                   <div className='container-fluid '>
                     <div className='row buttons_row'>
                       <div className=' dropdown ms-4 my-auto ps-0 col-3 '>
-                        <button className='btn btn-primary dropdown-toggle' type='button' id='dropdownMenuButton' data-bs-toggle='dropdown' aria-expanded='false'>
+                        <button
+                          className='btn btn-primary dropdown-toggle'
+                          type='button'
+                          id='dropdownMenuButton'
+                          data-bs-toggle='dropdown'
+                          aria-expanded='false'
+                        >
                           {algorithm}
                         </button>
                         <ul className='dropdown-menu' aria-labelledby='dropdownMenuButton'>
@@ -572,19 +584,25 @@ const Dashboard = (props) => {
                               <div className=' m-0 p-0 mx-0 w-auto col-1  d-flex align-items-center'>
                                 <BsFillDiamondFill size='30px' />
                               </div>
-                              <div className='blacktext col-11 align-middle class align-items-center  d-flex'>The diamond node indicates the starting node</div>
+                              <div className='blacktext col-11 align-middle class align-items-center  d-flex'>
+                                The diamond node indicates the starting node
+                              </div>
                             </div>
                             <div className='row blacktext pb-1 '>
                               <div className=' m-0 p-0 mx-0 w-auto col-1  d-flex align-items-center'>
                                 <IoStarSharp size='30px' />
                               </div>
-                              <div className='blacktext col-11 align-middle class align-items-center  d-flex'>The star node indicates the target node</div>
+                              <div className='blacktext col-11 align-middle class align-items-center  d-flex'>
+                                The star node indicates the target node
+                              </div>
                             </div>
                             <div className='row blacktext pb-1 '>
                               <div className=' m-0 p-0 mx-0 w-auto col-1 icon-flipped d-flex align-items-center'>
                                 <IoTriangle className='rotate-90' size='30px' />
                               </div>
-                              <div className='blacktext col-11 align-middle class align-items-center  d-flex'>The upside-down triangle node indicates the target node</div>
+                              <div className='blacktext col-11 align-middle class align-items-center  d-flex'>
+                                The upside-down triangle node indicates the target node
+                              </div>
                             </div>
                           </Modal.Body>
                           <Modal.Footer>
