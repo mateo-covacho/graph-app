@@ -19,7 +19,9 @@ import { Button, Modal } from "react-bootstrap";
 const { REACT_APP_key } = process.env;
 
 const Dashboard = (props) => {
-  const [toolBar, setToolBar] = useState("blockchain");
+  const [toolBar, setToolBar] = useState("algorithm");
+  const [iconbarColor, setIconbarColor] = useState("#35608b");
+  const [algorithmText, setAlgorithmText] = useState("");
   var targetNode;
   var startingNode;
   const [startingNodeState, setStartingNodeState] = useState();
@@ -42,7 +44,7 @@ const Dashboard = (props) => {
     },
   });
   const [address, setAddress] = useState("0x5d2b684D9D741148a20EE7A06622122ec32cfeE3");
-
+  const ethWalletRegex = /^0x[a-fA-F0-9]{40}$/;
   // MODAL
   const [show, setShow] = useState(false);
 
@@ -239,8 +241,6 @@ const Dashboard = (props) => {
         console.log("path: " + path);
 
         higliteMultipleEdges(path);
-
-        return true;
       }
 
       for (const connectedNode of connectedNodes) {
@@ -251,6 +251,7 @@ const Dashboard = (props) => {
         }
       }
     }
+    setAlgorithmText("BFS algorithm always shows you the shortest path but is more resource intensive and takes longer");
   }
 
   function DFS(nodesList, edgeList, startNode, targetNode) {
@@ -309,16 +310,7 @@ const Dashboard = (props) => {
     }
 
     DepthFirstSearch(startNode, visitedNodes);
-  }
-
-  function resetGraph() {
-    setGraphState({
-      counter: graphState.counter,
-      graph: {
-        nodes: graphNodes,
-        edges: graphEdges,
-      },
-    });
+    setAlgorithmText("DFS algorithm doesn't always show you the shortest path but has to search through fewer nodes, so it completes faster");
   }
 
   function handleStartButton() {
@@ -353,6 +345,9 @@ const Dashboard = (props) => {
   }
 
   function importWalletNetwork(walletAddress, retries) {
+    if (!walletAddress.match(ethWalletRegex)) {
+      alert("Please enter an Eth address");
+    }
     fetch("https://6ryss6wbm3.execute-api.us-east-1.amazonaws.com/dev/?wallet=" + address, {
       method: "GET",
       headers: new Headers({
@@ -400,7 +395,7 @@ const Dashboard = (props) => {
   return (
     <div className='container-fluid p-0'>
       <nav className='navbar navbar-light bg-light p-0 '>
-        <div className='iconss-bar col-12 row  gx-0'>
+        <div className='iconss-bar col-12 row  gx-0' style={{ backgroundColor: iconbarColor }}>
           {/* Home button */}
           <Link to='/'>
             {" "}
@@ -415,6 +410,7 @@ const Dashboard = (props) => {
             style={{ cursor: "pointer" }}
             onClick={() => {
               setToolBar("graph");
+              setIconbarColor("#41be8a");
               console.log(graphState.graph);
             }}
             className='row col-2 col-lg-1 gx-0 '
@@ -428,6 +424,7 @@ const Dashboard = (props) => {
             style={{ cursor: "pointer" }}
             onClick={() => {
               setToolBar("social_media");
+              setIconbarColor("#8dd52a");
             }}
             className='row col-2 col-lg-1 gx-0 '
           >
@@ -440,6 +437,7 @@ const Dashboard = (props) => {
             style={{ cursor: "pointer" }}
             onClick={() => {
               setToolBar("algorithm");
+              setIconbarColor("#35608b");
             }}
             className='row col-2 col-lg-1 gx-0 '
           >
@@ -452,6 +450,7 @@ const Dashboard = (props) => {
             style={{ cursor: "pointer" }}
             onClick={() => {
               setToolBar("blockchain");
+              setIconbarColor("#9149b6");
             }}
             className='row col-3 gx-0 text-nowrap my-auto'
           >
@@ -492,7 +491,7 @@ const Dashboard = (props) => {
               case "social_media":
                 return (
                   <div className='container-fluid '>
-                    <div className='row buttons_row'></div>
+                    <div className='row buttons_row'>Coming soon</div>
                   </div>
                 );
               case "algorithm":
@@ -585,53 +584,58 @@ const Dashboard = (props) => {
                           Start
                         </button>
                       </div>
-                      <div className='col-1 m-auto mx-0 my-auto h-50 p-auto justify-content-center '>
-                        <IoReloadCircleSharp
-                          className='col-6 col-lg-3  h-100 my-auto'
-                          onClick={() => {
-                            resetGraph();
-                          }}
-                        />
-                      </div>
-                      <div className='col-1 m-auto mx-0 my-auto h-50 p-auto '>
-                        <AiFillQuestionCircle onClick={handleShow} className='col-6 col-lg-3  h-100 my-auto' />
+                      <div className='col-2 row'>
+                        <div className='col-5  my-auto h-50 p-auto justify-content-center '>
+                          <IoReloadCircleSharp
+                            className='col-6  h-100 my-auto'
+                            onClick={() => {
+                              setGraphData("Les miserables");
+                            }}
+                          />
+                        </div>
+                        <div className='col-6 mx-0 my-auto h-50  '>
+                          <AiFillQuestionCircle onClick={handleShow} className='col-5   h-100 my-auto' />
 
-                        <Modal show={show} onHide={handleClose} animation={false} centered>
-                          <Modal.Header closeButton>
-                            <Modal.Title className='blacktext'>Info</Modal.Title>
-                          </Modal.Header>
-                          <Modal.Body>
-                            <div className='row blacktext pb-1  '>
-                              <div className=' m-0 p-0 mx-0 w-auto col-1  d-flex align-items-center'>
-                                <BsFillDiamondFill size='30px' />
+                          <Modal show={show} onHide={handleClose} animation={false} centered>
+                            <Modal.Header closeButton>
+                              <Modal.Title className='blacktext'>Info</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                              <div className='row blacktext mb-4  '>
+                                <div className=' m-0 p-0 mx-0 w-auto col-1  d-flex align-items-center'>
+                                  <BsFillDiamondFill size='30px' />
+                                </div>
+                                <div className='blacktext col-11 align-middle class align-items-center  d-flex'>
+                                  The diamond node indicates the starting node
+                                </div>
                               </div>
-                              <div className='blacktext col-11 align-middle class align-items-center  d-flex'>
-                                The diamond node indicates the starting node
+                              <div className='row blacktext mb-4 '>
+                                <div className=' m-0 p-0 mx-0 w-auto col-1  d-flex align-items-center'>
+                                  <IoStarSharp size='30px' />
+                                </div>
+                                <div className='blacktext col-11 align-middle class align-items-center  d-flex'>
+                                  The star node indicates the target node
+                                </div>
                               </div>
-                            </div>
-                            <div className='row blacktext pb-1 '>
-                              <div className=' m-0 p-0 mx-0 w-auto col-1  d-flex align-items-center'>
-                                <IoStarSharp size='30px' />
+                              <div className='row blacktext mb-4 '>
+                                <div className=' m-0 p-0 mx-0 w-auto col-1 icon-flipped d-flex align-items-center'>
+                                  <IoTriangle className='rotate-90' size='30px' />
+                                </div>
+                                <div className='blacktext col-11 align-middle class align-items-center  d-flex'>
+                                  The upside-down triangle node indicates nodes the algorithm has passed through
+                                </div>
                               </div>
-                              <div className='blacktext col-11 align-middle class align-items-center  d-flex'>
-                                The star node indicates the target node
-                              </div>
-                            </div>
-                            <div className='row blacktext pb-1 '>
-                              <div className=' m-0 p-0 mx-0 w-auto col-1 icon-flipped d-flex align-items-center'>
-                                <IoTriangle className='rotate-90' size='30px' />
-                              </div>
-                              <div className='blacktext col-11 align-middle class align-items-center  d-flex'>
-                                The upside-down triangle node indicates the target node
-                              </div>
-                            </div>
-                          </Modal.Body>
-                          <Modal.Footer>
-                            <Button variant='primary' onClick={handleClose}>
-                              Close
-                            </Button>
-                          </Modal.Footer>
-                        </Modal>
+                            </Modal.Body>
+                            <Modal.Footer>
+                              <Button variant='primary' onClick={handleClose}>
+                                Close
+                              </Button>
+                            </Modal.Footer>
+                          </Modal>
+                        </div>
+                      </div>
+                      <div className='col-3 justify-content-center'>
+                        <div class='blacktext my-auto '>{algorithmText}</div>
                       </div>
                     </div>
                   </div>
