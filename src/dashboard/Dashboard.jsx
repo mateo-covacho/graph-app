@@ -236,6 +236,7 @@ const Dashboard = () => {
         console.log("path: " + path);
 
         higliteMultipleEdges(path);
+        setAlgorithmText("BFS algorithm always shows you the shortest path but is more resource intensive and takes longer.");
 
         return true;
       }
@@ -250,7 +251,6 @@ const Dashboard = () => {
     }
 
     setCompletionData({ nodes: visitedNodes.size });
-    setAlgorithmText("BFS algorithm always shows you the shortest path but is more resource intensive and takes longer.");
   }
 
   function DFS(nodesList, edgeList, startNode, targetNode) {
