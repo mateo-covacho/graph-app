@@ -36,7 +36,7 @@ const Landing_Page = () => {
             fpsLimit: 120,
             particles: {
               number: {
-                value: 100,
+                value: 70,
                 density: {
                   enable: true,
                   value_area: 800,
@@ -137,7 +137,11 @@ const Landing_Page = () => {
             alt='graph icon'
           />
           <h1>Network explorer </h1>
-          <p> An App to allow users to visualize data represented in network graph form datasets such as social media relational data (Friendships, follows, etc...) and data such as blockchain transactions for investigational and research purposes. </p>
+          <p>
+            {" "}
+            An App to allow users to visualize data represented in network graph form datasets such as social media relational data (Friendships,
+            follows, etc...) and data such as blockchain transactions for investigational and research purposes.{" "}
+          </p>
         </div>
       </section>
 
@@ -145,7 +149,8 @@ const Landing_Page = () => {
         <h1>How to use </h1>
 
         <div className='how-2-use glass'>
-          When you enter the dashboard the first step is to import data. You can either do this by manually plotting out the network or use one of the built-in features to import blockchain / Instagram data. Once you have the data you can :
+          When you enter the dashboard the first step is to import data. You can either do this by manually plotting out the network or use one of the
+          built-in features to import blockchain / Instagram data. Once you have the data you can :
           <ul>
             <br />
             <li>Use graph traversal algorithms to identify connections between individuals or nodes.</li>
@@ -160,9 +165,18 @@ const Landing_Page = () => {
       <section className='section-3'>
         <h1>About me and this project</h1>
         <div className='about-section'>
-          <p>Hello, I am Mateo Covacho Berrocal, I am a self-taught developer based in Spain. I have been publicly developing this project since May 2022. </p>
-          <p>My intentions with this project are to show my abilities as a Software Engineer in many areas such as Front-end development, traversal algorithms, developer operations and self-organization.</p>
-          <p>You can see more details about me, the development process of this project and the technologies I used in my social media (Twitter, Medium, Github) which I used to document the development process </p>
+          <p>
+            Hello, I am Mateo Covacho Berrocal, I am a self-taught developer based in Spain. I have been publicly developing this project since May
+            2022.{" "}
+          </p>
+          <p>
+            My intentions with this project are to show my abilities as a Software Engineer in many areas such as Front-end development, traversal
+            algorithms, developer operations and self-organization.
+          </p>
+          <p>
+            You can see more details about me, the development process of this project and the technologies I used in my social media (Twitter,
+            Medium, Github) which I used to document the development process{" "}
+          </p>
         </div>
       </section>
       <div className='icons-bar'>

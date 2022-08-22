@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./dashboard.css";
 import Graph from "react-graph-vis";
 import { graphNodes, graphEdges, graphNodesBasic } from "./data/GraphData.jsx";
@@ -18,12 +18,12 @@ import { Button, Modal } from "react-bootstrap";
 
 const { REACT_APP_key } = process.env;
 
-const Dashboard = (props) => {
+const Dashboard = () => {
   const [toolBar, setToolBar] = useState("algorithm");
   const [iconbarColor, setIconbarColor] = useState("#35608b");
   const [algorithmText, setAlgorithmText] = useState("");
-  var targetNode;
-  var startingNode;
+  const [network, setNetwork] = useState(null);
+  const [completionData, setCompletionData] = useState({ nodes: null, completionTime: null });
   const [startingNodeState, setStartingNodeState] = useState();
   const [targetNodeState, setTargetNodeState] = useState();
   const [algorithm, setAlgorithm] = useState("Choose algorithm");
@@ -35,19 +35,18 @@ const Dashboard = (props) => {
       edges: graphEdges,
     },
   });
-  const [eventsState, setEventsState] = useState({
-    events: {
-      select: ({ nodes, edges }) => {},
-      doubleClick: ({ pointer: { canvas } }) => {
-        createNode(canvas.x, canvas.y);
-      },
-    },
-  });
+  const [eventsState, setEventsState] = useState({});
   const [address, setAddress] = useState("0x5d2b684D9D741148a20EE7A06622122ec32cfeE3");
+  const [activeEvent, setActiveEvent] = useState();
   const ethWalletRegex = /^0x[a-fA-F0-9]{40}$/;
+
   // MODAL
   const [show, setShow] = useState(false);
-
+  const [showAlgorithmInfo, setShowAlgorithmInfo] = useState(false);
+  var startingNode;
+  var targetNode;
+  const startNodeRef = useRef();
+  const targetNodeRef = useRef();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -94,7 +93,6 @@ const Dashboard = (props) => {
           return {
             ...node,
             group: calculateDefaultGroup(node.id),
-            shape: "dot",
           };
         }
         return node;
@@ -116,12 +114,9 @@ const Dashboard = (props) => {
   }
 
   function highlightEdge(node1, node2) {
-    console.log("node1: " + node1);
-    console.log("node2: " + node2);
     setGraphState(({ graph: { nodes, edges }, counter, ...rest }) => {
       const newEdges = edges.map((edge) => {
         if ((edge.from == node1 && edge.to == node2) || (edge.from == node1 && edge.to == node2)) {
-          console.log("found edges to highlight between" + node1 + "and" + node2);
           return {
             ...edge,
             background: {
@@ -241,6 +236,8 @@ const Dashboard = (props) => {
         console.log("path: " + path);
 
         higliteMultipleEdges(path);
+
+        return true;
       }
 
       for (const connectedNode of connectedNodes) {
@@ -251,11 +248,14 @@ const Dashboard = (props) => {
         }
       }
     }
-    setAlgorithmText("BFS algorithm always shows you the shortest path but is more resource intensive and takes longer");
+
+    setCompletionData({ nodes: visitedNodes.size });
+    setAlgorithmText("BFS algorithm always shows you the shortest path but is more resource intensive and takes longer.");
   }
 
   function DFS(nodesList, edgeList, startNode, targetNode) {
     const adjacenceyList = new Map();
+
     function addNode(node) {
       adjacenceyList.set(node, []);
     }
@@ -278,8 +278,6 @@ const Dashboard = (props) => {
     let path = [];
     let finished = false;
     function DepthFirstSearch(start, visited = new Set(), previousNode) {
-      console.log("Current node:" + start);
-
       visited.add(start);
       let conections = adjacenceyList.get(start);
 
@@ -287,13 +285,11 @@ const Dashboard = (props) => {
 
       for (const conection of conections) {
         if (conection == targetNode && !finished) {
-          console.log("found it !!!!! ");
           finished = true;
           visited.delete(startNode);
           visited.delete(targetNode);
           highlightNode([...visited], "selected", 1000);
           path = [startNode, ...path, targetNode];
-          console.log("Path taken: " + path);
           higliteMultipleEdges(path);
           return true;
         }
@@ -309,6 +305,8 @@ const Dashboard = (props) => {
       return result;
     }
 
+    setCompletionData({ nodes: visitedNodes.size });
+
     DepthFirstSearch(startNode, visitedNodes);
     setAlgorithmText("DFS algorithm doesn't always show you the shortest path but has to search through fewer nodes, so it completes faster");
   }
@@ -319,7 +317,6 @@ const Dashboard = (props) => {
     } else if (algorithm == "Depth first search") {
       DFS(graphState.graph.nodes, graphState.graph.edges, parseInt(startingNodeState), parseInt(targetNodeState));
     }
-    console.log(graphState.graph);
   }
 
   function createNode(x, y) {
@@ -356,24 +353,18 @@ const Dashboard = (props) => {
     })
       .then((response) => {
         // if (response.nodes == undefined) {
-        //   console.log("Eth address seems to not exist");
         //   return;
         // }
         if (response.ok) {
-          console.log("response is ok");
-          console.log(response.nodes);
           return response.json();
         }
         if (retries > 0) {
-          console.log("Trying again");
           return importWalletNetwork(walletAddress, retries - 1);
         }
         alert("Please try with different eth address");
       })
 
       .then((data) => {
-        console.log(data);
-        console.log(address);
         setGraphState({
           graph: { nodes: data.nodes, edges: data.edges },
           counter: graphState.counter,
@@ -385,13 +376,23 @@ const Dashboard = (props) => {
     if (graph_name == "Les miserables") {
       setGraphState({
         graph: {
-          nodes: graphNodes,
+          nodes: graphNodesBasic,
           edges: graphEdges,
         },
       });
     }
   }
+  function getLabelOfid(id) {
+    let label;
+    graphState.graph.nodes.forEach((node, index) => {
+      if (node.id == id) {
+        label = node.label;
+        return;
+      }
+    });
 
+    return label;
+  }
   return (
     <div className='container-fluid p-0'>
       <nav className='navbar navbar-light bg-light p-0 '>
@@ -411,7 +412,6 @@ const Dashboard = (props) => {
             onClick={() => {
               setToolBar("graph");
               setIconbarColor("#41be8a");
-              console.log(graphState.graph);
             }}
             className='row col-2 col-lg-1 gx-0 '
           >
@@ -484,6 +484,15 @@ const Dashboard = (props) => {
                             <div className='dropdown-item'>Les Misérables</div>
                           </li>
                         </ul>
+                        <button
+                          type='button'
+                          className='btn btn-primary m-auto ms-5'
+                          onClick={() => {
+                            console.log(startNodeRef.value);
+                          }}
+                        >
+                          test
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -529,13 +538,14 @@ const Dashboard = (props) => {
                         <select
                           className='form-select form-select-sm'
                           aria-label='Small select'
-                          value={startingNode}
+                          value={startingNodeState}
                           onChange={(e) => {
                             startingNode = e.target.value;
                             setStartingNodeState(startingNode);
 
                             highlightNode([startingNode], "start");
                           }}
+                          ref={startNodeRef}
                         >
                           <option className='blacktext' value=''>
                             Start node
@@ -549,17 +559,39 @@ const Dashboard = (props) => {
                           })}
                         </select>
                       </div>
+                      <div className='col-1 d-flex justify-content-center h-50 my-auto'>
+                        <Button
+                          variant='primary'
+                          size='sm'
+                          onClick={() => {
+                            setEventsState({
+                              events: {
+                                click: (prop) => {
+                                  startingNode = prop.nodes[0];
+                                  setStartingNodeState(startingNode);
+
+                                  highlightNode([startingNode], "start");
+                                },
+                              },
+                            });
+                          }}
+                        >
+                          Set start
+                        </Button>
+                      </div>
                       <div className='col-2 d-flex justify-content-center h-50 my-auto'>
                         <select
                           aria-label='Small select'
                           className='form-select form-select-sm'
-                          value={targetNode}
+                          value={targetNodeState}
                           onChange={(e) => {
                             targetNode = e.target.value;
                             setTargetNodeState(targetNode);
+
                             highlightNode([targetNode], "target");
                             // let pastStartingNode = targetNode
                           }}
+                          ref={targetNodeRef}
                         >
                           <option className='blacktext' value=''>
                             Target node
@@ -573,13 +605,34 @@ const Dashboard = (props) => {
                           })}
                         </select>
                       </div>
+                      <div className='col-1 d-flex justify-content-center h-50 my-auto'>
+                        <Button
+                          variant='primary'
+                          size='sm'
+                          onClick={() => {
+                            setEventsState({
+                              events: {
+                                click: (prop) => {
+                                  targetNode = prop.nodes[0];
+                                  setTargetNodeState(targetNode);
+
+                                  highlightNode([targetNode], "target");
+                                },
+                              },
+                            });
+                          }}
+                        >
+                          Set target
+                        </Button>
+                      </div>
                       <div className='col-1 d-flex justify-content-center'>
                         <button
                           type='button'
-                          className='btn btn-primary m-auto '
+                          className='btn btn-success m-auto '
                           onClick={() => {
                             handleStartButton();
                           }}
+                          variant='success'
                         >
                           Start
                         </button>
@@ -596,7 +649,7 @@ const Dashboard = (props) => {
                         <div className='col-6 mx-0 my-auto h-50  '>
                           <AiFillQuestionCircle onClick={handleShow} className='col-5   h-100 my-auto' />
 
-                          <Modal show={show} onHide={handleClose} animation={false} centered>
+                          <Modal show={show} onHide={handleClose} animation={true} centered>
                             <Modal.Header closeButton>
                               <Modal.Title className='blacktext'>Info</Modal.Title>
                             </Modal.Header>
@@ -626,6 +679,15 @@ const Dashboard = (props) => {
                                 </div>
                               </div>
                             </Modal.Body>
+                            <Modal.Body className='blacktext container-fluid'>
+                              <div className='row  '>
+                                <p className='blacktext px-4'> To set a target node simply double-click on it</p>
+                              </div>
+                              <br />
+                              <div className='row  '>
+                                <p className='blacktext px-4'> To set a start node simply click on it</p>
+                              </div>
+                            </Modal.Body>
                             <Modal.Footer>
                               <Button variant='primary' onClick={handleClose}>
                                 Close
@@ -634,8 +696,40 @@ const Dashboard = (props) => {
                           </Modal>
                         </div>
                       </div>
-                      <div className='col-3 justify-content-center'>
-                        <div class='blacktext my-auto '>{algorithmText}</div>
+                      <div className='col-1 justify-content-center h-50 m-auto '>
+                        {algorithmText && (
+                          <Button
+                            className=' h-100'
+                            variant='primary'
+                            size='sm'
+                            onClick={() => {
+                              setShowAlgorithmInfo(true);
+                            }}
+                          >
+                            Algorithm info
+                          </Button>
+                        )}
+
+                        <Modal animation={true} show={showAlgorithmInfo} onHide={handleClose}>
+                          <Modal.Header>
+                            <Modal.Title>About algorithm</Modal.Title>
+                          </Modal.Header>
+
+                          <Modal.Body>
+                            {algorithmText}
+                            {algorithmText && <div className='blacktext'>Searched {completionData.nodes} nodes</div>}
+                          </Modal.Body>
+                          <Modal.Footer>
+                            <Button
+                              variant='primary'
+                              onClick={() => {
+                                setShowAlgorithmInfo(false);
+                              }}
+                            >
+                              Close
+                            </Button>
+                          </Modal.Footer>
+                        </Modal>
                       </div>
                     </div>
                   </div>
@@ -684,6 +778,7 @@ const Dashboard = (props) => {
           events={eventsState.events}
           getNetwork={(network) => {
             //  if you want access to vis.js network api you can set the graphState in a parent component using this property
+            setNetwork(network);
             network.setOptions({
               nodes: {
                 shape: "dot",
@@ -710,6 +805,15 @@ const Dashboard = (props) => {
                 solver: "forceAtlas2Based",
               },
               groups: {
+                1: { shape: "dot" },
+                2: { shape: "dot" },
+                3: { shape: "dot" },
+                4: { shape: "dot" },
+                5: { shape: "dot" },
+                6: { shape: "dot" },
+                7: { shape: "dot" },
+                8: { shape: "dot" },
+                9: { shape: "dot" },
                 start: {
                   color: { background: "red" },
                   shape: "diamond",
@@ -729,14 +833,6 @@ const Dashboard = (props) => {
                 container: document.getElementById("graphoptions"),
                 showButton: true,
               },
-            });
-
-            network.on("hoverNode", function () {
-              // functionality for popup to show on mouseover
-            });
-
-            network.on("blurNode", function () {
-              // functionality for popup to hide on mouseout
             });
           }}
         />

@@ -1,5 +1,5 @@
 * {
-  outline: solid 0px red;
+  outline: solid 1px red;
 }
 p {
   overflow: hidden;
@@ -119,3 +119,5 @@ nav div {
   position: absolute;
   background-color: black;
 }
+
+
