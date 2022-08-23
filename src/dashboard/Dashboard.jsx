@@ -19,11 +19,11 @@ import { Button, Modal } from "react-bootstrap";
 const { REACT_APP_key } = process.env;
 
 const Dashboard = () => {
-  const [toolBar, setToolBar] = useState("graph");
+  const [toolBar, setToolBar] = useState("algorithm");
   const [iconbarColor, setIconbarColor] = useState("#35608b");
   const [algorithmText, setAlgorithmText] = useState("");
   const [network, setNetwork] = useState(null);
-  const [completionData, setCompletionData] = useState({ nodes: null, completionTime: null });
+  const [completionData, setCompletionData] = useState({ nodes: null, completionTime: null, algorithmText: "" });
   const [startingNodeState, setStartingNodeState] = useState();
   const [targetNodeState, setTargetNodeState] = useState();
   const [algorithm, setAlgorithm] = useState("Choose algorithm");
@@ -37,18 +37,22 @@ const Dashboard = () => {
   });
   const [eventsState, setEventsState] = useState({});
   const [address, setAddress] = useState("0x5d2b684D9D741148a20EE7A06622122ec32cfeE3");
-  const [activeEvent, setActiveEvent] = useState();
   const ethWalletRegex = /^0x[a-fA-F0-9]{40}$/;
 
   // MODAL
   const [show, setShow] = useState(false);
-  const [showAlgorithmInfo, setShowAlgorithmInfo] = useState(false);
   var startingNode;
   var targetNode;
   const startNodeRef = useRef();
   const targetNodeRef = useRef();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const [buttonActive, setButtonActive] = useState();
+  // const [buttonActive, setButtonActive] = useState();
+  // const [buttonActive, setButtonActive] = useState();
+  // const [buttonActive, setButtonActive] = useState();
+  // const [buttonActive, setButtonActive] = useState();
 
   function randomColor() {
     const red = Math.floor(Math.random() * 256)
@@ -236,7 +240,11 @@ const Dashboard = () => {
         console.log("path: " + path);
 
         higliteMultipleEdges(path);
-        setAlgorithmText("BFS algorithm always shows you the shortest path but is more resource intensive and takes longer.");
+
+        setCompletionData({
+          nodes: visitedNodes.size,
+          algorithmText: "BFS algorithm always shows you the shortest path but is more resource intensive and takes longer.",
+        });
 
         return true;
       }
@@ -249,8 +257,6 @@ const Dashboard = () => {
         }
       }
     }
-
-    setCompletionData({ nodes: visitedNodes.size });
   }
 
   function DFS(nodesList, edgeList, startNode, targetNode) {
@@ -291,6 +297,10 @@ const Dashboard = () => {
           highlightNode([...visited], "selected", 1000);
           path = [startNode, ...path, targetNode];
           higliteMultipleEdges(path);
+          setCompletionData({
+            nodes: visitedNodes.size,
+            algorithmText: "DFS algorithm doesn't always show you the shortest path but has to search through fewer nodes, so it completes faster",
+          });
           return true;
         }
         if (!visited.has(conection) && !finished) {
@@ -305,10 +315,7 @@ const Dashboard = () => {
       return result;
     }
 
-    setCompletionData({ nodes: visitedNodes.size });
-
     DepthFirstSearch(startNode, visitedNodes);
-    setAlgorithmText("DFS algorithm doesn't always show you the shortest path but has to search through fewer nodes, so it completes faster");
   }
 
   function handleStartButton() {
@@ -485,22 +492,44 @@ const Dashboard = () => {
                           </li>
                         </ul>
                       </div>
-                      {/* <div className='col-1 d-flex justify-content-center '>
-                        <button
+                      <div className='col-1 d-flex justify-content-center '>
+                        <Button
                           type='button'
                           className='btn btn-primary m-auto '
                           onClick={() => {
-                            network.focus(2, {
-                              animation: {
-                                duration: 700,
-                                easingFunction: "easeInQuad",
-                              },
-                            });
+                            network.enableEditMode();
                           }}
                         >
                           test
-                        </button>
-                      </div> */}
+                        </Button>
+                      </div>
+                      <div className='col-1 d-flex justify-content-center '>
+                        <Button
+                          type='button'
+                          className='btn btn-primary m-auto '
+                          style={{ backgroundColor: buttonActive == "remove" ? "red" : "" }}
+                          onClick={() => {
+                            if (buttonActive == "remove") {
+                              setButtonActive();
+
+                              setEventsState({
+                                events: {},
+                              });
+                            } else {
+                              setButtonActive("remove");
+                              setEventsState({
+                                events: {
+                                  click: () => {
+                                    network.deleteSelected();
+                                  },
+                                },
+                              });
+                            }
+                          }}
+                        >
+                          Remove nodes
+                        </Button>
+                      </div>
                       <div className='col-2 d-flex justify-content-center'>
                         <input
                           list='browsers'
@@ -538,7 +567,7 @@ const Dashboard = () => {
               case "algorithm":
                 return (
                   <div className='container-fluid '>
-                    <div className='row buttons_row'>
+                    <div className='row buttons_row' style={{ height: "5vh" }}>
                       <div className=' dropdown ms-4 my-auto ps-0 col-3 '>
                         <button
                           className='btn btn-primary dropdown-toggle'
@@ -595,17 +624,27 @@ const Dashboard = () => {
                         <Button
                           variant='primary'
                           size='sm'
+                          style={{ backgroundColor: buttonActive == "set start" ? "red" : "" }}
                           onClick={() => {
-                            setEventsState({
-                              events: {
-                                click: (prop) => {
-                                  startingNode = prop.nodes[0];
-                                  setStartingNodeState(startingNode);
+                            if (buttonActive == "set start") {
+                              setButtonActive();
 
-                                  highlightNode([startingNode], "start");
+                              setEventsState({
+                                events: {},
+                              });
+                            } else {
+                              setButtonActive("set start");
+                              setEventsState({
+                                events: {
+                                  click: (prop) => {
+                                    startingNode = prop.nodes[0];
+                                    setStartingNodeState(startingNode);
+
+                                    highlightNode([startingNode], "start");
+                                  },
                                 },
-                              },
-                            });
+                              });
+                            }
                           }}
                         >
                           Set start
@@ -641,17 +680,27 @@ const Dashboard = () => {
                         <Button
                           variant='primary'
                           size='sm'
+                          style={{ backgroundColor: buttonActive == "set target" ? "red" : "" }}
                           onClick={() => {
-                            setEventsState({
-                              events: {
-                                click: (prop) => {
-                                  targetNode = prop.nodes[0];
-                                  setTargetNodeState(targetNode);
+                            if (buttonActive == "set target") {
+                              setButtonActive();
 
-                                  highlightNode([targetNode], "target");
+                              setEventsState({
+                                events: {},
+                              });
+                            } else {
+                              setButtonActive("set target");
+                              setEventsState({
+                                events: {
+                                  click: (prop) => {
+                                    targetNode = prop.nodes[0];
+                                    setTargetNodeState(targetNode);
+
+                                    highlightNode([targetNode], "target");
+                                  },
                                 },
-                              },
-                            });
+                              });
+                            }
                           }}
                         >
                           Set target
@@ -728,42 +777,13 @@ const Dashboard = () => {
                           </Modal>
                         </div>
                       </div>
-                      <div className='col-1 justify-content-center h-50 m-auto '>
-                        {algorithmText && (
-                          <Button
-                            className=' h-100'
-                            variant='primary'
-                            size='sm'
-                            onClick={() => {
-                              setShowAlgorithmInfo(true);
-                            }}
-                          >
-                            Algorithm info
-                          </Button>
-                        )}
-
-                        <Modal animation={true} show={showAlgorithmInfo} onHide={handleClose}>
-                          <Modal.Header>
-                            <Modal.Title>About algorithm</Modal.Title>
-                          </Modal.Header>
-
-                          <Modal.Body>
-                            {algorithmText}
-                            {algorithmText && <div className='blacktext'>Searched {completionData.nodes} nodes</div>}
-                          </Modal.Body>
-                          <Modal.Footer>
-                            <Button
-                              variant='primary'
-                              onClick={() => {
-                                setShowAlgorithmInfo(false);
-                              }}
-                            >
-                              Close
-                            </Button>
-                          </Modal.Footer>
-                        </Modal>
-                      </div>
                     </div>
+                    {algorithmText && (
+                      <div className='row  ' style={{ position: "relative", bottom: "5px", backgroundColor: "white", height: "50px" }}>
+                        <p className='text-center blacktext'>{completionData.algorithmText}</p>
+                        <p className='text-center blacktext'>Searched {completionData.nodes} nodes </p>
+                      </div>
+                    )}
                   </div>
                 );
               case "blockchain":
