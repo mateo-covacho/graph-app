@@ -19,7 +19,7 @@ import { Button, Modal } from "react-bootstrap";
 const { REACT_APP_key } = process.env;
 
 const Dashboard = () => {
-  const [toolBar, setToolBar] = useState("algorithm");
+  const [toolBar, setToolBar] = useState("graph");
   const [iconbarColor, setIconbarColor] = useState("#35608b");
   const [algorithmText, setAlgorithmText] = useState("");
   const [network, setNetwork] = useState(null);
@@ -484,15 +484,47 @@ const Dashboard = () => {
                             <div className='dropdown-item'>Les Misérables</div>
                           </li>
                         </ul>
+                      </div>
+                      {/* <div className='col-1 d-flex justify-content-center '>
                         <button
                           type='button'
-                          className='btn btn-primary m-auto ms-5'
+                          className='btn btn-primary m-auto '
                           onClick={() => {
-                            console.log(startNodeRef.value);
+                            network.focus(2, {
+                              animation: {
+                                duration: 700,
+                                easingFunction: "easeInQuad",
+                              },
+                            });
                           }}
                         >
                           test
                         </button>
+                      </div> */}
+                      <div className='col-2 d-flex justify-content-center'>
+                        <input
+                          list='browsers'
+                          name='browser'
+                          className='form-control h-50 m-auto'
+                          placeholder='Node search'
+                          onChange={(e) => {
+                            network.focus(e.target.value, {
+                              animation: {
+                                duration: 700,
+                                easingFunction: "easeInQuad",
+                              },
+                            });
+                          }}
+                        />
+                        <datalist id='browsers'>
+                          {graphState.graph.nodes.map((node) => {
+                            return (
+                              <option value={node.id} onClick={() => {}}>
+                                {node.label}
+                              </option>
+                            );
+                          })}
+                        </datalist>
                       </div>
                     </div>
                   </div>
