@@ -569,9 +569,9 @@ const Dashboard = () => {
                           })}
                         </datalist>
                       </div>
-                      <div className='col-1 d-flex justify-content-center align-items-center'>
+                      <div className='col-1 d-flex h-50 my-auto justify-content-center align-items-center'>
                         <ToggleButton
-                          className=' h-50 m-auto d-flex align-items-center   '
+                          className=' h-75 m-auto d-flex align-items-center   '
                           id='toggle-check'
                           type='checkbox'
                           variant='outline-primary'
@@ -588,6 +588,33 @@ const Dashboard = () => {
                         >
                           Physics
                         </ToggleButton>
+                      </div>
+                      <div className='col-2 d-flex justify-content-center '>
+                        <Button
+                          type='button'
+                          className='btn btn-primary m-auto '
+                          style={{ backgroundColor: buttonActive == "copy" ? "red" : "" }}
+                          onClick={() => {
+                            if (buttonActive == "copy") {
+                              setButtonActive();
+
+                              setEventsState({
+                                events: {},
+                              });
+                            } else {
+                              setButtonActive("copy");
+                              setEventsState({
+                                events: {
+                                  click: ({ nodes, edges }) => {
+                                    navigator.clipboard.writeText(getLabelOfid(nodes));
+                                  },
+                                },
+                              });
+                            }
+                          }}
+                        >
+                          Copy label
+                        </Button>
                       </div>
                     </div>
                   </div>
