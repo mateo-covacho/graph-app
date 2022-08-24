@@ -13,7 +13,7 @@ import { GiPathDistance } from "react-icons/gi";
 import { IoStarSharp, IoReloadCircleSharp, IoTriangle } from "react-icons/io5";
 import { BsFillDiamondFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, ToggleButton } from "react-bootstrap";
 //___________________________________________
 
 const { REACT_APP_key } = process.env;
@@ -37,6 +37,8 @@ const Dashboard = () => {
   });
   const [eventsState, setEventsState] = useState({});
   const [address, setAddress] = useState("0x5d2b684D9D741148a20EE7A06622122ec32cfeE3");
+  const [checked, setChecked] = useState(true);
+
   const ethWalletRegex = /^0x[a-fA-F0-9]{40}$/;
 
   // MODAL
@@ -426,7 +428,7 @@ const Dashboard = () => {
             <p className=' my-auto col align-bottom  '>Graph</p>
           </div>
 
-          {/* Social */}
+          {/* Social
           <div
             style={{ cursor: "pointer" }}
             onClick={() => {
@@ -437,7 +439,7 @@ const Dashboard = () => {
           >
             <GrInstagram className='col-2 icon my-2 my-auto' />
             <p className=' my-auto col align-bottom  '>Social</p>
-          </div>
+          </div> */}
 
           {/* Algorithm */}
           <div
@@ -497,13 +499,13 @@ const Dashboard = () => {
                           type='button'
                           className='btn btn-primary m-auto '
                           onClick={() => {
-                            network.enableEditMode();
+                            network.redraw();
                           }}
                         >
                           test
                         </Button>
                       </div>
-                      <div className='col-1 d-flex justify-content-center '>
+                      <div className='col-2 d-flex justify-content-center '>
                         <Button
                           type='button'
                           className='btn btn-primary m-auto '
@@ -519,8 +521,20 @@ const Dashboard = () => {
                               setButtonActive("remove");
                               setEventsState({
                                 events: {
-                                  click: () => {
-                                    network.deleteSelected();
+                                  click: ({ nodes: clickedNodes, edges: clickedEdges }) => {
+                                    setGraphState(({ graph: { nodes, edges }, counter }) => {
+                                      const newNodes = nodes.filter((node) => {
+                                        console.log(clickedNodes[0]);
+                                        console.log(node.id);
+                                        if (node.id !== clickedNodes[0]) {
+                                          return node;
+                                        }
+                                      });
+
+                                      console.log(newNodes);
+
+                                      return { graph: { nodes: newNodes, edges: edges }, counter: counter };
+                                    });
                                   },
                                 },
                               });
@@ -554,6 +568,26 @@ const Dashboard = () => {
                             );
                           })}
                         </datalist>
+                      </div>
+                      <div className='col-1 d-flex justify-content-center align-items-center'>
+                        <ToggleButton
+                          className=' h-50 m-auto d-flex align-items-center   '
+                          id='toggle-check'
+                          type='checkbox'
+                          variant='outline-primary'
+                          checked={checked}
+                          value='1'
+                          onChange={(e) => {
+                            if (checked) {
+                              network.setOptions({ physics: false });
+                            } else {
+                              network.setOptions({ physics: true });
+                            }
+                            setChecked(e.currentTarget.checked);
+                          }}
+                        >
+                          Physics
+                        </ToggleButton>
                       </div>
                     </div>
                   </div>
@@ -832,6 +866,7 @@ const Dashboard = () => {
             //  if you want access to vis.js network api you can set the graphState in a parent component using this property
             setNetwork(network);
             network.setOptions({
+              autoResize: true,
               nodes: {
                 shape: "dot",
                 size: 15,
@@ -847,6 +882,7 @@ const Dashboard = () => {
                 width: 1,
               },
               physics: {
+                enabled: true,
                 forceAtlas2Based: {
                   gravitationalConstant: -106,
                   springLength: 100,
