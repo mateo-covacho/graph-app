@@ -7,42 +7,38 @@ import { Link } from "react-router-dom";
 export const TopNavBar = (props) => {
   return (
     <nav className='topNavBar '>
-      <LinkScrollReference // Home button
-        activeClass='active'
-        to='section-1'
-        spy={true}
-        smooth={true}
+      <div
+        className='home-nav-bar'
+        onClick={() => {
+          props.homeRef.current?.scrollIntoView({ behavior: "smooth" });
+        }}
       >
-        <div className='home-nav-bar'>
-          <p>Home</p>
-        </div>
-      </LinkScrollReference>
+        <p>Home</p>
+      </div>
       <Link to='/dashboard'>
         <div className='dashboard-nav-bar'>
           {" "}
           <p>Dashboard</p>
         </div>{" "}
       </Link>
-      <LinkScrollReference //about section 3
-        activeClass='active'
-        to='section-3'
-        spy={true}
-        smooth={true}
+
+      <div
+        className='about-me-nav-bar'
+        onClick={() => {
+          props.featuresRef.current?.scrollIntoView({ behavior: "smooth" });
+        }}
       >
-        <div className='about-me-nav-bar'>
-          <p>About</p>
-        </div>
-      </LinkScrollReference>
-      <LinkScrollReference // How to use section 3
-        activeClass='active'
-        to='section-2'
-        spy={true}
-        smooth={true}
+        <p>About</p>
+      </div>
+
+      <div
+        className='how2use-nav-bar'
+        onClick={() => {
+          props.aboutMeRef.current?.scrollIntoView({ behavior: "smooth" });
+        }}
       >
-        <div className='how2use-nav-bar'>
-          <p>Usage</p>
-        </div>
-      </LinkScrollReference>
+        <p>Usage</p>
+      </div>
     </nav>
   );
 };

@@ -495,15 +495,7 @@ const Dashboard = () => {
                         </ul>
                       </div>
                       <div className='col-1 d-flex justify-content-center '>
-                        <Button
-                          type='button'
-                          className='btn btn-primary m-auto '
-                          onClick={() => {
-                            network.redraw();
-                          }}
-                        >
-                          test
-                        </Button>
+                  
                       </div>
                       <div className='col-2 d-flex justify-content-center '>
                         <Button

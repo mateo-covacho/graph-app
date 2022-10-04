@@ -160,7 +160,7 @@ section h1 {
 .section-2 {
   height: 100vh;
   background-color: var(--2);
-  padding-left: 5vw;
+
   background: rgb(67, 71, 71);
   background: linear-gradient(140deg, #434747 0%, var(--2) 100%);
 }

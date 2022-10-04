@@ -1,6 +1,6 @@
 import "./App.css";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 //----------------------------------------------------------------------------------------------------
@@ -16,20 +16,23 @@ import Admin_login from "./components/Admin_login";
 function App() {
   const [adminVerified, setAdminVerified] = useState(false);
 
+  const home = useRef(null);
+  const features = useRef(null);
+  const aboutMe = useRef(null);
   return (
     <Router>
       <Routes>
         <Route
-          path="/"
+          path='/'
           element={
             <>
-              <TopNavBar isAdmin={adminVerified} />
-              <Landing_Page />
+              <TopNavBar homeRef={home} featuresRef={features} aboutMeRef={aboutMe} />
+              <Landing_Page homeRef={home} featuresRef={features} aboutMeRef={aboutMe} />
             </>
           }
         />
         <Route
-          path="/admin_login"
+          path='/admin_login'
           element={
             <Admin_login
               isAdminFuncion={(bool) => {
@@ -38,10 +41,7 @@ function App() {
             />
           }
         />
-        <Route
-          path="/dashboard"
-          element={<Dashboard isAdmin={adminVerified} />}
-        />
+        <Route path='/dashboard' element={<Dashboard isAdmin={adminVerified} />} />
       </Routes>
     </Router>
   );

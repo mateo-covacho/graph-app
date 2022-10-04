@@ -1,6 +1,3 @@
-* {
-  outline: solid 0px red;
-}
 p {
   overflow: hidden;
   margin: 0;
@@ -117,4 +114,11 @@ nav div {
 .vis-tooltip {
   position: absolute;
   background-color: black;
+}
+
+.section-2 svg path {
+  fill: #13f195;
+}
+.icons-bar svg path {
+  fill: white;
 }

@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useState } from "react";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
 import "./css/Landing_Page.css";
 //--------------------------------------------------------------------------------
-
+import { GiMeshNetwork } from "react-icons/gi";
+import { BiImport } from "react-icons/bi";
+import { AiOutlineNodeIndex } from "react-icons/ai";
+import { DiAptana } from "react-icons/di";
 import { FaGithub, FaTwitter, FaMedium } from "react-icons/fa";
+import { GiMagnifyingGlass } from "react-icons/gi";
+import { Row, Col, ToggleButton } from "react-bootstrap";
+import { useReducer } from "react";
 
 //--------------------------------------------------------------------------------
 
-const Landing_Page = () => {
+const Landing_Page = (props) => {
   const particlesInit = async (main) => {
     await loadFull(main);
   };
@@ -20,7 +26,7 @@ const Landing_Page = () => {
   const [showNodes, setShowNodes] = useState("circle");
   return (
     <>
-      <section className='section-1'>
+      <section className='section-1 ' ref={props.homeRef}>
         <Particles
           className='tsparticles'
           init={particlesInit}
@@ -145,24 +151,50 @@ const Landing_Page = () => {
         </div>
       </section>
 
-      <section className='section-2'>
-        <h1>How to use </h1>
+      <section className='section-2 p-5' ref={props.featuresRef}>
+        <h1 className=''>Features </h1>
+        <Row>
+          <Col className='text-center' style={{ height: "20vh", marginBottom: "2vh" }}>
+            <h2>Import data</h2>
+            <div style={{ color: "blue" }}>
+              <BiImport size={"80px"} />
+            </div>
+          </Col>
 
-        <div className='how-2-use glass'>
-          When you enter the dashboard the first step is to import data. You can either do this by manually plotting out the network or use one of the
-          built-in features to import blockchain / Instagram data. Once you have the data you can :
-          <ul>
-            <br />
-            <li>Use graph traversal algorithms to identify connections between individuals or nodes.</li>
-            <br />
-            <li>Import data from platforms in a user-friendly way</li>
-            <br />
-            <li>Saving and creating projects to maintain the state of your project.</li>
-          </ul>
-        </div>
+          <Col className='text-center' style={{ height: "20vh", marginBottom: "2vh" }}>
+            <h2>Physics engine</h2>
+            <div style={{ color: "blue" }}>
+              <DiAptana size={"80px"} />
+            </div>
+          </Col>
+          <Col className='text-center' style={{ height: "20vh", marginBottom: "2vh" }}>
+            <h2>
+              Add & remove
+              <br />
+              nodes
+            </h2>
+            <div style={{ color: "blue" }}>
+              <GiMeshNetwork size={"80px"} />
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col className='text-center' style={{ height: "20vh", marginBottom: "2vh" }}>
+            <h2>Pathfindig algorithms</h2>
+            <div style={{ color: "blue" }}>
+              <AiOutlineNodeIndex size={"80px"} />
+            </div>
+          </Col>
+          <Col className='text-center' style={{ height: "20vh", marginBottom: "2vh" }}>
+            <h2>Blockchain data scraper</h2>
+            <div style={{ color: "blue" }}>
+              <GiMagnifyingGlass size={"80px"} />
+            </div>
+          </Col>
+        </Row>
       </section>
 
-      <section className='section-3'>
+      <section className='section-3' ref={props.aboutMeRef}>
         <h1>About me and this project</h1>
         <div className='about-section'>
           <p>
@@ -179,6 +211,7 @@ const Landing_Page = () => {
           </p>
         </div>
       </section>
+
       <div className='icons-bar'>
         <a href='https://twitter.com/covacho_dev' target='_blank'>
           <div className='twitter'>
