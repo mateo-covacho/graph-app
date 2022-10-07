@@ -154,40 +154,40 @@ const Landing_Page = (props) => {
       <section className='section-2 p-5' ref={props.featuresRef}>
         <h1 className=''>Features </h1>
         <Row>
-          <Col className='text-center' style={{ height: "20vh", marginBottom: "2vh" }}>
+          <Col className='text-center mb-5' style={{ height: "20vh" }}>
             <h2>Import data</h2>
-            <div style={{ color: "blue" }}>
+            <div>
               <BiImport size={"80px"} />
             </div>
           </Col>
 
-          <Col className='text-center' style={{ height: "20vh", marginBottom: "2vh" }}>
+          <Col className='text-center mb-5' style={{ height: "20vh" }}>
             <h2>Physics engine</h2>
-            <div style={{ color: "blue" }}>
+            <div>
               <DiAptana size={"80px"} />
             </div>
           </Col>
-          <Col className='text-center' style={{ height: "20vh", marginBottom: "2vh" }}>
+          <Col className='text-center mb-5' style={{ height: "20vh" }}>
             <h2>
               Add & remove
               <br />
               nodes
             </h2>
-            <div style={{ color: "blue" }}>
+            <div>
               <GiMeshNetwork size={"80px"} />
             </div>
           </Col>
         </Row>
         <Row>
-          <Col className='text-center' style={{ height: "20vh", marginBottom: "2vh" }}>
+          <Col className='text-center mb-5' style={{ height: "20vh" }}>
             <h2>Pathfindig algorithms</h2>
-            <div style={{ color: "blue" }}>
+            <div>
               <AiOutlineNodeIndex size={"80px"} />
             </div>
           </Col>
-          <Col className='text-center' style={{ height: "20vh", marginBottom: "2vh" }}>
+          <Col className='text-center mb-5' style={{ height: "20vh" }}>
             <h2>Blockchain data scraper</h2>
-            <div style={{ color: "blue" }}>
+            <div>
               <GiMagnifyingGlass size={"80px"} />
             </div>
           </Col>

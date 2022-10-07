@@ -39,6 +39,16 @@ export const TopNavBar = (props) => {
       >
         <p>Usage</p>
       </div>
+      <a href='https://mateo-covacho.vercel.app/' target='_Blank'>
+        <div
+          className='how2use-nav-bar'
+          onClick={() => {
+            props.aboutMeRef.current?.scrollIntoView({ behavior: "smooth" });
+          }}
+        >
+          <p>More projects</p>
+        </div>
+      </a>
     </nav>
   );
 };
