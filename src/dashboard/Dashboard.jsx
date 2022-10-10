@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./dashboard.css";
 import Graph from "react-graph-vis";
-import { graphNodes, graphEdges, graphNodesBasic } from "./data/GraphData.jsx";
+import { graphNodes, graphEdges, graphNodesBasic, defaultInput } from "./data/GraphData.jsx";
 // import "./network.css";
 // import "./styles.css";
 //___________________________________________
 import { AiOutlineHome, AiFillQuestionCircle } from "react-icons/ai";
 import { BiNetworkChart } from "react-icons/bi";
 import { GrInstagram } from "react-icons/gr";
-import { FaBitcoin } from "react-icons/fa";
+import { FaBitcoin, FaInfoCircle } from "react-icons/fa";
 import { GiPathDistance } from "react-icons/gi";
+import { FiDownload } from "react-icons/fi";
 import { IoStarSharp, IoReloadCircleSharp, IoTriangle } from "react-icons/io5";
 import { BsFillDiamondFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
@@ -38,6 +39,8 @@ const Dashboard = () => {
   const [eventsState, setEventsState] = useState({});
   const [address, setAddress] = useState("0x5d2b684D9D741148a20EE7A06622122ec32cfeE3");
   const [checked, setChecked] = useState(true);
+
+  const [dataInput, setDataInput] = useState(defaultInput);
 
   const ethWalletRegex = /^0x[a-fA-F0-9]{40}$/;
 
@@ -191,6 +194,7 @@ const Dashboard = () => {
   }
 
   function BFS(nodesList, edgeList, startNode, targetNode) {
+    setAlgorithmText("BFS algorithm always shows you the shortest path but is more resource intensive and takes longer.");
     const adjacenceyList = new Map();
     function addNode(node) {
       adjacenceyList.set(node, []);
@@ -239,14 +243,8 @@ const Dashboard = () => {
 
         path.reverse();
         path = [...path, targetNode];
-        console.log("path: " + path);
 
         higliteMultipleEdges(path);
-
-        setCompletionData({
-          nodes: visitedNodes.size,
-          algorithmText: "BFS algorithm always shows you the shortest path but is more resource intensive and takes longer.",
-        });
 
         return true;
       }
@@ -262,6 +260,7 @@ const Dashboard = () => {
   }
 
   function DFS(nodesList, edgeList, startNode, targetNode) {
+    setAlgorithmText("DFS algorithm doesn't always show you the shortest path but has to search through fewer nodes, so it completes faster");
     const adjacenceyList = new Map();
 
     function addNode(node) {
@@ -299,10 +298,6 @@ const Dashboard = () => {
           highlightNode([...visited], "selected", 1000);
           path = [startNode, ...path, targetNode];
           higliteMultipleEdges(path);
-          setCompletionData({
-            nodes: visitedNodes.size,
-            algorithmText: "DFS algorithm doesn't always show you the shortest path but has to search through fewer nodes, so it completes faster",
-          });
           return true;
         }
         if (!visited.has(conection) && !finished) {
@@ -405,7 +400,7 @@ const Dashboard = () => {
   return (
     <div className='container-fluid p-0'>
       <nav className='navbar navbar-light bg-light p-0 '>
-        <div className='iconss-bar col-12 row  gx-0' style={{ backgroundColor: iconbarColor }}>
+        <div className='iconss-bar col-12 row  gx-0 blacksvg' style={{ backgroundColor: iconbarColor }}>
           {/* Home button */}
           <Link to='/'>
             {" "}
@@ -482,7 +477,7 @@ const Dashboard = () => {
                           data-bs-toggle='dropdown'
                           aria-expanded='false'
                         >
-                          Select sample graph
+                          Select graph
                         </button>
                         <ul className='dropdown-menu' aria-labelledby='dropdownMenuButton'>
                           <li
@@ -490,12 +485,90 @@ const Dashboard = () => {
                               setGraphData("Les miserables");
                             }}
                           >
-                            <div className='dropdown-item'>Les Misérables</div>
+                            <div className='dropdown-item'>Les miserables</div>
                           </li>
                         </ul>
                       </div>
                       <div className='col-1 d-flex justify-content-center '>
-                  
+                        <Button
+                          type='button'
+                          className='btn btn-primary m-auto '
+                          style={{ backgroundColor: buttonActive == "Data" ? "red" : "" }}
+                          onClick={() => {
+                            if (buttonActive == "Data") {
+                              setButtonActive();
+
+                              setEventsState({
+                                events: {},
+                              });
+                            } else {
+                              setButtonActive("Data");
+                            }
+                          }}
+                        >
+                          Data
+                        </Button>
+                        <Modal show={buttonActive ? "Data" : ""} size='lg'>
+                          <Modal.Header>
+                            <div className='container-fluid'>
+                              <div className='row'>
+                                <div className='col'>
+                                  <h2 className='blacktext display-3'>Set data</h2>
+                                </div>
+                              </div>
+                            </div>
+                          </Modal.Header>
+                          <Modal.Body>
+                            <div className='container'>
+                              <div className='row mb-2'>
+                                <Button className='col-2 display-3'>
+                                  <a href='exampleData.json' download>
+                                    <div className='row w-100 m-0'>
+                                      <div className='col-8'>Example</div>
+                                      <div className='col-2 whitesvg'>
+                                        <FiDownload />
+                                      </div>
+                                    </div>
+                                  </a>
+                                </Button>
+                              </div>
+                              <div className='row mb-4'>
+                                <h3 className='blacktext col-3 ps-0'>Data</h3>
+                              </div>
+                              <div className='row mb-4'>
+                                <textarea
+                                  type='text'
+                                  style={{ height: "20vh", color: "black" }}
+                                  value={dataInput}
+                                  placeholder={defaultInput}
+                                  onChange={(e) => {
+                                    setDataInput(e.target.value);
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          </Modal.Body>
+                          <Modal.Footer>
+                            <Button
+                              variant='primary'
+                              onClick={() => {
+                                setButtonActive();
+                                console.log(JSON.parse(dataInput));
+                                network.setData(JSON.parse(dataInput));
+                              }}
+                            >
+                              Set data
+                            </Button>
+                            <Button
+                              variant='primary'
+                              onClick={() => {
+                                setButtonActive();
+                              }}
+                            >
+                              Close
+                            </Button>
+                          </Modal.Footer>
+                        </Modal>
                       </div>
                       <div className='col-2 d-flex justify-content-center '>
                         <Button
@@ -621,7 +694,7 @@ const Dashboard = () => {
                 return (
                   <div className='container-fluid '>
                     <div className='row buttons_row' style={{ height: "5vh" }}>
-                      <div className=' dropdown ms-4 my-auto ps-0 col-3 '>
+                      <div className=' dropdown ms-4 my-auto ps-0 col-2 '>
                         <button
                           className='btn btn-primary dropdown-toggle'
                           type='button'
@@ -772,15 +845,16 @@ const Dashboard = () => {
                         </button>
                       </div>
                       <div className='col-2 row'>
-                        <div className='col-5  my-auto h-50 p-auto justify-content-center '>
+                        <div className='col-5  my-auto h-50 blacksvg p-auto justify-content-center '>
                           <IoReloadCircleSharp
-                            className='col-6  h-100 my-auto'
+                            className='col-6   h-100 my-auto'
                             onClick={() => {
                               setGraphData("Les miserables");
+                              network.redraw();
                             }}
                           />
                         </div>
-                        <div className='col-6 mx-0 my-auto h-50  '>
+                        <div className='col-6 mx-0 my-auto h-50   blacksvg '>
                           <AiFillQuestionCircle onClick={handleShow} className='col-5   h-100 my-auto' />
 
                           <Modal show={show} onHide={handleClose} animation={true} centered>
@@ -830,13 +904,54 @@ const Dashboard = () => {
                           </Modal>
                         </div>
                       </div>
-                    </div>
-                    {algorithmText && (
-                      <div className='row  ' style={{ position: "relative", bottom: "5px", backgroundColor: "white", height: "50px" }}>
-                        <p className='text-center blacktext'>{completionData.algorithmText}</p>
-                        <p className='text-center blacktext'>Searched {completionData.nodes} nodes </p>
+
+                      <div className='col-1 d-flex justify-content-center '>
+                        <Button
+                          type='button'
+                          className='btn btn-primary m-auto '
+                          style={{ backgroundColor: buttonActive == "info" ? "red" : "" }}
+                          onClick={() => {
+                            if (buttonActive == "info") {
+                              setButtonActive();
+
+                              setEventsState({
+                                events: {},
+                              });
+                            } else {
+                              setButtonActive("info");
+                            }
+                          }}
+                        >
+                          Data
+                        </Button>
+                        <Modal show={buttonActive ? "info" : ""} size='lg'>
+                          <Modal.Header>
+                            <div className='container-fluid'>
+                              <div className='row'>
+                                <div className='col'>
+                                  <h4 className='blacktext display-4'>Completion info</h4>
+                                </div>
+                              </div>
+                            </div>
+                          </Modal.Header>
+                          <Modal.Body>
+                            <div className='container'>
+                              <div className='row mb-2 blacktext'>{algorithmText}</div>
+                            </div>
+                          </Modal.Body>
+                          <Modal.Footer>
+                            <Button
+                              variant='primary'
+                              onClick={() => {
+                                setButtonActive();
+                              }}
+                            >
+                              Close
+                            </Button>
+                          </Modal.Footer>
+                        </Modal>
                       </div>
-                    )}
+                    </div>
                   </div>
                 );
               case "blockchain":

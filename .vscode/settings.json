@@ -1,3 +1,4 @@
 {
-  "zenMode.hideLineNumbers": false
+  "zenMode.hideLineNumbers": false,
+  "rainbowTags.supportedLanguages": ["html", "jsx", "vue", "react"]
 }

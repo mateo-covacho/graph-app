@@ -1,5 +1,3 @@
-
-
 p {
   overflow: hidden;
   margin: 0;
@@ -19,8 +17,9 @@ nav {
   height: 3vh;
 }
 
-svg path {
-  fill: black;
+.blacksvg svg path {
+  fill: black !important;
+  stroke: black !important;
 }
 
 .row {
@@ -85,7 +84,6 @@ nav div {
 
 .dropdown {
   height: auto !important;
-  width: auto !important;
 }
 
 .dropdown-menu li div {
@@ -123,4 +121,9 @@ nav div {
 }
 .icons-bar svg path {
   fill: white;
+}
+
+.whitesvg * {
+  fill: white !important;
+  stroke: white !important;
 }

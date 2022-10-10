@@ -34,7 +34,7 @@ h1 {
 
 .topNavBar {
   background-color: hsla(0, 0%, 0%, 0.357);
-  height: 6vh;
+  /* height: 6vh; */
   min-height: 50px;
   width: 100%;
   position: fixed;
@@ -44,6 +44,7 @@ h1 {
 
 .topNavBar div {
   height: 100%;
+
   overflow-y: hidden;
   overflow-x: hidden;
   margin-right: 2%;
@@ -56,9 +57,14 @@ h1 {
 }
 .topNavBar div p {
   height: 100%;
-  line-height: 6vh;
+  /* line-height: 6vh; */
   margin: 0;
   font-size: larger;
+}
+
+.topNavBar p {
+  min-height: 50px;
+  line-height: 50px;
 }
 .topNavBar .home-nav-bar {
   float: left;
