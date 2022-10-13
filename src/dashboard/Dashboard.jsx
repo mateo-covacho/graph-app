@@ -508,7 +508,7 @@ const Dashboard = () => {
                         >
                           Data
                         </Button>
-                        <Modal show={buttonActive ? "Data" : ""} size='lg'>
+                        <Modal show={buttonActive == "Data"} size='lg'>
                           <Modal.Header>
                             <div className='container-fluid'>
                               <div className='row'>
@@ -552,9 +552,10 @@ const Dashboard = () => {
                             <Button
                               variant='primary'
                               onClick={() => {
-                                setButtonActive();
+                                // setButtonActive();
                                 console.log(JSON.parse(dataInput));
-                                network.setData(JSON.parse(dataInput));
+                                let data = JSON.parse(dataInput);
+                                setGraphState({ graph: { edges: data.edges, nodes: data.nodes } });
                               }}
                             >
                               Set data
@@ -924,7 +925,7 @@ const Dashboard = () => {
                         >
                           Data
                         </Button>
-                        <Modal show={buttonActive ? "info" : ""} size='lg'>
+                        <Modal show={buttonActive == "info"} size='lg'>
                           <Modal.Header>
                             <div className='container-fluid'>
                               <div className='row'>
