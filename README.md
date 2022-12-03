@@ -1,4 +1,4 @@
-# https://network-explorer.on.fleek.co/
+# https://network-graph-explorer.vercel.app/
 
 # About this project
 My inspiration for this project came when looking for a tool to visualize network graph data, I specifically wanted to use it to visualize the first insider trading case in crypto. I struggled to find a lightweight tool that allowed you to visualize your own data without first having to go through the process of creating a complex database with their service.
