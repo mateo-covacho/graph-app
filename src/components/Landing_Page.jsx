@@ -14,6 +14,7 @@ import { Row, Col, ToggleButton } from "react-bootstrap";
 import { useReducer } from "react";
 
 //--------------------------------------------------------------------------------
+import Button from "react-bootstrap/Button";
 
 const Landing_Page = (props) => {
   const particlesInit = async (main) => {
@@ -147,6 +148,14 @@ const Landing_Page = (props) => {
             An App to allow users to visualize data represented in network graph form datasets such as social media relational data (Friendships,
             follows, etc...) and data such as blockchain transactions for investigational and research purposes.
           </p>
+          <a href='https://network-graph-explorer.vercel.app/dashboard'>
+            <br />
+
+            <Button style={{ width: "30%" }} variant='success'>
+              Start
+            </Button>
+            <br />
+          </a>
         </div>
       </section>
 
@@ -177,7 +186,7 @@ const Landing_Page = (props) => {
                   </li>
                   <li>
                     <i className='bx bx-chevron-right' />{" "}
-                    <a target={"_blank"} href='http://link.medium.com/KB6fzkFRTpb'>
+                    <a target={"_blank"} href='https://medium.com/@mateocovacho'>
                       Medium
                     </a>
                   </li>
