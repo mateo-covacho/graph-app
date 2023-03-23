@@ -144,13 +144,104 @@ const Landing_Page = (props) => {
           />
           <h1>Network explorer </h1>
           <p>
-            {" "}
             An App to allow users to visualize data represented in network graph form datasets such as social media relational data (Friendships,
-            follows, etc...) and data such as blockchain transactions for investigational and research purposes.{" "}
+            follows, etc...) and data such as blockchain transactions for investigational and research purposes.
           </p>
         </div>
       </section>
 
+      <footer id='footer'>
+        <div className='footer-top'>
+          <div className='container'>
+            <div className='row'>
+              <div className='col-lg-3 col-md-6 footer-links'>
+                <h4>My links</h4>
+                <ul>
+                  <li>
+                    <i className='bx bx-chevron-right' />{" "}
+                    <a target={"_blank"} href='https://www.mateocovacho.com/'>
+                      Web portfolio
+                    </a>
+                  </li>
+                  <li>
+                    <i className='bx bx-chevron-right' />
+                    <a target={"_blank"} href='https://www.linkedin.com/in/mateo-covacho-berrocal-35a039224/'>
+                      Linkedin
+                    </a>
+                  </li>
+                  <li>
+                    <i className='bx bx-chevron-right' />{" "}
+                    <a target={"_blank"} href='https://twitter.com/covacho_dev'>
+                      Twitter
+                    </a>
+                  </li>
+                  <li>
+                    <i className='bx bx-chevron-right' />{" "}
+                    <a target={"_blank"} href='http://link.medium.com/KB6fzkFRTpb'>
+                      Medium
+                    </a>
+                  </li>
+                  <li>
+                    <i className='bx bx-chevron-right' />{" "}
+                    <a target={"_blank"} href='https://github.com/mateo-covacho'>
+                      Github
+                    </a>
+                  </li>
+                  <li>
+                    <i className='bx bx-chevron-right' />{" "}
+                    <a target={"_blank"} href='https://stackoverflow.com/users/18017427/mateo-covacho'>
+                      StackOverflow
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div className='col-lg-3 col-md-6 footer-links'>
+                <h4>Graph explorer</h4>
+                <ul>
+                  <li>
+                    <i className='bx bx-chevron-right' />{" "}
+                    <a target={"_blank"} href='https://network-graph-explorer.vercel.app/dashboard'>
+                      Graph app
+                    </a>
+                  </li>
+                  <li>
+                    <i className='bx bx-chevron-right' />{" "}
+                    <a target={"_blank"} href='https://leak-shield.vercel.app/'>
+                      Leak shield
+                    </a>
+                  </li>
+                  <li>
+                    <i className='bx bx-chevron-right' />{" "}
+                    <a target={"_blank"} href='https://mateos-task-tracker.on.fleek.co/'>
+                      Task tracker app
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div className='col-lg-3 col-md-6 footer-contact'>
+                <h4>Contact Me</h4>
+                <p>
+                  <br /> Madrid, Spain <br />
+                  <br /> <strong>Phone:</strong> +34 695 406 930
+                  <br /> <strong>Email:</strong> mateocovacho@gmail.com
+                  <br />
+                </p>
+              </div>
+              <div className='col-lg-3 col-md-6 footer-info'>
+                <h3>About Me</h3>
+                <p>
+                  Mateo Covacho, a Spanish Software Engineer and tech enthusiast with a passion for problem-solving and learning new things in the
+                  industry.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='container'>
+          <div className='credits'>Designed by Mateo Covacho</div>
+        </div>
+      </footer>
+      {/* 
       <section className='section-2 p-5' ref={props.featuresRef}>
         <h1 className=''>Features </h1>
         <Row>
@@ -199,7 +290,7 @@ const Landing_Page = (props) => {
         <div className='about-section'>
           <p>
             Hello, I am Mateo Covacho Berrocal, I am a self-taught developer based in Spain. I have been publicly developing this project since May
-            2022.{" "}
+            2022.
           </p>
           <p>
             My intentions with this project are to show my abilities as a Software Engineer in many areas such as Front-end development, traversal
@@ -207,7 +298,7 @@ const Landing_Page = (props) => {
           </p>
           <p>
             You can see more details about me, the development process of this project and the technologies I used in my social media (Twitter,
-            Medium, Github) which I used to document the development process{" "}
+            Medium, Github) which I used to document the development process
           </p>
         </div>
       </section>
@@ -230,7 +321,7 @@ const Landing_Page = (props) => {
             <FaMedium color='black' size={"20px"} />
           </div>
         </a>
-      </div>
+      </div> */}
     </>
   );
 };

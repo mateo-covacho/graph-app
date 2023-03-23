@@ -71,13 +71,16 @@ const Dashboard = () => {
       .padStart(2, "0");
     return `#${red}${green}${blue}`;
   }
+
   function highlightNode(getNodesId, groupProp, delay) {
+    console.log({ getNodesId });
+
     setGraphState(({ graph: { nodes, edges }, counter, ...rest }) => {
       const id = counter + 1;
       counter++;
       const from = Math.floor(Math.random() * 10);
 
-      function calculateDefaultGroup(nodeId) {
+      function getDefaultGroup(nodeId) {
         let groupPrevious;
         graphState.graph.nodes.map((node) => {
           if (node.id == parseInt(nodeId) - 1) {
@@ -101,7 +104,7 @@ const Dashboard = () => {
         } else if (node.group == groupProp && !targetIds.includes(node.id)) {
           return {
             ...node,
-            group: calculateDefaultGroup(node.id),
+            group: getDefaultGroup(node.id),
           };
         }
         return node;
@@ -150,7 +153,7 @@ const Dashboard = () => {
     });
   }
 
-  function higliteMultipleEdges(edgesArray) {
+  function highlight_multiple_edges(edgesArray) {
     setGraphState(({ graph: { nodes, edges }, counter, ...rest }) => {
       const newEdges = edges.map((edge) => {
         if (!edgesArray.includes(edge.to) || !edgesArray.includes(edge.from)) {
@@ -192,6 +195,51 @@ const Dashboard = () => {
       };
     });
   }
+		
+  async function highlight_multiple_edges_sequential(edgesArray) {
+    for (let i = 0; i < edgesArray.length; i++) {
+      await setGraphState(({ graph: { nodes, edges }, counter, ...rest }) => {
+        const newEdges = edges.map((edge) => {
+          if (!edgesArray.includes(edge.to) || !edgesArray.includes(edge.from)) {
+            return edge;
+          } else if (edgesArray.indexOf(edge.from) == parseInt(edgesArray.indexOf(edge.to) - 1)) {
+            return {
+              ...edge,
+              background: {
+                enabled: true,
+                color: "red",
+                size: 10,
+              },
+              arrows: {
+                to: { enabled: true, scaleFactor: 1.5 },
+              },
+            };
+          } else if (edgesArray.indexOf(edge.to) == parseInt(edgesArray.indexOf(edge.from) - 1)) {
+            return {
+              ...edge,
+              background: {
+                enabled: true,
+                color: "red",
+                size: 10,
+              },
+              arrows: {
+                from: { enabled: true, scaleFactor: 1.5 },
+              },
+            };
+          } else return edge;
+        });
+
+        return {
+          graph: {
+            nodes: nodes,
+            edges: newEdges,
+          },
+          counter: counter,
+          ...rest,
+        };
+      });
+    }
+  }
 
   function BFS(nodesList, edgeList, startNode, targetNode) {
     setAlgorithmText("BFS algorithm always shows you the shortest path but is more resource intensive and takes longer.");
@@ -213,28 +261,28 @@ const Dashboard = () => {
       addEdge(edge.from, edge.to);
     });
 
-    console.log(adjacenceyList);
+    // console.log(adjacenceyList);
     const visitedNodes = new Set();
 
     const queue = [startNode];
     let prev = Array(graphState.graph.nodes.length);
-    console.log("prev: " + prev);
+    // console.log("prev: " + prev);
     visitedNodes.add(startNode);
     while (queue.length > 0) {
       const currentNode = queue.shift();
-      console.log("currentNode: " + currentNode);
+      // console.log("currentNode: " + currentNode);
 
       const connectedNodes = adjacenceyList.get(currentNode);
 
       if (currentNode == targetNode) {
-        console.log("Found it!");
+        // console.log("Found it!");
         visitedNodes.delete(startNode);
         visitedNodes.delete(targetNode);
-        console.log("visited: ", visitedNodes);
+        // console.log("visited: ", visitedNodes);
         highlightNode([...visitedNodes], "selected", 1000);
 
         let path = [];
-        console.log(prev);
+        // console.log(prev);
 
         let i;
         for (i = targetNode; i != startNode; i = prev[i]) {
@@ -244,7 +292,7 @@ const Dashboard = () => {
         path.reverse();
         path = [...path, targetNode];
 
-        higliteMultipleEdges(path);
+        highlight_multiple_edges(path);
 
         return true;
       }
@@ -297,7 +345,7 @@ const Dashboard = () => {
           visited.delete(targetNode);
           highlightNode([...visited], "selected", 1000);
           path = [startNode, ...path, targetNode];
-          higliteMultipleEdges(path);
+          highlight_multiple_edges(path);
           return true;
         }
         if (!visited.has(conection) && !finished) {
@@ -553,7 +601,7 @@ const Dashboard = () => {
                               variant='primary'
                               onClick={() => {
                                 // setButtonActive();
-                                console.log(JSON.parse(dataInput));
+                                // console.log(JSON.parse(dataInput));
                                 let data = JSON.parse(dataInput);
                                 setGraphState({ graph: { edges: data.edges, nodes: data.nodes } });
                               }}
@@ -590,14 +638,14 @@ const Dashboard = () => {
                                   click: ({ nodes: clickedNodes, edges: clickedEdges }) => {
                                     setGraphState(({ graph: { nodes, edges }, counter }) => {
                                       const newNodes = nodes.filter((node) => {
-                                        console.log(clickedNodes[0]);
-                                        console.log(node.id);
+                                        // console.log(clickedNodes[0]);
+                                        // console.log(node.id);
                                         if (node.id !== clickedNodes[0]) {
                                           return node;
                                         }
                                       });
 
-                                      console.log(newNodes);
+                                      // console.log(newNodes);
 
                                       return { graph: { nodes: newNodes, edges: edges }, counter: counter };
                                     });
@@ -905,7 +953,6 @@ const Dashboard = () => {
                           </Modal>
                         </div>
                       </div>
-
                       <div className='col-1 d-flex justify-content-center '>
                         <Button
                           type='button'
