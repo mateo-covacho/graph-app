@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./dashboard.css";
 import Graph from "react-graph-vis";
-import { graphNodes, graphEdges, graphNodesBasic, defaultInput } from "./data/GraphData.jsx";
+import { graphNodes, graphEdges, graphNodesBasic, defaultInput, network_graph_analisis } from "./data/GraphData.jsx";
 // import "./network.css";
 // import "./styles.css";
 //___________________________________________
@@ -195,7 +195,7 @@ const Dashboard = () => {
       };
     });
   }
-		
+
   async function highlight_multiple_edges_sequential(edgesArray) {
     for (let i = 0; i < edgesArray.length; i++) {
       await setGraphState(({ graph: { nodes, edges }, counter, ...rest }) => {
@@ -432,6 +432,13 @@ const Dashboard = () => {
           edges: graphEdges,
         },
       });
+    } else if (graph_name == "Network data analisis") {
+      setGraphState({
+        graph: {
+          nodes: network_graph_analisis.nodes,
+          edges: network_graph_analisis.edges,
+        },
+      });
     }
   }
   function getLabelOfid(id) {
@@ -534,6 +541,14 @@ const Dashboard = () => {
                             }}
                           >
                             <div className='dropdown-item'>Les miserables</div>
+                          </li>
+
+                          <li
+                            onClick={() => {
+                              setGraphData("Network data analisis");
+                            }}
+                          >
+                            <div className='dropdown-item'>Network data analisis</div>
                           </li>
                         </ul>
                       </div>
