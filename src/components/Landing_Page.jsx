@@ -205,7 +205,7 @@ const Landing_Page = (props) => {
                 </ul>
               </div>
               <div className='col-lg-3 col-md-6 footer-links'>
-                <h4>Graph explorer</h4>
+                <h4>Other projects</h4>
                 <ul>
                   <li>
                     <i className='bx bx-chevron-right' />{" "}
