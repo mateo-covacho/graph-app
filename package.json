@@ -17,7 +17,7 @@
     "react-scripts": "^5.0.1",
     "react-scroll": "^1.8.7",
     "react-tsparticles": "^2.0.6",
-    "react-vis": "^1.11.7",
+    "react-vis": "^1.11.8",
     "sjcl": "^1.0.8",
     "tsparticles": "^2.0.6",
     "web-vitals": "^2.1.4"
