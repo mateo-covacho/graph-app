@@ -1029,11 +1029,11 @@ const Dashboard = () => {
                             importWalletNetwork(address, 3);
                           }}
                         >
-                          Analize blockchain
+                          Analyze blockchain
                         </button>
                       </div>
 
-                      <div className='col-6 m-auto mx-0 my-auto h-50 p-auto ms-3  '>
+                      <div className='col-4 m-auto mx-0 my-auto h-50 p-auto ms-3  '>
                         <input
                           type='text'
                           className='form-control '
@@ -1044,6 +1044,8 @@ const Dashboard = () => {
                           }}
                         />
                       </div>
+                      <div class="alert alert-danger" role="alert">
+                      The service has trouble when the address or an address within a 2º degree connection has a lot of transactions</div>
                     </div>
                   </div>
                 );
