@@ -10,7 +10,7 @@ The first step was building the site itself, which was simple. I started buildin
 
 After that I moved on to building the tool itself I created a simple toolbar and the graph section itself was build using the third party package react-graph-vis (which is based on vis.js) to visualize the graph data.
 
-I also added tabs for the diffretn types of funcionaliies such as one for starting search algorithms
+I also added tabs for the diffrent types of funcionaliies such as one for starting search algorithms
 
 ![alt text](./src/resources/imgs/dashboard.png)
 

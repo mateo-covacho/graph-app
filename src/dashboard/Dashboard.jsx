@@ -524,7 +524,7 @@ const Dashboard = () => {
                 return (
                   <div className='container-fluid '>
                     <div className='row buttons_row'>
-                      <div className=' dropdown ms-4 my-auto ps-0 col-3 '>
+                      <div className=' dropdown ms-4 my-auto ps-0 col-2 '>
                         <button
                           className='btn btn-primary dropdown-toggle'
                           type='button'
@@ -552,7 +552,7 @@ const Dashboard = () => {
                           </li>
                         </ul>
                       </div>
-                      <div className='col-1 d-flex justify-content-center '>
+                      <div className='col-2 d-flex justify-content-center '>
                         <Button
                           type='button'
                           className='btn btn-primary m-auto '
@@ -569,7 +569,7 @@ const Dashboard = () => {
                             }
                           }}
                         >
-                          Data
+                          Import data
                         </Button>
                         <Modal show={buttonActive == "Data"} size='lg'>
                           <Modal.Header>
@@ -1045,7 +1045,7 @@ const Dashboard = () => {
                         />
                       </div>
                       <div class="alert alert-danger" role="alert">
-                      The service has trouble when the address or an address within a 2º degree connection has a lot of transactions</div>
+                        we have trouble when the given address or an address within a 2º degree connection has a heavy transactions load</div>
                     </div>
                   </div>
                 );
