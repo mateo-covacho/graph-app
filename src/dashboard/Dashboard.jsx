@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+ import React, { useState, useEffect, useRef } from "react";
 import "./dashboard.css";
 import Graph from "react-graph-vis";
 import { graphNodes, graphEdges, graphNodesBasic, defaultInput, network_graph_analisis } from "./data/GraphData.jsx";
@@ -14,20 +14,44 @@ import { FiDownload } from "react-icons/fi";
 import { IoStarSharp, IoReloadCircleSharp, IoTriangle } from "react-icons/io5";
 import { BsFillDiamondFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { Button, Modal, ToggleButton } from "react-bootstrap";
+import { Button, Modal, ToggleButton, Dropdown } from "react-bootstrap";
 //___________________________________________
 
 const { REACT_APP_key } = process.env;
 
 const Dashboard = () => {
-  const [toolBar, setToolBar] = useState("algorithm");
-  const [iconbarColor, setIconbarColor] = useState("#35608b");
-  const [algorithmText, setAlgorithmText] = useState("");
-  const [network, setNetwork] = useState(null);
   const [completionData, setCompletionData] = useState({ nodes: null, completionTime: null, algorithmText: "" });
+
+  const [eventsState, setEventsState] = useState({});
+  const [checked, setChecked] = useState(true);
+
+  const [dataInput, setDataInput] = useState(defaultInput);
+
+
+  // Info MODAL
+  const [showInfoModal, setShowInfoModal] = useState(false);
+  const startNodeRef = useRef();
+  const targetNodeRef = useRef();
+  const handleClose = () => setShowInfoModal(false);
+  const handleShow = () => setShowInfoModal(true);
+  
+  
+  // toolbar
+  const [iconbarColor, setIconbarColor] = useState("#9149b6");
+  const [toolBar, setToolBar] = useState("blockchain");
+  const [buttonActive, setButtonActive] = useState();
+  
+  // algorithm
+  const [algorithm, setAlgorithm] = useState("Choose algorithm");
+  const [algorithmText, setAlgorithmText] = useState("");
   const [startingNodeState, setStartingNodeState] = useState();
   const [targetNodeState, setTargetNodeState] = useState();
-  const [algorithm, setAlgorithm] = useState("Choose algorithm");
+  var startingNode;
+  var targetNode;
+  
+
+  // graph
+  const [network, setNetwork] = useState(null);
   const [graphState, setGraphState] = useState({
     counter: 76,
 
@@ -36,28 +60,6 @@ const Dashboard = () => {
       edges: graphEdges,
     },
   });
-  const [eventsState, setEventsState] = useState({});
-  const [address, setAddress] = useState("0x5d2b684D9D741148a20EE7A06622122ec32cfeE3");
-  const [checked, setChecked] = useState(true);
-
-  const [dataInput, setDataInput] = useState(defaultInput);
-
-  const ethWalletRegex = /^0x[a-fA-F0-9]{40}$/;
-
-  // MODAL
-  const [show, setShow] = useState(false);
-  var startingNode;
-  var targetNode;
-  const startNodeRef = useRef();
-  const targetNodeRef = useRef();
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  const [buttonActive, setButtonActive] = useState();
-  // const [buttonActive, setButtonActive] = useState();
-  // const [buttonActive, setButtonActive] = useState();
-  // const [buttonActive, setButtonActive] = useState();
-  // const [buttonActive, setButtonActive] = useState();
 
   function randomColor() {
     const red = Math.floor(Math.random() * 256)
@@ -393,36 +395,6 @@ const Dashboard = () => {
     });
   }
 
-  function importWalletNetwork(walletAddress, retries) {
-    if (!walletAddress.match(ethWalletRegex)) {
-      alert("Please enter an Eth address");
-    }
-    fetch("https://6ryss6wbm3.execute-api.us-east-1.amazonaws.com/dev/?wallet=" + address, {
-      method: "GET",
-      headers: new Headers({
-        "x-api-key": REACT_APP_key,
-      }),
-    })
-      .then((response) => {
-        // if (response.nodes == undefined) {
-        //   return;
-        // }
-        if (response.ok) {
-          return response.json();
-        }
-        if (retries > 0) {
-          return importWalletNetwork(walletAddress, retries - 1);
-        }
-        alert("Please try with different eth address");
-      })
-
-      .then((data) => {
-        setGraphState({
-          graph: { nodes: data.nodes, edges: data.edges },
-          counter: graphState.counter,
-        });
-      });
-  }
 
   function setGraphData(graph_name) {
     if (graph_name == "Les miserables") {
@@ -452,6 +424,47 @@ const Dashboard = () => {
 
     return label;
   }
+
+
+  // blockchain
+  const [address, setAddress] = useState("0x5d2b684D9D741148a20EE7A06622122ec32cfeE3");
+  const [analyzeTargetBlockchain,setAnalyzeTargetBlockchain] = useState("Choose target blockchain");
+  const ethWalletRegex = /^0x[a-fA-F0-9]{40}$/;
+
+  function importWalletNetwork(walletAddress, retries) {
+    if (!walletAddress.match(ethWalletRegex)) {
+      alert("Please enter an Eth address");
+    }
+    // fetch("https://6ryss6wbm3.execute-api.us-east-1.amazonaws.com/dev/?wallet=" + address, {
+    //   method: "GET",
+    //   headers: new Headers({
+    //     "x-api-key": REACT_APP_key,
+    //   }),
+    // })
+    //   .then((response) => {
+    //     // if (response.nodes == undefined) {
+    //     //   return;
+    //     // }
+    //     if (response.ok) {
+    //       return response.json();
+    //     }
+    //     if (retries > 0) {
+    //       return importWalletNetwork(walletAddress, retries - 1);
+    //     }
+    //     alert("Please try with different eth address");
+    //   })
+
+    //   .then((data) => {
+    //     setGraphState({
+    //       graph: { nodes: data.nodes, edges: data.edges },
+    //       counter: graphState.counter,
+    //     });
+    //   });
+
+    
+  }
+
+
   return (
     <div className='container-fluid p-0'>
       <nav className='navbar navbar-light bg-light p-0 '>
@@ -576,7 +589,7 @@ const Dashboard = () => {
                             <div className='container-fluid'>
                               <div className='row'>
                                 <div className='col'>
-                                  <h2 className='blacktext display-3'>Set data</h2>
+                                  <h2 className='blacktext display-3'>Import data</h2>
                                 </div>
                               </div>
                             </div>
@@ -921,7 +934,7 @@ const Dashboard = () => {
                         <div className='col-6 mx-0 my-auto h-50   blacksvg '>
                           <AiFillQuestionCircle onClick={handleShow} className='col-5   h-100 my-auto' />
 
-                          <Modal show={show} onHide={handleClose} animation={true} centered>
+                          <Modal show={showInfoModal} onHide={handleClose} animation={true} centered>
                             <Modal.Header closeButton>
                               <Modal.Title className='blacktext'>Info</Modal.Title>
                             </Modal.Header>
@@ -1019,33 +1032,45 @@ const Dashboard = () => {
                 );
               case "blockchain":
                 return (
-                  <div className='container-fluid '>
+                  <div className='container-fluid p-0'>
                     <div className='row buttons_row '>
-                      <div className='col-3 m-auto mx-0 my-auto h-50 p-auto ms-3  '>
+                      <div className='col m-auto h-50'>
+                        <Dropdown>
+                          <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                          {analyzeTargetBlockchain}
+                          </Dropdown.Toggle>
+
+                          <Dropdown.Menu>
+                            <Dropdown.Item onClick={()=>{setAnalyzeTargetBlockchain("Etherum")}}>Etherum</Dropdown.Item>
+                            <Dropdown.Item onClick={()=>{setAnalyzeTargetBlockchain("Polygon")}}>Polygon</Dropdown.Item>
+                            <Dropdown.Item onClick={()=>{setAnalyzeTargetBlockchain("Starknet")}}>Starknet</Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      </div>
+
+                      <div className='col m-auto h-50'>
                         <button
                           type='button'
-                          className='btn btn-primary m-auto '
+                          className='btn btn-primary mx-auto '
                           onClick={() => {
                             importWalletNetwork(address, 3);
                           }}
                         >
-                          Analyze blockchain
+                          Import transaction data
                         </button>
                       </div>
 
-                      <div className='col-4 m-auto mx-0 my-auto h-50 p-auto ms-3  '>
+                      <div className='col m-auto h-50'>
                         <input
                           type='text'
                           className='form-control '
-                          placeholder='Etherum address'
+                          placeholder='Etherum / Starknet wallet '
                           value={address}
                           onChange={(e) => {
                             setAddress(e.target.value);
                           }}
                         />
                       </div>
-                      <div class="alert alert-danger" role="alert">
-                        we have trouble when the given address or an address within a 2º degree connection has a heavy transactions load</div>
                     </div>
                   </div>
                 );
@@ -1083,7 +1108,7 @@ const Dashboard = () => {
               physics: {
                 enabled: true,
                 forceAtlas2Based: {
-                  gravitationalConstant: -106,
+                  gravitationalConstant: -18,
                   springLength: 100,
                   damping: 1,
                   avoidOverlap: 1,
