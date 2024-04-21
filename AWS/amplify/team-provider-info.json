@@ -15,7 +15,7 @@
       "function": {
         "getEthWalletTransactionsTS": {
           "deploymentBucketName": "amplify-graphapp-staging-143654-deployment",
-          "s3Key": "amplify-builds/getEthWalletTransactionsTS-33545455316d5043614a-build.zip"
+          "s3Key": "amplify-builds/getEthWalletTransactionsTS-4736354a725357646d72-build.zip"
         }
       },
       "hosting": {

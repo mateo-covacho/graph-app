@@ -34,7 +34,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handler = void 0;
 const https = __importStar(require("https"));
-const walletAddress = "0x5d2b684D9D741148a20EE7A06622122ec32cfeE3";
+let walletAddress = "0x5d2b684D9D741148a20EE7A06622122ec32cfeE3";
 const apiKey = "8PY54PK4NETZH8CZ73S7N54RXBH3DNHQNT";
 const apiUrlBase = `https://api.etherscan.io/api?module=account&action=txlist&address=`;
 const apiOptions = `&startblock=0&endblock=99999999&page=1&offset=10&sort=asc&apikey=${apiKey}`;
@@ -84,7 +84,9 @@ function httpsGetPromise(url) {
 }
 const handler = (event) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
-    console.log(`EVENT: ${JSON.stringify(event)}`);
+    const wallet = event.queryStringParameters.wallet;
+    console.log("wallet: ", wallet);
+    walletAddress = wallet;
     try {
         const depth = parseInt(((_a = event.queryStringParameters) === null || _a === void 0 ? void 0 : _a.depth) || '2');
         const raw_transactions = yield scanWallet(walletAddress, depth);

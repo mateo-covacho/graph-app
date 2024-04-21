@@ -2,7 +2,7 @@ import { APIGatewayProxyHandler } from 'aws-lambda';
 import * as https from 'https';
 import { Transaction, WalletScan, Graph_node } from './types'; // Ensure you define these types
 
-const walletAddress: string = "0x5d2b684D9D741148a20EE7A06622122ec32cfeE3";
+let walletAddress: string = "0x5d2b684D9D741148a20EE7A06622122ec32cfeE3";
 const apiKey: string = "8PY54PK4NETZH8CZ73S7N54RXBH3DNHQNT";
 const apiUrlBase: string = `https://api.etherscan.io/api?module=account&action=txlist&address=`;
 const apiOptions: string = `&startblock=0&endblock=99999999&page=1&offset=10&sort=asc&apikey=${apiKey}`;
@@ -58,7 +58,10 @@ function httpsGetPromise(url: string): Promise<WalletScan> {
 }
 
 export const handler: APIGatewayProxyHandler = async (event: any) => {
-	console.log(`EVENT: ${JSON.stringify(event)}`);
+
+	const wallet: string = event.queryStringParameters.wallet;
+	console.log("wallet: ", wallet);
+	walletAddress = wallet;
 	try {
 		const depth: number = parseInt(event.queryStringParameters?.depth || '2');
 		const raw_transactions = await scanWallet(walletAddress, depth);
