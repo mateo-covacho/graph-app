@@ -1,0 +1,6 @@
+{
+  "lambdaLayers": [],
+  "timeoutInSeconds": 25,
+  "timeout": 25
+
+}

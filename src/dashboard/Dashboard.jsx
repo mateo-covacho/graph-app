@@ -1,4 +1,4 @@
- import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./dashboard.css";
 import Graph from "react-graph-vis";
 import { graphNodes, graphEdges, graphNodesBasic, defaultInput, network_graph_analisis } from "./data/GraphData.jsx";
@@ -34,13 +34,13 @@ const Dashboard = () => {
   const targetNodeRef = useRef();
   const handleClose = () => setShowInfoModal(false);
   const handleShow = () => setShowInfoModal(true);
-  
-  
+
+
   // toolbar
   const [iconbarColor, setIconbarColor] = useState("#9149b6");
   const [toolBar, setToolBar] = useState("blockchain");
   const [buttonActive, setButtonActive] = useState();
-  
+
   // algorithm
   const [algorithm, setAlgorithm] = useState("Choose algorithm");
   const [algorithmText, setAlgorithmText] = useState("");
@@ -48,7 +48,7 @@ const Dashboard = () => {
   const [targetNodeState, setTargetNodeState] = useState();
   var startingNode;
   var targetNode;
-  
+
 
   // graph
   const [network, setNetwork] = useState(null);
@@ -428,40 +428,37 @@ const Dashboard = () => {
 
   // blockchain
   const [address, setAddress] = useState("0x5d2b684D9D741148a20EE7A06622122ec32cfeE3");
-  const [analyzeTargetBlockchain,setAnalyzeTargetBlockchain] = useState("Choose target blockchain");
+  const [analyzeTargetBlockchain, setAnalyzeTargetBlockchain] = useState("Choose target blockchain");
   const ethWalletRegex = /^0x[a-fA-F0-9]{40}$/;
 
   function importWalletNetwork(walletAddress, retries) {
     if (!walletAddress.match(ethWalletRegex)) {
       alert("Please enter an Eth address");
     }
-    // fetch("https://6ryss6wbm3.execute-api.us-east-1.amazonaws.com/dev/?wallet=" + address, {
-    //   method: "GET",
-    //   headers: new Headers({
-    //     "x-api-key": REACT_APP_key,
-    //   }),
-    // })
-    //   .then((response) => {
-    //     // if (response.nodes == undefined) {
-    //     //   return;
-    //     // }
-    //     if (response.ok) {
-    //       return response.json();
-    //     }
-    //     if (retries > 0) {
-    //       return importWalletNetwork(walletAddress, retries - 1);
-    //     }
-    //     alert("Please try with different eth address");
-    //   })
-
-    //   .then((data) => {
-    //     setGraphState({
-    //       graph: { nodes: data.nodes, edges: data.edges },
-    //       counter: graphState.counter,
-    //     });
-    //   });
-
-    
+    fetch("https://6ryss6wbm3.execute-api.us-east-1.amazonaws.com/dev/?wallet=" + address, {
+      method: "GET",
+      headers: new Headers({
+        "x-api-key": REACT_APP_key,
+      }),
+    })
+      .then((response) => {
+        // if (response.nodes == undefined) {
+        //   return;
+        // }
+        if (response.ok) {
+          return response.json();
+        }
+        if (retries > 0) {
+          return importWalletNetwork(walletAddress, retries - 1);
+        }
+        alert("Please try with different eth address");
+      })
+      .then((data) => {
+        setGraphState({
+          graph: { nodes: data.nodes, edges: data.edges },
+          counter: graphState.counter,
+        });
+      });
   }
 
 
@@ -704,7 +701,7 @@ const Dashboard = () => {
                         <datalist id='browsers'>
                           {graphState.graph.nodes.map((node) => {
                             return (
-                              <option value={node.id} onClick={() => {}}>
+                              <option value={node.id} onClick={() => { }}>
                                 {node.label}
                               </option>
                             );
@@ -1037,11 +1034,11 @@ const Dashboard = () => {
                       <div className='col m-auto h-50'>
                         <Dropdown>
                           <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                          {analyzeTargetBlockchain}
+                            {analyzeTargetBlockchain}
                           </Dropdown.Toggle>
 
                           <Dropdown.Menu>
-                            <Dropdown.Item onClick={()=>{setAnalyzeTargetBlockchain("Etherum")}}>Etherum</Dropdown.Item>
+                            <Dropdown.Item onClick={() => { setAnalyzeTargetBlockchain("Etherum") }}>Etherum</Dropdown.Item>
                             {/* <Dropdown.Item onClick={()=>{setAnalyzeTargetBlockchain("Polygon")}}>Polygon</Dropdown.Item> */}
                             {/* <Dropdown.Item onClick={()=>{setAnalyzeTargetBlockchain("Starknet")}}>Starknet</Dropdown.Item> */}
                           </Dropdown.Menu>

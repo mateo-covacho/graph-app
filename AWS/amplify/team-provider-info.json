@@ -1,0 +1,29 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-graphapp-staging-143654-authRole",
+      "UnauthRoleArn": "arn:aws:iam::439850740177:role/amplify-graphapp-staging-143654-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::439850740177:role/amplify-graphapp-staging-143654-authRole",
+      "Region": "eu-central-1",
+      "DeploymentBucketName": "amplify-graphapp-staging-143654-deployment",
+      "UnauthRoleName": "amplify-graphapp-staging-143654-unauthRole",
+      "StackName": "amplify-graphapp-staging-143654",
+      "StackId": "arn:aws:cloudformation:eu-central-1:439850740177:stack/amplify-graphapp-staging-143654/f5be4d60-e9eb-11ee-84f6-02b6cd4c90d9",
+      "AmplifyAppId": "d2cuhehu4dehbb"
+    },
+    "categories": {
+      "function": {
+        "getEthWalletTransactionsTS": {
+          "deploymentBucketName": "amplify-graphapp-staging-143654-deployment",
+          "s3Key": "amplify-builds/getEthWalletTransactionsTS-33545455316d5043614a-build.zip"
+        }
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d2cuhehu4dehbb",
+          "type": "manual"
+        }
+      }
+    }
+  }
+}
