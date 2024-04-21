@@ -1042,8 +1042,8 @@ const Dashboard = () => {
 
                           <Dropdown.Menu>
                             <Dropdown.Item onClick={()=>{setAnalyzeTargetBlockchain("Etherum")}}>Etherum</Dropdown.Item>
-                            <Dropdown.Item onClick={()=>{setAnalyzeTargetBlockchain("Polygon")}}>Polygon</Dropdown.Item>
-                            <Dropdown.Item onClick={()=>{setAnalyzeTargetBlockchain("Starknet")}}>Starknet</Dropdown.Item>
+                            {/* <Dropdown.Item onClick={()=>{setAnalyzeTargetBlockchain("Polygon")}}>Polygon</Dropdown.Item> */}
+                            {/* <Dropdown.Item onClick={()=>{setAnalyzeTargetBlockchain("Starknet")}}>Starknet</Dropdown.Item> */}
                           </Dropdown.Menu>
                         </Dropdown>
                       </div>

@@ -1,5 +1,6 @@
 import "./App.css";
 
+
 import { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -12,6 +13,7 @@ import Dashboard from "./dashboard/Dashboard";
 import Admin_login from "./components/Admin_login";
 
 //----------------------------------------------------------------------------------------------------
+
 
 function App() {
   const [adminVerified, setAdminVerified] = useState(false);
@@ -41,7 +43,7 @@ function App() {
             />
           }
         />
-        <Route path='/dashboard' element={<Dashboard isAdmin={adminVerified} />} />
+          <Route path='/dashboard' element={<Dashboard isAdmin={adminVerified} />} />
       </Routes>
     </Router>
   );
