@@ -12,16 +12,16 @@
       "AmplifyAppId": "d2cuhehu4dehbb"
     },
     "categories": {
-      "function": {
-        "getEthWalletTransactionsTS": {
-          "deploymentBucketName": "amplify-graphapp-staging-143654-deployment",
-          "s3Key": "amplify-builds/getEthWalletTransactionsTS-4736354a725357646d72-build.zip"
-        }
-      },
       "hosting": {
         "amplifyhosting": {
           "appId": "d2cuhehu4dehbb",
           "type": "manual"
+        }
+      },
+      "function": {
+        "getEthWalletTransactionsTS": {
+          "deploymentBucketName": "amplify-graphapp-staging-143654-deployment",
+          "s3Key": "amplify-builds/getEthWalletTransactionsTS-724d694435397a58512b-build.zip"
         }
       }
     }

@@ -1,18 +1,17 @@
-import { APIGatewayProxyHandler } from 'aws-lambda';
-import * as https from 'https';
+//@ts-ignore
+import * as awsLambda from 'aws-lambda';
 import { Transaction, WalletScan, Graph_node } from './types'; // Ensure you define these types
 
-let walletAddress: string = "0x5d2b684D9D741148a20EE7A06622122ec32cfeE3";
+let default_wallet: string = "0x5d2b684D9D741148a20EE7A06622122ec32cfeE3";
 const apiKey: string = "8PY54PK4NETZH8CZ73S7N54RXBH3DNHQNT";
 const apiUrlBase: string = `https://api.etherscan.io/api?module=account&action=txlist&address=`;
 const apiOptions: string = `&startblock=0&endblock=99999999&page=1&offset=10&sort=asc&apikey=${apiKey}`;
 const unique_node_labels: Set<string> = new Set();
 let idCounter: number = 0;
-const walletLabelIdMaps: Map<string, number> = new Map();
 
-async function scanWallet(wallet: string, depth: number): Promise<Transaction[]> {
+async function scanWallet(wallet_param: string, depth: number): Promise<Transaction[]> {
 	if (depth < 0) return [];
-	const apiUrl: string = `${apiUrlBase}${wallet}${apiOptions}`;
+	const apiUrl: string = `${apiUrlBase}${wallet_param}${apiOptions}`;
 	const response: WalletScan = await httpsGetPromise(apiUrl);
 	let transactions: Transaction[] = response.result;
 
@@ -36,7 +35,7 @@ async function scanWallet(wallet: string, depth: number): Promise<Transaction[]>
 
 	const nextTransactions: Transaction[] = [];
 	for (let nextWallet of uniqueWallets) {
-		if (nextWallet !== wallet) {
+		if (nextWallet !== wallet_param) {
 			const result = await scanWallet(nextWallet, depth - 1);
 			nextTransactions.push(...result);
 		}
@@ -45,26 +44,23 @@ async function scanWallet(wallet: string, depth: number): Promise<Transaction[]>
 	return transactions.concat(nextTransactions);
 }
 
+
 function httpsGetPromise(url: string): Promise<WalletScan> {
-	return new Promise((resolve, reject) => {
-		https.get(url, res => {
-			let data = '';
-			res.on('data', chunk => data += chunk);
-			res.on('end', () => {
-				resolve(JSON.parse(data))
-			});
-		}).on('error', err => reject(err));
-	});
+    return fetch(url)
+        .then(res => res.json())
+        .catch(err => {
+            throw err;
+        });
 }
 
-export const handler: APIGatewayProxyHandler = async (event: any) => {
 
-	const wallet: string = event.queryStringParameters.wallet;
-	console.log("wallet: ", wallet);
-	walletAddress = wallet;
+export const handler: awsLambda.Handler = async (event: awsLambda.APIGatewayProxyEvent) => {
+
+	const wallet: string = event.queryStringParameters?.wallet || default_wallet;
+	//const wallet: string = walletAddress;
 	try {
 		const depth: number = parseInt(event.queryStringParameters?.depth || '2');
-		const raw_transactions = await scanWallet(walletAddress, depth);
+		const raw_transactions = await scanWallet(wallet, depth);
 		const walletLabelIdMaps = new Map();
 
 		const nodes: Graph_node[] = [];
@@ -77,7 +73,7 @@ export const handler: APIGatewayProxyHandler = async (event: any) => {
 			nodes.push({
 				id: idCounter++,
 				label: wallet_node,
-				group: wallet_node === walletAddress ? 0 : 1,
+				group: wallet_node === wallet ? 0 : 1,
 			});
 		});
 
@@ -92,10 +88,11 @@ export const handler: APIGatewayProxyHandler = async (event: any) => {
 			statusCode: 200,
 			headers: {
 				"Access-Control-Allow-Origin": "*",
-				"Access-Control-Allow-Headers": "*",
+				"Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+				"Access-Control-Allow-Headers": "*"
 			},
-			body: JSON.stringify({ nodes, edges }),
-		};
+			body: JSON.stringify({scannedWallet: wallet, nodes, edges }),
+		}
 	} catch (error) {
 		console.error(error);
 		return {

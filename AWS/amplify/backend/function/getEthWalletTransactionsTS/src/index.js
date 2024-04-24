@@ -1,27 +1,4 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -33,19 +10,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handler = void 0;
-const https = __importStar(require("https"));
-let walletAddress = "0x5d2b684D9D741148a20EE7A06622122ec32cfeE3";
+let default_wallet = "0x5d2b684D9D741148a20EE7A06622122ec32cfeE3";
 const apiKey = "8PY54PK4NETZH8CZ73S7N54RXBH3DNHQNT";
 const apiUrlBase = `https://api.etherscan.io/api?module=account&action=txlist&address=`;
 const apiOptions = `&startblock=0&endblock=99999999&page=1&offset=10&sort=asc&apikey=${apiKey}`;
 const unique_node_labels = new Set();
 let idCounter = 0;
-const walletLabelIdMaps = new Map();
-function scanWallet(wallet, depth) {
+function scanWallet(wallet_param, depth) {
     return __awaiter(this, void 0, void 0, function* () {
         if (depth < 0)
             return [];
-        const apiUrl = `${apiUrlBase}${wallet}${apiOptions}`;
+        const apiUrl = `${apiUrlBase}${wallet_param}${apiOptions}`;
         const response = yield httpsGetPromise(apiUrl);
         let transactions = response.result;
         const uniqueWallets = new Set();
@@ -63,7 +38,7 @@ function scanWallet(wallet, depth) {
         });
         const nextTransactions = [];
         for (let nextWallet of uniqueWallets) {
-            if (nextWallet !== wallet) {
+            if (nextWallet !== wallet_param) {
                 const result = yield scanWallet(nextWallet, depth - 1);
                 nextTransactions.push(...result);
             }
@@ -72,24 +47,19 @@ function scanWallet(wallet, depth) {
     });
 }
 function httpsGetPromise(url) {
-    return new Promise((resolve, reject) => {
-        https.get(url, res => {
-            let data = '';
-            res.on('data', chunk => data += chunk);
-            res.on('end', () => {
-                resolve(JSON.parse(data));
-            });
-        }).on('error', err => reject(err));
+    return fetch(url)
+        .then(res => res.json())
+        .catch(err => {
+        throw err;
     });
 }
 const handler = (event) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
-    const wallet = event.queryStringParameters.wallet;
-    console.log("wallet: ", wallet);
-    walletAddress = wallet;
+    var _a, _b;
+    const wallet = ((_a = event.queryStringParameters) === null || _a === void 0 ? void 0 : _a.wallet) || default_wallet;
+    //const wallet: string = walletAddress;
     try {
-        const depth = parseInt(((_a = event.queryStringParameters) === null || _a === void 0 ? void 0 : _a.depth) || '2');
-        const raw_transactions = yield scanWallet(walletAddress, depth);
+        const depth = parseInt(((_b = event.queryStringParameters) === null || _b === void 0 ? void 0 : _b.depth) || '2');
+        const raw_transactions = yield scanWallet(wallet, depth);
         const walletLabelIdMaps = new Map();
         const nodes = [];
         raw_transactions.forEach(tx => {
@@ -101,7 +71,7 @@ const handler = (event) => __awaiter(void 0, void 0, void 0, function* () {
             nodes.push({
                 id: idCounter++,
                 label: wallet_node,
-                group: wallet_node === walletAddress ? 0 : 1,
+                group: wallet_node === wallet ? 0 : 1,
             });
         });
         const edges = raw_transactions.map(tx => ({
@@ -115,9 +85,10 @@ const handler = (event) => __awaiter(void 0, void 0, void 0, function* () {
             statusCode: 200,
             headers: {
                 "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers": "*",
+                "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+                "Access-Control-Allow-Headers": "*"
             },
-            body: JSON.stringify({ nodes, edges }),
+            body: JSON.stringify({ scannedWallet: wallet, nodes, edges }),
         };
     }
     catch (error) {
