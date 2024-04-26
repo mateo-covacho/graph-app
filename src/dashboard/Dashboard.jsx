@@ -435,16 +435,18 @@ const Dashboard = () => {
     if (!walletAddress.match(ethWalletRegex)) {
       alert("Please enter an Eth address");
     }
-    fetch("https://6ryss6wbm3.execute-api.us-east-1.amazonaws.com/dev/?wallet=" + address, {
-      method: "GET",
-      headers: new Headers({
-        "x-api-key": REACT_APP_key,
-      }),
-    })
-      .then((response) => {
-        // if (response.nodes == undefined) {
-        //   return;
-        // }
+    fetch('https://hp3ex31w02.execute-api.eu-central-1.amazonaws.com/default/getEthWalletTransactionsTS-staging/',
+      {
+        method: 'GET',
+        headers: {
+          'x-api-key': 'S6wgrW7zLp4bxwPfcQjAw2bsXxier6fz7FvrH3lL',
+          "Access-Contro-Allow-Origin": "*",
+          "Access-Control-Allow-Headers": "*"
+        }
+      }).then((response) => {
+        if (response.nodes == undefined) {
+          return;
+        }
         if (response.ok) {
           return response.json();
         }
