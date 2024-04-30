@@ -441,13 +441,13 @@ const Dashboard = () => {
 
   // blockchain
 
-
-  console.log(process.env.REACT_APP_ACCESS_KEY_ID);
+  const { REACT_APP_ACCESS_KEY_ID, REACT_APP_SECRET_ACCESS_KEY} = process.env;
+  console.log(REACT_APP_ACCESS_KEY_ID);
   AWS.config.update({
     region: 'eu-central-1',
     credentials: new AWS.Credentials({
-      accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,  // Use environment variables or AWS IAM roles if possible
-      secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY  // Use environment variables or AWS IAM roles if possible
+      accessKeyId: REACT_APP_ACCESS_KEY_ID,  // Use environment variables or AWS IAM roles if possible
+      secretAccessKey: REACT_APP_SECRET_ACCESS_KEY  // Use environment variables or AWS IAM roles if possible
     })
   });
 
