@@ -441,8 +441,6 @@ const Dashboard = () => {
 
   // blockchain
   const { REACT_APP_ACCESS_KEY_ID, REACT_APP_SECRET_ACCESS_KEY } = process.env;
-  console.log(process.env);
-  console.log("key", REACT_APP_ACCESS_KEY_ID);
   AWS.config.update({
     region: 'eu-central-1',
     credentials: new AWS.Credentials({
@@ -478,12 +476,10 @@ const Dashboard = () => {
       } else {
 
         const payload = JSON.parse(data.Payload);
-        console.log(payload);
         if (payload === undefined) {
           alert("Please try with a different Ethereum address");
         } else {
           const object = JSON.parse(payload.body);
-          console.log(object);
           setGraphState({
             graph: { nodes: object.nodes, edges: object.edges },
             counter: graphState.counter,
