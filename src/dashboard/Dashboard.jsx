@@ -16,8 +16,9 @@ import { BsFillDiamondFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { Button, Modal, ToggleButton, Dropdown } from "react-bootstrap";
 //___________________________________________
+import AWS from "aws-sdk";
+//___________________________________________
 
-const { REACT_APP_key } = process.env;
 
 const Dashboard = () => {
   const [completionData, setCompletionData] = useState({ nodes: null, completionTime: null, algorithmText: "" });
@@ -200,7 +201,7 @@ const Dashboard = () => {
 
   async function highlight_multiple_edges_sequential(edgesArray) {
     for (let i = 0; i < edgesArray.length; i++) {
-      await setGraphState(({ graph: { nodes, edges }, counter, ...rest }) => {
+      setGraphState(({ graph: { nodes, edges }, counter, ...rest }) => {
         const newEdges = edges.map((edge) => {
           if (!edgesArray.includes(edge.to) || !edgesArray.includes(edge.from)) {
             return edge;
@@ -395,6 +396,18 @@ const Dashboard = () => {
     });
   }
 
+  function getAmzDate() {
+    const date = new Date();
+    const year = date.getUTCFullYear();
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+    const day = date.getUTCDate().toString().padStart(2, '0');
+    const hours = date.getUTCHours().toString().padStart(2, '0');
+    const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+    const seconds = date.getUTCSeconds().toString().padStart(2, '0');
+
+    return `${year}${month}${day}T${hours}${minutes}${seconds}Z`;
+  }
+
 
   function setGraphData(graph_name) {
     if (graph_name == "Les miserables") {
@@ -427,41 +440,93 @@ const Dashboard = () => {
 
 
   // blockchain
+
+
+  console.log(process.env.REACT_APP_ACCESS_KEY_ID);
+  console.log(process.env.REACT_APP_SECRET_ACCESS_KEY);
+  AWS.config.update({
+    region: 'eu-central-1',
+    credentials: new AWS.Credentials({
+      accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,  // Use environment variables or AWS IAM roles if possible
+      secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY  // Use environment variables or AWS IAM roles if possible
+    })
+  });
+
+
   const [address, setAddress] = useState("0x5d2b684D9D741148a20EE7A06622122ec32cfeE3");
   const [analyzeTargetBlockchain, setAnalyzeTargetBlockchain] = useState("Choose target blockchain");
   const ethWalletRegex = /^0x[a-fA-F0-9]{40}$/;
 
+
   function importWalletNetwork(walletAddress, retries) {
     if (!walletAddress.match(ethWalletRegex)) {
-      alert("Please enter an Eth address");
+      alert("Please enter a valid Ethereum address");
+      return;
     }
-    fetch('https://hp3ex31w02.execute-api.eu-central-1.amazonaws.com/default/getEthWalletTransactionsTS-staging/',
-      {
-        method: 'GET',
-        headers: {
-          'x-api-key': 'S6wgrW7zLp4bxwPfcQjAw2bsXxier6fz7FvrH3lL',
-          "Access-Contro-Allow-Origin": "*",
-          "Access-Control-Allow-Headers": "*"
+
+    // AWS Lambda configuration
+    const lambda = new AWS.Lambda();
+    const params = {
+      FunctionName: 'getEthWalletTransactionsTS-staging',
+      InvocationType: 'RequestResponse',
+      Payload: JSON.stringify({ wallet: walletAddress })
+    };
+
+    lambda.invoke(params, function(err, data) {
+      if (err) {
+        console.log(err, err.stack);
+        alert("Failed to invoke Lambda function");
+      } else {
+
+        const payload = JSON.parse(data.Payload);
+        console.log(payload);
+        if (payload === undefined) {
+          alert("Please try with a different Ethereum address");
+        } else {
+          const object = JSON.parse(payload.body);
+          console.log(object);
+          setGraphState({
+            graph: { nodes: object.nodes, edges: object.edges },
+            counter: graphState.counter,
+          });
         }
-      }).then((response) => {
-        if (response.nodes == undefined) {
-          return;
-        }
-        if (response.ok) {
-          return response.json();
-        }
-        if (retries > 0) {
-          return importWalletNetwork(walletAddress, retries - 1);
-        }
-        alert("Please try with different eth address");
-      })
-      .then((data) => {
-        setGraphState({
-          graph: { nodes: data.nodes, edges: data.edges },
-          counter: graphState.counter,
-        });
-      });
+      }
+    });
   }
+  // function importWalletNetwork(walletAddress, retries) {
+  //   if (!walletAddress.match(ethWalletRegex)) {
+  //     alert("Please enter an Eth address");
+  //   }
+  //   const myHeaders = new Headers();
+  //   myHeaders.append("X-Amz-Date", getAmzDate());
+  //   myHeaders.append("Authorization", "AWS4-HMAC-SHA256 Credential=AKIAWM2JFVHIT6V2ORUA/20240427/eu-central-1/lambda/aws4_request, SignedHeaders=host;x-amz-date, Signature=ff54fd5bd5f0d5413c0bc024e4d2869e6b8803d288b693cb87bdecb3f61a9167");
+  //
+  //   const requestOptions = {
+  //     method: "GET",
+  //     headers: myHeaders,
+  //     redirect: "follow"
+  //   };
+  //
+  //   fetch("https://l2orcjw4s3a7wak6dwoliy2r5u0devxj.lambda-url.eu-central-1.on.aws/?wallet=0x95222290DD7278Aa3Ddd389Cc1E1d165CC4BAfe5", requestOptions)
+  //     .then((response) => {
+  //       if (response.nodes == undefined) {
+  //         return;
+  //       }
+  //       if (response.ok) {
+  //         return response.json();
+  //       }
+  //       if (retries > 0) {
+  //         return importWalletNetwork(walletAddress, retries - 1);
+  //       }
+  //       alert("Please try with different eth address");
+  //     })
+  //     .then((data) => {
+  //       setGraphState({
+  //         graph: { nodes: data.nodes, edges: data.edges },
+  //         counter: graphState.counter,
+  //       });
+  //     });
+  // }
 
 
   return (
@@ -470,7 +535,6 @@ const Dashboard = () => {
         <div className='iconss-bar col-12 row  gx-0 blacksvg' style={{ backgroundColor: iconbarColor }}>
           {/* Home button */}
           <Link to='/'>
-            {" "}
             <div style={{ cursor: "pointer" }} className='row col-12 gx-0 ' id='adsasdsa'>
               <AiOutlineHome className=' my-auto col-2 icon my-2  ' />
               <p className=' my-auto col align-bottom  '>Home</p>
@@ -1107,7 +1171,7 @@ const Dashboard = () => {
               physics: {
                 enabled: true,
                 forceAtlas2Based: {
-                  gravitationalConstant: -18,
+                  gravitationalConstant: -87,
                   springLength: 100,
                   damping: 1,
                   avoidOverlap: 1,
@@ -1116,7 +1180,7 @@ const Dashboard = () => {
                 solver: "forceAtlas2Based",
               },
               groups: {
-                1: { shape: "dot" },
+                1: { shape: "triangle", color: "green", background: "red" },
                 2: { shape: "dot" },
                 3: { shape: "dot" },
                 4: { shape: "dot" },

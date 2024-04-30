@@ -46,11 +46,11 @@ async function scanWallet(wallet_param: string, depth: number): Promise<Transact
 
 
 function httpsGetPromise(url: string): Promise<WalletScan> {
-    return fetch(url)
-        .then(res => res.json())
-        .catch(err => {
-            throw err;
-        });
+	return fetch(url)
+		.then(res => res.json())
+		.catch(err => {
+			throw err;
+		});
 }
 
 
@@ -91,7 +91,7 @@ export const handler: awsLambda.Handler = async (event: awsLambda.APIGatewayProx
 				"Access-Control-Allow-Methods": "GET, POST, OPTIONS",
 				"Access-Control-Allow-Headers": "*"
 			},
-			body: JSON.stringify({scannedWallet: wallet, nodes, edges }),
+			body: JSON.stringify({ scannedWallet: wallet, nodes, edges }),
 		}
 	} catch (error) {
 		console.error(error);
