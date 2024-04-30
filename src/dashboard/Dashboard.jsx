@@ -443,7 +443,6 @@ const Dashboard = () => {
 
 
   console.log(process.env.REACT_APP_ACCESS_KEY_ID);
-  console.log(process.env.REACT_APP_SECRET_ACCESS_KEY);
   AWS.config.update({
     region: 'eu-central-1',
     credentials: new AWS.Credentials({
